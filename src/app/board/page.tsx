@@ -68,11 +68,12 @@ export default function BoardPage() {
             <NavigationMenuList className="flex gap-10">
               {navItems.map((item) => (
                 <NavigationMenuItem key={item.name}>
-                  <Link href={item.path}>
-                    <NavigationMenuLink className="font-['Julius_Sans_One-Regular',Helvetica] text-2xl font-normal cursor-pointer">
-                      {item.name}
-                    </NavigationMenuLink>
-                  </Link>
+                  <NavigationMenuLink
+                    className="font-['Julius_Sans_One-Regular',Helvetica] text-2xl font-normal cursor-pointer"
+                    href={item.path}
+                  >
+                    {item.name}
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>
