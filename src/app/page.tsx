@@ -1,103 +1,199 @@
-import Image from "next/image";
+import React, { JSX } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
-export default function Home() {
+// Navigation menu items
+const navItems = [
+  {
+    title: "Home",
+    route: "/",
+  },
+  {
+    title: "New",
+    route: "/new",
+  },
+  {
+    title: "ranking",
+    route: "/ranking",
+  },
+  {
+    title: "write",
+    route: "/write",
+  },
+];
+
+// Gallery images
+const galleryImages = [
+  {
+    src: "https://c.animaapp.com/qLJkd6AM/img/unsplash-2wmk7kh4kqi@2x.png",
+    alt: "Gallery image 1",
+  },
+  {
+    src: "https://c.animaapp.com/qLJkd6AM/img/unsplash-bhbonc07wsi@2x.png",
+    alt: "Gallery image 2",
+  },
+  {
+    src: "https://c.animaapp.com/qLJkd6AM/img/unsplash-zb3ebibrjka.png",
+    alt: "Gallery image 3",
+  },
+];
+
+// Team members
+const teamInfo = "Our team : Song Min gyu, Kim Min Seon, Choi Yun Hyeok, Lee Hye Eun";
+const contactInfo = "Contact : wwww123410@gmail.com";
+const socialLinks = "Connect : Github  Instagram  Linkedin";
+
+export default function Info() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="bg-[#fefdf6] flex flex-col items-center w-full">
+      <div className="bg-[#fefdf6] w-full max-w-[1440px] relative">
+        {/* Header */}
+        <header className="w-full h-[190px] bg-[#fefdf6] shadow-[0px_2px_2px_#00000040] flex flex-col items-center">
+          <div className="container flex justify-between items-center pt-6">
+            <div className="flex-1"></div>
+            <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black">UUSJ</h1>
+            <div className="flex-1 flex justify-end">
+              <Link href={"/login"}>
+                <Button
+                  variant="link"
+                  className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
+                >
+                  Login
+                </Button>
+              </Link>
+            </div>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+          <nav className="mt-12">
+            <ul className="flex gap-[38px]">
+              {navItems.map((item, index) => (
+                <Link key={index} href={item.route}>
+                  <Button
+                    variant="link"
+                    className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
+                  >
+                    {item.title}
+                  </Button>
+                </Link>
+              ))}
+            </ul>
+          </nav>
+        </header>
+
+        {/* Hero Section */}
+        <section className="w-full h-[391px] relative">
+          <div className="w-full h-full relative">
+            <img
+              className="w-full h-full object-cover"
+              alt="Hero background"
+              src="https://c.animaapp.com/qLJkd6AM/img/unsplash-xc1lxlxilus.png"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <Separator className="w-full h-px absolute bottom-0" />
+          </div>
+
+          <div className="absolute top-0 left-0 w-[447px] h-full bg-[#141414f2] flex flex-col items-center justify-center text-center px-8">
+            <h2 className="font-['Noto_Sans_KR',Helvetica] font-bold text-2xl text-[#c5e6ff]">
+              UUSJ&nbsp;&nbsp;Auction
+            </h2>
+            <p className="font-['Noto_Sans_KR',Helvetica] text-[11px] text-[#8e8d8d] mt-2">
+              5/30 OPEN!
+            </p>
+            <p className="font-['Noto_Sans_KR',Helvetica] text-[15px] text-[#c5c1c1] mt-8">
+              단순한 거래가 아닌
+              <br />
+              서로의 삶을 나누고 이어가는 과정
+            </p>
+            <p className="font-['Noto_Sans_KR',Helvetica] text-[15px] text-[#c6c1c1] mt-4">
+              <span className="font-bold">유유상종</span>
+              <span>
+                을 통해
+                <br />
+                진정한 가치를 나누려 합니다.
+              </span>
+            </p>
+          </div>
+        </section>
+
+        {/* Main Content */}
+        <main className="w-full max-w-[1275px] mx-auto px-4 py-16">
+          {/* About Section */}
+          <section className="flex flex-col md:flex-row gap-16 mb-32">
+            <div className="w-full md:w-[718px] h-[467px] bg-[url(https://c.animaapp.com/qLJkd6AM/img/frame-37.png)] bg-cover bg-center" />
+            <div className="flex flex-col gap-6 md:mt-[350px]">
+              <h3 className="font-['Julius_Sans_One',Helvetica] text-2xl text-black">ABOUT US</h3>
+              <p className="font-['Julius_Sans_One',Helvetica] text-4xl text-[#4d4b4b]">
+                &quot;삶의 한조각&quot;
+              </p>
+            </div>
+          </section>
+
+          {/* Gallery Section */}
+          <section className="mb-32">
+            <img
+              className="w-full max-w-[718px] h-[467px] object-cover ml-auto"
+              alt="Gallery feature"
+              src="https://c.animaapp.com/qLJkd6AM/img/unsplash-2mkyevga4je.png"
+            />
+          </section>
+
+          {/* Show More Section */}
+          <section>
+            <div className="mb-6">
+              <Link href={"/board"}>
+                <h3 className="font-['Inter',Helvetica] text-2xl mb-4 ml-6">SHOW MORE</h3>
+                <div className="relative h-[21px] w-[312px]">
+                  <img
+                    className="w-4 h-[21px] absolute right-0"
+                    alt="Arrow"
+                    src="https://c.animaapp.com/qLJkd6AM/img/line-16.svg"
+                  />
+                  <img
+                    className="w-full h-px absolute bottom-0"
+                    alt="Line"
+                    src="https://c.animaapp.com/qLJkd6AM/img/line-17.svg"
+                  />
+                </div>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {galleryImages.map((image, index) => (
+                <Card key={index} className="border-none shadow-none">
+                  <CardContent className="p-0">
+                    <img
+                      className="w-full h-[330px] object-cover"
+                      alt={image.alt}
+                      src={image.src}
+                    />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        </main>
+        {/* Footer */}
+        <footer className="w-full h-[186px] bg-[#7e7a7a] text-white">
+          <Separator className="w-full h-px mt-6 bg-white opacity-50" />
+
+          <div className="container px-10 py-6 flex flex-col gap-4 md:flex-row md:justify-between">
+            <div className="space-y-4">
+              <p className="font-['Klee_One',Helvetica] text-xl">{teamInfo}</p>
+              <p className="font-['Klee_One',Helvetica] text-xl">{contactInfo}</p>
+            </div>
+
+            <div>
+              <p className="font-['Klee_One',Helvetica] text-xl">
+                <span>Connect : </span>
+                <span className="font-semibold">
+                  Github&nbsp;&nbsp;Instagram&nbsp;&nbsp;Linkedin{" "}
+                </span>
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
