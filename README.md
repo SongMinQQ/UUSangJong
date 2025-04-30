@@ -1,3 +1,11 @@
+## Debugging
+
+아래 문서 참고
+
+```
+디버그 패널( Ctrl+Shift+DWindows/Linux의 경우, ⇧+⌘+DmacOS의 경우)로 이동하여 실행 구성을 선택한 다음, 명령 팔레트에서 디버그: 디버깅 시작을F5 눌러 디버깅 세션을 시작합니다.
+```
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
