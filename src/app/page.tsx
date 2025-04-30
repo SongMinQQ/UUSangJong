@@ -1,28 +1,10 @@
-import React, { JSX } from "react";
-import { Button } from "@/components/ui/button";
+import React from "react";
+// import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
-// Navigation menu items
-const navItems = [
-  {
-    title: "Home",
-    route: "/",
-  },
-  {
-    title: "New",
-    route: "/new",
-  },
-  {
-    title: "ranking",
-    route: "/ranking",
-  },
-  {
-    title: "write",
-    route: "/write",
-  },
-];
+
 
 // Gallery images
 const galleryImages = [
@@ -40,48 +22,12 @@ const galleryImages = [
   },
 ];
 
-// Team members
-const teamInfo = "Our team : Song Min gyu, Kim Min Seon, Choi Yun Hyeok, Lee Hye Eun";
-const contactInfo = "Contact : wwww123410@gmail.com";
-const socialLinks = "Connect : Github  Instagram  Linkedin";
+
 
 export default function Info() {
   return (
     <div className="bg-[#fefdf6] flex flex-col items-center w-full">
       <div className="bg-[#fefdf6] w-full max-w-[1440px] relative">
-        {/* Header */}
-        <header className="w-full h-[190px] bg-[#fefdf6] shadow-[0px_2px_2px_#00000040] flex flex-col items-center">
-          <div className="container flex justify-between items-center pt-6">
-            <div className="flex-1"></div>
-            <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black">UUSJ</h1>
-            <div className="flex-1 flex justify-end">
-              <Link href={"/login"}>
-                <Button
-                  variant="link"
-                  className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
-                >
-                  Login
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <nav className="mt-12">
-            <ul className="flex gap-[38px]">
-              {navItems.map((item, index) => (
-                <Link key={index} href={item.route}>
-                  <Button
-                    variant="link"
-                    className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
-                  >
-                    {item.title}
-                  </Button>
-                </Link>
-              ))}
-            </ul>
-          </nav>
-        </header>
-
         {/* Hero Section */}
         <section className="w-full h-[391px] relative">
           <div className="w-full h-full relative">
@@ -173,26 +119,7 @@ export default function Info() {
             </div>
           </section>
         </main>
-        {/* Footer */}
-        <footer className="w-full h-[186px] bg-[#7e7a7a] text-white">
-          <Separator className="w-full h-px mt-6 bg-white opacity-50" />
 
-          <div className="container px-10 py-6 flex flex-col gap-4 md:flex-row md:justify-between">
-            <div className="space-y-4">
-              <p className="font-['Klee_One',Helvetica] text-xl">{teamInfo}</p>
-              <p className="font-['Klee_One',Helvetica] text-xl">{contactInfo}</p>
-            </div>
-
-            <div>
-              <p className="font-['Klee_One',Helvetica] text-xl">
-                <span>Connect : </span>
-                <span className="font-semibold">
-                  Github&nbsp;&nbsp;Instagram&nbsp;&nbsp;Linkedin{" "}
-                </span>
-              </p>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   );
