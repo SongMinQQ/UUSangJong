@@ -1,7 +1,7 @@
 import { Separator } from '@radix-ui/react-separator';
-import React from 'react';
+import React, { JSX } from 'react';
 
-const Footer = () => {
+const Footer = (): JSX.Element => {
   const members = ["Song Min gyu", "Kim Min Seon", "Choi Yun Hyeok", "Lee Hye Eun"];
   const contactNameAndLinks = [
     {

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import Link from "next/link";
 import { Button } from '../ui/button';
 
-const Navigation = () => {
+const Navigation = (): JSX.Element => {
   // Navigation menu items
   const navItems = [
     {
