@@ -1,9 +1,9 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 import Image from "next/image";
-import { FadeInWhenVisible } from "@/components/common/FadeInWhenVisible";
+import { Separator } from "../ui/separator";
+import { FadeInWhenVisible } from "../common/FadeInWhenVisible";
+import Link from "next/link";
+import { Card, CardContent } from "../ui/card";
+import { memo } from "react";
 
 // Gallery images
 const galleryImages = [
@@ -21,9 +21,7 @@ const galleryImages = [
   },
 ];
 
-
-
-export default function Info() {
+function Home() {
   return (
     <div className="bg-[#fefdf6] flex flex-col items-center w-full">
       <div className="bg-[#fefdf6] w-full max-w-[1440px] relative">
@@ -123,8 +121,9 @@ export default function Info() {
             </div>
           </section>
         </main>
-
       </div>
     </div>
   );
 }
+
+export default memo(Home);

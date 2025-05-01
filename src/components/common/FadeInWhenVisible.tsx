@@ -16,6 +16,8 @@ export function FadeInWhenVisible({ children, direction = "left" }: Props) {
   useEffect(() => {
     if (inView) {
       controls.start("visible");
+    } else {
+      controls.start("hidden");
     }
   }, [controls, inView]);
 
@@ -28,7 +30,7 @@ export function FadeInWhenVisible({ children, direction = "left" }: Props) {
       opacity: 1,
       x: 0,
       transition: {
-        duration: 2,
+        duration: 1.5,
         ease: "easeOut",
       },
     },

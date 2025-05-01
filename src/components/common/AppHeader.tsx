@@ -1,6 +1,12 @@
-import Link from "next/link";
 import { Fragment, memo } from "react";
 import { Button } from "../ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "../ui/navigation-menu";
+import { SearchIcon } from "lucide-react";
 
 // Navigation menu items
 const navItems = [
@@ -22,40 +28,42 @@ const navItems = [
   },
 ];
 
-function AppHeader() {
+function AppHeader({ isSticky }: { isSticky?: boolean }) {
   return (
     <Fragment>
-      {/* Header */}
-      <header className="w-full h-[190px] bg-[#fefdf6] shadow-[0px_2px_2px_#00000040] flex flex-col items-center">
-        <div className="container flex justify-between items-center pt-6">
-          <div className="flex-1"></div>
-          <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black">UUSJ</h1>
-          <div className="flex-1 flex justify-end">
-            <Link href={"/login"}>
-              <Button
-                variant="link"
-                className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
-              >
-                Login
-              </Button>
-            </Link>
+      {/* Header with navigation */}
+      <header className={`${isSticky && "sticky"} top-0 z-10 w-full bg-[#fefdf6] shadow-md`}>
+        <div className="container mx-auto px-4 py-6 flex flex-col items-center">
+          {/* Logo */}
+          <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black mb-6">UUSJ</h1>
+
+          {/* Navigation */}
+          <NavigationMenu className="mx-auto">
+            <NavigationMenuList className="flex gap-8">
+              {navItems.map((item) => (
+                <NavigationMenuItem key={item.title}>
+                  <NavigationMenuLink
+                    className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
+                    href={item.route}
+                  >
+                    {item.title}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          {/* Login button and search icon */}
+          <div className="absolute right-8 top-6 flex items-center gap-4">
+            <Button
+              variant="link"
+              className="font-['Julius_Sans_One',Helvetica] text-2xl text-black p-0"
+            >
+              Login
+            </Button>
+            {isSticky && <SearchIcon className="w-10 h-10" />}
           </div>
         </div>
-
-        <nav className="mt-12">
-          <ul className="flex gap-[38px]">
-            {navItems.map((item, index) => (
-              <Link key={index} href={item.route}>
-                <Button
-                  variant="link"
-                  className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
-                >
-                  {item.title}
-                </Button>
-              </Link>
-            ))}
-          </ul>
-        </nav>
       </header>
     </Fragment>
   );
