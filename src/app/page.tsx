@@ -1,28 +1,9 @@
-import React, { JSX } from "react";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-
-// Navigation menu items
-const navItems = [
-  {
-    title: "Home",
-    route: "/",
-  },
-  {
-    title: "New",
-    route: "/new",
-  },
-  {
-    title: "ranking",
-    route: "/ranking",
-  },
-  {
-    title: "write",
-    route: "/write",
-  },
-];
+import Image from "next/image";
+import { FadeInWhenVisible } from "@/components/common/FadeInWhenVisible";
 
 // Gallery images
 const galleryImages = [
@@ -49,46 +30,14 @@ export default function Info() {
   return (
     <div className="bg-[#fefdf6] flex flex-col items-center w-full">
       <div className="bg-[#fefdf6] w-full max-w-[1440px] relative">
-        {/* Header */}
-        <header className="w-full h-[190px] bg-[#fefdf6] shadow-[0px_2px_2px_#00000040] flex flex-col items-center">
-          <div className="container flex justify-between items-center pt-6">
-            <div className="flex-1"></div>
-            <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black">UUSJ</h1>
-            <div className="flex-1 flex justify-end">
-              <Link href={"/login"}>
-                <Button
-                  variant="link"
-                  className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
-                >
-                  Login
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <nav className="mt-12">
-            <ul className="flex gap-[38px]">
-              {navItems.map((item, index) => (
-                <Link key={index} href={item.route}>
-                  <Button
-                    variant="link"
-                    className="font-['Julius_Sans_One',Helvetica] text-2xl text-black"
-                  >
-                    {item.title}
-                  </Button>
-                </Link>
-              ))}
-            </ul>
-          </nav>
-        </header>
-
         {/* Hero Section */}
         <section className="w-full h-[391px] relative">
           <div className="w-full h-full relative">
-            <img
+            <Image
               className="w-full h-full object-cover"
               alt="Hero background"
               src="https://c.animaapp.com/qLJkd6AM/img/unsplash-xc1lxlxilus.png"
+              fill
             />
             <Separator className="w-full h-px absolute bottom-0" />
           </div>
@@ -119,24 +68,28 @@ export default function Info() {
         {/* Main Content */}
         <main className="w-full max-w-[1275px] mx-auto px-4 py-16">
           {/* About Section */}
-          <section className="flex flex-col md:flex-row gap-16 mb-32">
-            <div className="w-full md:w-[718px] h-[467px] bg-[url(https://c.animaapp.com/qLJkd6AM/img/frame-37.png)] bg-cover bg-center" />
-            <div className="flex flex-col gap-6 md:mt-[350px]">
-              <h3 className="font-['Julius_Sans_One',Helvetica] text-2xl text-black">ABOUT US</h3>
-              <p className="font-['Julius_Sans_One',Helvetica] text-4xl text-[#4d4b4b]">
-                &quot;삶의 한조각&quot;
-              </p>
-            </div>
-          </section>
+          <FadeInWhenVisible>
+            <section className="flex flex-col md:flex-row gap-16 mb-32">
+              <div className="w-full md:w-[718px] h-[467px] bg-[url(https://c.animaapp.com/qLJkd6AM/img/frame-37.png)] bg-cover bg-center" />
+              <div className="flex flex-col gap-6 md:mt-[350px]">
+                <h3 className="font-['Julius_Sans_One',Helvetica] text-2xl text-black">ABOUT US</h3>
+                <p className="font-['Julius_Sans_One',Helvetica] text-4xl text-[#4d4b4b]">
+                  &quot;삶의 한조각&quot;
+                </p>
+              </div>
+            </section>
+          </FadeInWhenVisible>
 
           {/* Gallery Section */}
-          <section className="mb-32">
-            <img
-              className="w-full max-w-[718px] h-[467px] object-cover ml-auto"
-              alt="Gallery feature"
-              src="https://c.animaapp.com/qLJkd6AM/img/unsplash-2mkyevga4je.png"
-            />
-          </section>
+          <FadeInWhenVisible direction="right">
+            <section className="mb-32">
+              <img
+                className="w-full max-w-[718px] h-[467px] object-cover ml-auto"
+                alt="Gallery feature"
+                src="https://c.animaapp.com/qLJkd6AM/img/unsplash-2mkyevga4je.png"
+              />
+            </section>
+          </FadeInWhenVisible>
 
           {/* Show More Section */}
           <section>
