@@ -1,4 +1,4 @@
-import { Login, LoginResponse } from "@/types/login";
+import { CheckLogin, Login, LoginResponse } from "@/types/login";
 import axios from "@/utils/http-commons";
 
 export const login = async (params: Login): Promise<LoginResponse> => {
@@ -14,3 +14,8 @@ export const login = async (params: Login): Promise<LoginResponse> => {
 
   return data;
 };
+
+export const fetchCurrentUser = async (): Promise<CheckLogin> => {
+  const { data } = await axios.get("/user/me");
+  return data;
+}
