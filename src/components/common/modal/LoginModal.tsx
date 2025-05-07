@@ -1,12 +1,34 @@
+'use client'
 "use client";
-import { memo } from "react";
+import { memo, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogTitle } from "@/components/ui/dialog";
 import { ModalProps } from "@/types/modal";
+import { handleApi } from "@/utils/handleApi";
+import { login } from "@/services/login";
+import Image from "next/image";
 
 function LoginModal({ handleChangeModal }: ModalProps) {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const tryLogin = useCallback(async () => {
+    const loginInfo = {
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value
+    }
+    console.log(loginInfo)
+    const { data } = await handleApi(() => login(loginInfo));
+    if (data?.message === "SUCCESS") {
+      alert("로그인 성공")
+    }
+    else {
+      alert("로그인 실패 ㅅㄱ")
+    }
+  }, [])
+
   return (
     <div className="flex h-full">
       {/* Left side - Welcome section */}
@@ -15,9 +37,11 @@ function LoginModal({ handleChangeModal }: ModalProps) {
           Welcome!
         </DialogTitle>
 
-        <img
+        <Image
           className="absolute w-[400px] h-[373px] top-[140px] left-[50px] object-cover"
           alt="Logo black circle"
+              width={400}
+              height={373}
           src="https://c.animaapp.com/l8ReXnI0/img/logo-black-circle-1@2x.png"
         />
 
@@ -48,7 +72,8 @@ function LoginModal({ handleChangeModal }: ModalProps) {
             <Input
               id="id"
               className="border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
-              defaultValue="Value"
+              placeholder="email"
+                  ref={emailRef}
             />
           </div>
 
@@ -63,11 +88,13 @@ function LoginModal({ handleChangeModal }: ModalProps) {
               id="password"
               type="password"
               className="border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
-              defaultValue="Value"
+              placeholder="password"
+                  ref={passwordRef}
             />
           </div>
 
-          <Button className="w-full h-[66px] mt-6 bg-[#222222] hover:bg-black rounded-[10px] text-white text-2xl font-semibold">
+          <Button className="w-full h-[66px] mt-6 bg-[#222222] hover:bg-black rounded-[10px] text-white text-2xl font-semibold"
+                onClick={tryLogin}>
             CONTINUE
           </Button>
         </div>

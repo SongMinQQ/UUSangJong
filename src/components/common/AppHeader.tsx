@@ -1,4 +1,5 @@
-import { Fragment, memo } from "react";
+"use client"
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
   NavigationMenu,
@@ -10,6 +11,8 @@ import { SearchIcon } from "lucide-react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
+import { handleApi } from "@/utils/handleApi";
+import { fetchCurrentUser } from "@/services/login";
 
 // Navigation menu items
 const navItems = [
@@ -32,6 +35,17 @@ const navItems = [
 ];
 
 function AppHeader({ isSticky }: { isSticky?: boolean }) {
+  const [nickname, setNickname] = useState<string>("");
+  //로그인 상태 저장할 전역 상태 필요 일단은 그냥 구현
+  const checkLogin = useCallback(async () => {
+    const { data } = await handleApi(() => fetchCurrentUser());
+    console.log(data);
+    const currentUserNickname = data?.nickname
+    if (currentUserNickname) setNickname(currentUserNickname);
+  }, [])
+  useEffect(() => {
+    checkLogin();
+  }, [nickname])
   return (
     <Fragment>
       {/* Header with navigation */}
