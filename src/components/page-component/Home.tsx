@@ -2,22 +2,40 @@ import Image from "next/image";
 import { Separator } from "../ui/separator";
 import { FadeInWhenVisible } from "../common/FadeInWhenVisible";
 import Link from "next/link";
-import { Card, CardContent } from "../ui/card";
 import { memo } from "react";
+import ContentItem from "../common/ContentItem";
 
 // Gallery images
 const galleryImages = [
   {
-    src: "https://c.animaapp.com/qLJkd6AM/img/unsplash-2wmk7kh4kqi@2x.png",
+    id: 1,
+    imageUrl: "https://c.animaapp.com/qLJkd6AM/img/unsplash-2wmk7kh4kqi@2x.png",
     alt: "Gallery image 1",
+    detail: {
+      title: "Preview",
+      description: "item preview입니다.",
+      price: "15000원",
+    },
   },
   {
-    src: "https://c.animaapp.com/qLJkd6AM/img/unsplash-bhbonc07wsi@2x.png",
+    id: 2,
+    imageUrl: "https://c.animaapp.com/qLJkd6AM/img/unsplash-bhbonc07wsi@2x.png",
     alt: "Gallery image 2",
+    detail: {
+      title: "Preview2",
+      description: "item preview 2 입니다.",
+      price: "15000원",
+    },
   },
   {
-    src: "https://c.animaapp.com/qLJkd6AM/img/unsplash-zb3ebibrjka.png",
+    id: 3,
+    imageUrl: "https://c.animaapp.com/qLJkd6AM/img/unsplash-zb3ebibrjka.png",
     alt: "Gallery image 3",
+    detail: {
+      title: "Preview 3",
+      description: "item preview 3 입니다.",
+      price: "15000원",
+    },
   },
 ];
 
@@ -108,15 +126,7 @@ function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {galleryImages.map((image, index) => (
-                <Card key={index} className="border-none shadow-none">
-                  <CardContent className="p-0">
-                    <img
-                      className="w-full h-[330px] object-cover"
-                      alt={image.alt}
-                      src={image.src}
-                    />
-                  </CardContent>
-                </Card>
+                <ContentItem itemData={image} key={`preview_${index}`} />
               ))}
             </div>
           </section>
