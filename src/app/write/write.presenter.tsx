@@ -3,15 +3,16 @@
 import { Button } from "@/components/ui/button";
 import "swiper/css";
 import "swiper/css/scrollbar";
-import ImageSlider from "./write.styles"; // ImageSlider 컴포넌트를 작성해두신 파일
+import ImageSlider from "./ImageSlider"; // ImageSlider 컴포넌트를 작성해두신 파일
+import TextEditor from "@/components/common/Texteditor";
 
 export default function WritePageUI(props) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">
       {/* 제목 */}
-      <div className="mb-15 w-[1111px]">
+      <div className="mt-[168px] mb-[69px] w-[1111px]">
         <h1 className="text-[40px] font-normal text-left text-[#5B5A5A] mb-[69px]">
-          "삶의 한조각을 공유해주세요."
+          {`\"삶의 한조각을 공유해주세요.\"`}
         </h1>
       </div>
 
@@ -25,6 +26,7 @@ export default function WritePageUI(props) {
                 <ImageSlider
                   images={props.imageUrls}
                   onClickImageUpload={props.onClickImageUpload}
+                  onClickDeleteImage={props.onClickDeleteImage}
                 />
               </div>
             }
@@ -65,27 +67,37 @@ export default function WritePageUI(props) {
 
           {/* 즉시 구매가 & 시작 가격 */}
           <div className="flex flex-col gap-8 mb-4">
+            {/* 시작 가격 */}
+            <div className="w-full flex flex-row items-center gap-8 pl-10">
+              <label htmlFor="direct" className="text-sm text-gray-700 whitespace-nowrap w-[100px]">
+                시작 가격
+              </label>
+              <input
+                id="direct"
+                type="number"
+                placeholder="Value"
+                min={0}
+                step={100}
+                className="border-b p-2 text-sm w-1/2"
+                onChange={props.onChangeStartPrice}
+              />
+            </div>
             {/* 즉시 구매가 */}
             <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label className="text-sm text-gray-700 whitespace-nowrap w-[100px]">
+              <label
+                htmlFor="direct"
+                className="text-sm text-gray-700 whitespace-nowrap w-[100px] "
+              >
                 즉시 구매가
               </label>
               <input
+                id="direct"
                 type="number"
                 placeholder="Value"
+                min={props.startPrice}
+                step={100}
                 className="border-b p-2 text-sm w-1/2"
                 onChange={props.onChangePrice}
-              />
-            </div>
-
-            {/* 시작 가격 */}
-            <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label className="text-sm text-gray-700 whitespace-nowrap w-[100px]">시작 가격</label>
-              <input
-                type="number"
-                placeholder="Value"
-                className="border-b p-2 text-sm w-1/2"
-                onChange={props.onChangeStartPrice}
               />
             </div>
           </div>
@@ -94,10 +106,12 @@ export default function WritePageUI(props) {
 
       {/* 제품 상세 설명 */}
       <div className="w-[1111px]">
-        <label className="text-sm text-gray-700 block mb-1">제품 상세 설명</label>
+        <TextEditor />
+        <label className="text-[16px]  text-gray-700 block mt-[100px] mb-1">제품 상세 설명</label>
+
         <textarea
           placeholder="제품 상세 설명을 입력하세요"
-          className="border p-2 text-sm w-full h-[609px] resize-none"
+          className="border p-2 text-m w-full h-[609px] resize-none mb-[113px]"
           onChange={props.onChangeContents}
         ></textarea>
       </div>

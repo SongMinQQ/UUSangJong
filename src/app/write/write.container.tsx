@@ -17,6 +17,9 @@ export default function WritePage() {
     fileInputRef.current?.click();
   };
 
+  const onClickDeleteImage = (index: number) => {
+    setImageUrls((prev) => prev.filter((_, i) => i !== index));
+  };
   const onClickButton = async () => {
     if (!title || !price || !contents) {
       alert("모든 필드를 입력해주세요.");
@@ -110,6 +113,7 @@ export default function WritePage() {
       price={price}
       startPrice={startPrice}
       contents={contents}
+      onClickDeleteImage={onClickDeleteImage}
     />
   );
 }
