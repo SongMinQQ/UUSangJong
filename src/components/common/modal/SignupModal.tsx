@@ -1,24 +1,81 @@
 "use client";
-import React, { memo } from "react";
+import React, { memo, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogTitle } from "@/components/ui/dialog";
 import { ModalProps } from "@/types/modal";
+import { handleApi } from "@/utils/handleApi";
+import { checkEmail, joinMembership } from "@/services/join";
+import { joinValues } from "@/types/join";
 
 function SignupModal({ handleChangeModal }: ModalProps) {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const nicknameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const repeatPasswordRef = useRef<HTMLInputElement>(null);
+  const checkRef = useRef<boolean>(false);
   // Form field data
   const formFields = [
     { id: "email", label: "E-mail", type: "email" },
     { id: "name", label: "Name", type: "text" },
     { id: "nickname", label: "Nick Name", type: "text" },
-  ];
+  ] as const;
 
   // Password fields with half width
   const passwordFields = [
     { id: "password", label: "Password", type: "password" },
     { id: "repeatPassword", label: "Repeat Password", type: "password" },
-  ];
+  ] as const;
+
+  const refMatcher = {
+    email: emailRef,
+    name: nameRef,
+    nickname: nicknameRef,
+    password: passwordRef,
+    repeatPassword: repeatPasswordRef
+  }
+  const emailDuplicateCheck = async () => {
+    const data = await handleApi(() => checkEmail(emailRef.current?.value));
+    console.log(data);
+    if (typeof (data.data) === "string") {
+      alert("error");
+      checkRef.current = false;
+    }
+    else if (data.data) {
+      alert("사용 가능한 ID 입니다.");
+      checkRef.current = true;
+    }
+    else {
+      alert("이미 존재하는 ID 입니다.");
+      checkRef.current = false;
+    }
+  }
+
+  const join = useCallback(async () => {
+    const joinInfo: joinValues = {
+      email: emailRef.current?.value,
+      real_name: nameRef.current?.value,
+      nickname: nicknameRef.current?.value,
+      password: passwordRef.current?.value,
+    }
+    if (!checkRef.current) {
+      alert("ID 중복 확인을 해주세요");
+      return;
+    }
+    if (passwordRef.current?.value !== repeatPasswordRef.current?.value) {
+      alert("비밀번호가 알맞지 않습니다.")
+      return;
+    }
+    const data = await handleApi(() => joinMembership(joinInfo));
+
+    if (data.data === "회원가입 성공!") {
+      alert("회원가입 되었습니다. 로그인을 진행해 주세요");
+      handleChangeModal();
+    }
+    else alert("회원가입 도중 에러가 발생했습니다.");
+  }, [])
 
   return (
     <div className="flex h-full">
@@ -63,9 +120,11 @@ function SignupModal({ handleChangeModal }: ModalProps) {
               <Input
                 id={field.id}
                 type={field.type}
-                defaultValue="Value"
+                placeholder={field.id}
                 className="border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
+                ref={refMatcher[field.id]}
               />
+              {field.id === "email" && <Button onClick={emailDuplicateCheck}>중복 확인</Button>}
             </div>
           ))}
 
@@ -81,14 +140,16 @@ function SignupModal({ handleChangeModal }: ModalProps) {
               <Input
                 id={field.id}
                 type={field.type}
-                defaultValue="Value"
+                placeholder={field.id}
                 className="border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
+                ref={refMatcher[field.id]}
               />
             </div>
           ))}
 
           {/* Submit button */}
-          <Button className="w-full h-[66px] bg-[#222222] hover:bg-[#333333] rounded-[10px] text-white text-2xl font-semibold">
+          <Button className="w-full h-[66px] bg-[#222222] hover:bg-[#333333] rounded-[10px] text-white text-2xl font-semibold"
+            onClick={join}>
             Create Account
           </Button>
         </div>
