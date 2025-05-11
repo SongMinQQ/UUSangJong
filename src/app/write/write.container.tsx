@@ -1,15 +1,34 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import WritePageUI from "./write.presenter";
 import { useRouter } from "next/navigation";
+import { createPost } from "@/services/createPost";
+import { updatePost, fetchPostDetail } from "@/services/postService";
+import { useParams } from "next/navigation";
 
-export default function WritePage() {
+export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [startPrice, setStartPrice] = useState("");
-  const [contents, setContents] = useState("");
+  const [form, setForm] = useState({
+    title: "",
+    price: "",
+    startPrice: "",
+    contents: "",
+  });
+  const { postId } = useParams();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isEdit && typeof postId === "string") {
+      fetchPostDetail(postId).then((data) => {
+        setForm({
+          title: data?.title ?? "",
+          price: String(data?.instant_price ?? "0"),
+          startPrice: String(data?.start_price ?? "0"),
+          contents: data?.content ?? "",
+        });
+      });
+    }
+  }, [isEdit, postId]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,26 +40,36 @@ export default function WritePage() {
     setImageUrls((prev) => prev.filter((_, i) => i !== index));
   };
   const onClickButton = async () => {
-    if (!title || !price || !contents) {
+    if (!form.title || !form.price || !form.contents) {
       alert("모든 필드를 입력해주세요.");
       return;
     }
     try {
-      // const response = await fetch("/api/post", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     title,
-      //     price,
-      //     startPrice,
-      //     contents,
-      //     imageUrls,
-      //   }),
-      // });
+      if (isEdit) {
+        await updatePost({
+          post_id: Number(postId),
+          title: form.title,
+          content: form.contents,
+          start_price: Number(form.startPrice),
+          instant_price: Number(form.price),
+          end_date: "2025-12-31 23:59:59",
+          is_sold: "on_sale",
+        });
 
-      // if (!response.ok) throw new Error("등록 실패");
-
-      alert("등록이 완료되었습니다!");
+        alert("수정이 완료되었습니다.");
+        router.push(`/board/${postId}`);
+      } else {
+        const { post_id } = await createPost({
+          title: form.title,
+          content: form.contents,
+          start_price: Number(form.startPrice),
+          instant_price: Number(form.price),
+          end_date: "2025-12-31 23:59:59",
+          is_sold: "on_sale",
+        });
+        alert("등록이 완료되었습니다!");
+        router.push(`/board/${post_id}`);
+      }
     } catch (err) {
       console.error(err);
       alert("오류가 발생했습니다.");
@@ -51,18 +80,9 @@ export default function WritePage() {
     router.push("/board");
   };
 
-  const onChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-    setTitle(event.target.value);
-  };
-  const onChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(event?.target.value);
-  };
-  const onChangeStartPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStartPrice(event?.target.value);
-  };
-  const onChangeContents = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setContents(event?.target.value);
+  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
@@ -105,15 +125,10 @@ export default function WritePage() {
       fileInputRef={fileInputRef}
       onClickButton={onClickButton}
       onClickBUttonBack={onClickBUttonBack}
-      onChangeTitle={onChangeTitle}
-      onChangePrice={onChangePrice}
-      onChangeStartPrice={onChangeStartPrice}
-      onChangeContents={onChangeContents}
-      title={title}
-      price={price}
-      startPrice={startPrice}
-      contents={contents}
+      onChangeForm={onChangeForm}
       onClickDeleteImage={onClickDeleteImage}
+      isEdit={isEdit}
+      form={form}
     />
   );
 }
