@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
 
 export interface ModalProps {
-  handleChangeModal: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleChangeModal: (e?: MouseEvent<HTMLButtonElement>) => void;
 }
