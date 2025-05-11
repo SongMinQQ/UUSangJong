@@ -26,19 +26,19 @@ export default function WritePage() {
       return;
     }
     try {
-      const response = await fetch("/api/post", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          price,
-          startPrice,
-          contents,
-          imageUrls,
-        }),
-      });
+      // const response = await fetch("/api/post", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     title,
+      //     price,
+      //     startPrice,
+      //     contents,
+      //     imageUrls,
+      //   }),
+      // });
 
-      if (!response.ok) throw new Error("등록 실패");
+      // if (!response.ok) throw new Error("등록 실패");
 
       alert("등록이 완료되었습니다!");
     } catch (err) {
