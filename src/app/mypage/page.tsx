@@ -91,7 +91,15 @@ export default function MyPage(): JSX.Element {
               UPDATE INFO
             </Button>
           </div>
-          {isModalOpen && <UserPwCheckModal onClose={() => setIsModalOpen(false)} />}
+          {isModalOpen && (
+            <UserPwCheckModal
+              onClose={() => setIsModalOpen(false)}
+              onSuccess={() => {
+                setIsModalOpen(false);
+                router.push("/update-info");
+              }}
+            />
+          )}
         </main>
       </div>
     </div>
