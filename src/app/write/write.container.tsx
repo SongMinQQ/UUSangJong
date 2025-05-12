@@ -15,18 +15,23 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     contents: "",
   });
   const { postId } = useParams();
+  console.log("postId:", postId);
   const router = useRouter();
 
   useEffect(() => {
-    if (isEdit && typeof postId === "string") {
-      fetchPostDetail(postId).then((data) => {
-        setForm({
-          title: data?.title ?? "",
-          price: String(data?.instant_price ?? "0"),
-          startPrice: String(data?.start_price ?? "0"),
-          contents: data?.content ?? "",
+    if (isEdit && postId) {
+      fetchPostDetail(Number(postId))
+        .then((data) => {
+          setForm({
+            title: data.title ?? "",
+            price: String(data.instant_price ?? "0"),
+            startPrice: String(data.start_price ?? "0"),
+            contents: data.content ?? "",
+          });
+        })
+        .catch((error) => {
+          console.error("게시물 불러오기 실패:", error);
         });
-      });
     }
   }, [isEdit, postId]);
 
@@ -57,9 +62,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
         });
 
         alert("수정이 완료되었습니다.");
-        router.push(`/board/${postId}`);
+        router.push(`/board/${postId}/edit`);
       } else {
-        const { post_id } = await createPost({
+        const response = await createPost({
           title: form.title,
           content: form.contents,
           start_price: Number(form.startPrice),
@@ -67,8 +72,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           end_date: "2025-12-31 23:59:59",
           is_sold: "on_sale",
         });
+        console.log("등록 응답:", response);
         alert("등록이 완료되었습니다!");
-        router.push(`/board/${post_id}`);
+        router.push(`/board`);
       }
     } catch (err) {
       console.error(err);
