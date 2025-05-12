@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from '@/components/ui/separator';
-import { AlertCircle } from 'lucide-react';
+import { Separator } from "@/components/ui/separator";
+import { AlertCircle } from "lucide-react";
 
 const ItemInfoTabs = () => {
   const bidHistoryData = [
     {
       price: 4000,
-      comment: "솔직히 이거이상 안나올듯 다들 ㅅㄱ",
+      comment: "테스트용 등록 데이터",
       id: 1,
     },
     {
@@ -75,7 +75,6 @@ const ItemInfoTabs = () => {
         </TabsContent>
       </Tabs>
     </div>
-
   );
 };
 

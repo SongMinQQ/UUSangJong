@@ -9,23 +9,26 @@ import { ModalProps } from "@/types/modal";
 import { handleApi } from "@/utils/handleApi";
 import { login } from "@/services/login";
 import Image from "next/image";
+import { useLogin } from "@/store/store";
 
 function LoginModal({ handleChangeModal }: ModalProps) {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const { toggleLogin } = useLogin();
 
   const tryLogin = useCallback(async () => {
     const loginInfo = {
       email: emailRef.current?.value,
       password: passwordRef.current?.value
     }
-    console.log(loginInfo)
     const { data } = await handleApi(() => login(loginInfo));
     if (data?.message === "SUCCESS") {
-      alert("로그인 성공")
+      toggleLogin(true);
+      alert("로그인 성공");
     }
     else {
-      alert("로그인 실패 ㅅㄱ")
+      alert("로그인 실패 ㅅㄱ");
     }
   }, [])
 
@@ -40,8 +43,8 @@ function LoginModal({ handleChangeModal }: ModalProps) {
         <Image
           className="absolute w-[400px] h-[373px] top-[140px] left-[50px] object-cover"
           alt="Logo black circle"
-              width={400}
-              height={373}
+          width={400}
+          height={373}
           src="https://c.animaapp.com/l8ReXnI0/img/logo-black-circle-1@2x.png"
         />
 
@@ -73,7 +76,7 @@ function LoginModal({ handleChangeModal }: ModalProps) {
               id="id"
               className="border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
               placeholder="email"
-                  ref={emailRef}
+              ref={emailRef}
             />
           </div>
 
@@ -89,12 +92,12 @@ function LoginModal({ handleChangeModal }: ModalProps) {
               type="password"
               className="border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
               placeholder="password"
-                  ref={passwordRef}
+              ref={passwordRef}
             />
           </div>
 
           <Button className="w-full h-[66px] mt-6 bg-[#222222] hover:bg-black rounded-[10px] text-white text-2xl font-semibold"
-                onClick={tryLogin}>
+            onClick={tryLogin}>
             CONTINUE
           </Button>
         </div>

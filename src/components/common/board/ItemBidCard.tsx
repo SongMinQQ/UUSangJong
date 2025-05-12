@@ -1,13 +1,15 @@
-'use client'
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { AlertTriangle, Edit } from 'lucide-react';
-import React, { useState } from 'react';
+"use client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { AlertTriangle, Edit } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
-const ItemBidCard = () => {
+const ItemBidCard = ({ postId }: { postId: number }) => {
   // Data for the auction item
+  const router = useRouter();
   const auctionData = {
     date: "2025-03-30",
     title: "작은 습관의 힘",
@@ -19,6 +21,11 @@ const ItemBidCard = () => {
   // State for bid inputs
   const [bidPrice, setBidPrice] = useState("");
   const [bidComment, setBidComment] = useState("");
+
+  const onClickEdit = async () => {
+    router.push(`/board/1/edit`);
+  };
+
   return (
     <Card className="w-[90vw] max-w-[440px] h-[75vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
       <CardContent className="p-0 relative">
@@ -80,9 +87,12 @@ const ItemBidCard = () => {
 
         <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
           <Edit className="w-6 h-6" />
-          <span className="relative w-fit mt-[-1.00px] [font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-uusj-theme-schemes-outline text-xl underline whitespace-nowrap tracking-[0] leading-normal">
+          <button
+            onClick={onClickEdit}
+            className="relative w-fit mt-[-1.00px] [font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-uusj-theme-schemes-outline text-xl underline whitespace-nowrap tracking-[0] leading-normal"
+          >
             게시물 수정
-          </span>
+          </button>
         </div>
 
         <AlertTriangle className="absolute w-[25px] h-[25px] top-[566px] left-[402px] text-red-500" />
