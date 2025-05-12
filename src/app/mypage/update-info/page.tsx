@@ -1,35 +1,42 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
+import { fetchUserInfo } from "@/services/userInfo";
+import { useUpdateUser } from "@/hooks/useUpdateUser";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+interface UserForm {
+  email: string;
+  realname: string;
+  nickname: string;
+  password?: string;
+}
+
 export default function UpdateInfoPage() {
   const router = useRouter();
+  const { updateUser, loading } = useUpdateUser();
 
-  const [original, setOriginal] = useState({
+  const [original, setOriginal] = useState<Omit<UserForm, "password">>({
     email: "",
-    real_name: "",
+    realname: "",
     nickname: "",
   });
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<UserForm>({
     email: "",
-    real_name: "",
+    realname: "",
     nickname: "",
     password: "",
   });
 
-  //1. 사용자 정보 불러오기. 페이지 진입시 get 요청.
-  //불러온 정보를 form과 original 상태에 저장.
   useEffect(() => {
     const fetchDate = async () => {
       try {
-        const response = await axios.get("/user/me");
-        const { email, real_name, nickname, password } = response.data;
-        setOriginal({ email, real_name, nickname });
-        setForm({ email, real_name, nickname, password });
+        const userInfo = await fetchUserInfo();
+        const { email, realname, nickname } = userInfo;
+        setOriginal({ email, realname, nickname });
+        setForm({ email, realname, nickname, password: "" });
       } catch (error) {
         console.log("에러", error);
         alert("유저 정보 불러오기에 실패 했습니다.");
@@ -38,19 +45,16 @@ export default function UpdateInfoPage() {
     fetchDate();
   }, []);
 
-  //2. input change handler
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  //3. update handler
-  //original 값이랑 비교해서 변경된 항목만 updateFields에 저장.(빈 값 제외)
-  //password는 original이랑 비교할 수 없어서 `trim()!==""` 이 조건만 보고 따로 넣는 구조임! 즉, 사용자가 비밀번호를 입력한 경우에만 서버로 보내진다.
   const handleUpdate = async () => {
     const updateFields: Record<string, string> = {};
 
     for (const key in form) {
-      const trimmed = form[key as keyof typeof form].trim();
+      const value = form[key as keyof typeof form];
+      const trimmed = value ? value.trim() : "";
       const isChanged = trimmed !== original[key as keyof typeof original];
       if (trimmed !== "" && (key === "password" || isChanged)) {
         updateFields[key] = trimmed;
@@ -63,21 +67,19 @@ export default function UpdateInfoPage() {
     }
 
     try {
-      await axios.patch("/user", {
-        ...updateFields,
-      });
-      alert("수정 완료!");
+      await updateUser(updateFields); // useUpdateUser 훅에서 처리
+      alert("회원정보가 성공적으로 업데이트되었습니다.");
       router.push("/mypage");
     } catch (error) {
-      console.log("회원정보 수정 중 에러 발생 : ", error);
-      alert("ERROR 수정 실패.");
+      console.error("업데이트 중 오류 발생:", error);
+      alert("회원정보 업데이트에 실패했습니다.");
     }
   };
 
   return (
     <div className="flex justify-center py-20 bg-[#fefdf6] min-h-screen">
       <div className="w-[340px] space-y-10">
-        {["email", "real_name", "nickname"].map((field) => (
+        {["email", "realname", "nickname"].map((field) => (
           <div key={field}>
             <label className="block mb-1 text-sm text-gray-500 capitalize">
               {field.replace("_", " ")}
@@ -105,9 +107,12 @@ export default function UpdateInfoPage() {
 
         <Button
           onClick={handleUpdate}
-          className="w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666] cursor-pointer"
+          className={`w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666] cursor-pointer ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={loading}
         >
-          UPDATE
+          {loading ? "업데이트 중..." : "UPDATE"}
         </Button>
       </div>
     </div>

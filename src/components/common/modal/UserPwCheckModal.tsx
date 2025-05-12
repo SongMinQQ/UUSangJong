@@ -20,14 +20,14 @@ export default function ModalUserPwCheck({
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("/user/password-check", { password });
+      const response = await axios.post("/verify-password", { password });
       if (response.data === true) {
         onSuccess(); //성공시 콜백 호출.
       } else {
         alert("비밀번호가 일치하지 않습니다.");
       }
     } catch (error) {
-      console.error("비밀번호 확인 에러:", error);
+      console.error("비밀번호 검증 실패:", error);
       alert("에러발생: 서버 요청 실패.");
     } finally {
       setLoading(false);
@@ -75,7 +75,7 @@ export default function ModalUserPwCheck({
             <Button
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full h-[66px] bg-[#222222] hover:bg-[#333333] rounded-[10px] text-white text-2xl font-semibold tracking-[0.15px]"
+              className="w-full h-[66px] bg-[#222222] hover:bg-[#666666] cursor-pointer rounded-[10px] text-white text-2xl font-semibold tracking-[0.15px]"
             >
               {loading ? "확인 중" : "CONTINUE"}
             </Button>
