@@ -8,9 +8,9 @@ const contentItems = [
     imageUrl: "https://c.animaapp.com/D3E5HtV4/img/contents-01@2x.png",
     alt: "Content item 1",
     detail: {
-      title: "책 사세요.",
-      description: "이 책은 ...",
-      price: "20000",
+      title: "test",
+      description: "test",
+      price: "1234",
     },
   },
   {

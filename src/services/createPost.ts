@@ -16,5 +16,6 @@ export interface CreatePostResponse {
 
 export const createPost = async (params: CreatePostInput): Promise<CreatePostResponse> => {
   const { data } = await axios.post("/post", params);
+  console.log("createPost 응답:", data);
   return data;
 };
