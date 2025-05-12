@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -13,6 +13,7 @@ import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
 import { handleApi } from "@/utils/handleApi";
 import { fetchCurrentUser } from "@/services/login";
+import ModalRanking from "./modal/RankingModal";
 
 // Navigation menu items
 const navItems = [
@@ -40,12 +41,16 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
   const checkLogin = useCallback(async () => {
     const { data } = await handleApi(() => fetchCurrentUser());
     console.log(data);
-    const currentUserNickname = data?.nickname
+    const currentUserNickname = data?.nickname;
     if (currentUserNickname) setNickname(currentUserNickname);
-  }, [])
+  }, []);
+
   useEffect(() => {
     checkLogin();
-  }, [nickname])
+  }, [nickname]);
+
+  const [isRankingOpen, setIsRankingOpen] = useState(false);
+
   return (
     <Fragment>
       {/* Header with navigation */}
@@ -57,16 +62,35 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           {/* Navigation */}
           <NavigationMenu className="mx-auto">
             <NavigationMenuList className="flex gap-8">
-              {navItems.map((item) => (
-                <NavigationMenuItem key={item.title}>
-                  <NavigationMenuLink
-                    className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
-                    href={item.route}
-                  >
-                    {item.title}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
+              {navItems.map((item) => {
+                if (item.title === "ranking") {
+                  return (
+                    <Dialog key="ranking" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
+                      <DialogTrigger asChild>
+                        <NavigationMenuItem>
+                          <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors">
+                            ranking
+                          </div>
+                        </NavigationMenuItem>
+                      </DialogTrigger>
+
+                      <ModalRanking open={isRankingOpen} />
+                    </Dialog>
+                  );
+                }
+
+                // 다른 메뉴는 기존처럼 링크 유지
+                return (
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuLink
+                      className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
+                      href={item.route}
+                    >
+                      {item.title}
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                );
+              })}
             </NavigationMenuList>
           </NavigationMenu>
 

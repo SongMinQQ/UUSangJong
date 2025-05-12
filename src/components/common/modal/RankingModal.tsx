@@ -7,23 +7,11 @@ import { fetchRanking } from "@/services/rank";
 import { useQuery } from "@tanstack/react-query";
 import { RankingList } from "../RankingList";
 
-// const dummyBuyerData = [{ nickname: "gd" }, { nickname: "nickName" }, { nickname: "nickName" }];
-
-// const dummySellerData = [
-//   { nickname: "nickName" },
-//   { nickname: "nickName" },
-//   { nickname: "nickName" },
-// ];
-
 interface ModalRankingProps {
   open: boolean;
 }
 
 const ModalRanking = ({ open }: ModalRankingProps) => {
-  // const buyerData = dummyBuyerData;
-  // const sellerData = dummySellerData;
-
-  // UI 구조화 위해서 더미데이터 삽입을 위해서 api 연결은 잠시 보류
   const { data: buyerData, isLoading: isLoadingBuyer } = useQuery<UserRanking[]>({
     queryKey: ["ranking", "buyer"],
     queryFn: () => fetchRanking("buyer"),
@@ -54,8 +42,16 @@ const ModalRanking = ({ open }: ModalRankingProps) => {
         <span className="text-4xl inline-block translate-x-[12px]">🏆</span>
       </div>
 
-      <RankingList title="UUSJ Best Buyer Rankings" data={buyerData} />
-      <RankingList title="UUSJ Best Seller Rankings" data={sellerData} />
+      {isLoadingBuyer ? (
+        <p className="text-center">로딩 중 .. </p>
+      ) : (
+        <RankingList title="UUSJ Best Buyer Rankings" data={buyerData ?? []} />
+      )}
+      {isLoadingSeller ? (
+        <p className="text-center">로딩 중 .. </p>
+      ) : (
+        <RankingList title="UUSJ Best Seller Rankings" data={sellerData ?? []} />
+      )}
     </DialogContent>
   );
 };

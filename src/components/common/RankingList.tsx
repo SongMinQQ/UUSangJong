@@ -16,7 +16,7 @@ export const RankingList = ({ title, data }: RankingListProps) => {
     <section className="mb-2">
       <h2 className="text-xl font-semibold text-center mb-4">{title}</h2>
       <div className="space-y-3">
-        {data.map((user, idx) => (
+        {data.slice(0, 3).map((user, idx) => (
           <Card
             key={user.nickname}
             className={cn(
