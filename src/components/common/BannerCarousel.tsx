@@ -1,6 +1,6 @@
 "use client";
 import Autoplay from "embla-carousel-autoplay";
-import { Fragment, memo, useRef } from "react";
+import { memo, useRef } from "react";
 import {
   Carousel,
   CarouselContent,
