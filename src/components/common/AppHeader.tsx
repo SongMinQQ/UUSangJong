@@ -1,5 +1,5 @@
-"use client";
-import { Fragment, memo, useCallback, useEffect, useState } from "react";
+"use client"
+import { Fragment, memo, useCallback, useEffect } from "react";
 import { Button } from "../ui/button";
 import {
   NavigationMenu,
@@ -13,6 +13,7 @@ import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
 import { handleApi } from "@/utils/handleApi";
 import { fetchCurrentUser } from "@/services/login";
+import { useLogin, useUser } from "@/store/store";
 
 // Navigation menu items
 const navItems = [
@@ -35,17 +36,18 @@ const navItems = [
 ];
 
 function AppHeader({ isSticky }: { isSticky?: boolean }) {
-  const [nickname, setNickname] = useState<string>("");
-  //로그인 상태 저장할 전역 상태 필요 일단은 그냥 구현
+  const { isLogin } = useLogin();
+  const { setUserInfo } = useUser();
+
   const checkLogin = useCallback(async () => {
     const { data } = await handleApi(() => fetchCurrentUser());
-    console.log(data);
-    const currentUserNickname = data?.nickname;
-    if (currentUserNickname) setNickname(currentUserNickname);
-  }, []);
+    if (data) setUserInfo(data);
+  }, [])
+
+  // 로그인 상태가 바뀌면 유저 정보를 받아온 후 전역으로 관리
   useEffect(() => {
     checkLogin();
-  }, [nickname]);
+  }, [isLogin])
   return (
     <Fragment>
       {/* Header with navigation */}
