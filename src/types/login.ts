@@ -11,4 +11,6 @@ export interface CheckLogin {
   email: string;
   nickname: string;
   message: string;
+  rold: string;
+  realname: string;
 }
