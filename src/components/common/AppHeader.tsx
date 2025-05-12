@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -25,11 +25,11 @@ const navItems = [
     route: "/new",
   },
   {
-    title: "ranking",
+    title: "Ranking",
     route: "/ranking",
   },
   {
-    title: "write",
+    title: "Write",
     route: "/write",
   },
 ];
@@ -40,12 +40,12 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
   const checkLogin = useCallback(async () => {
     const { data } = await handleApi(() => fetchCurrentUser());
     console.log(data);
-    const currentUserNickname = data?.nickname
+    const currentUserNickname = data?.nickname;
     if (currentUserNickname) setNickname(currentUserNickname);
-  }, [])
+  }, []);
   useEffect(() => {
     checkLogin();
-  }, [nickname])
+  }, [nickname]);
   return (
     <Fragment>
       {/* Header with navigation */}
@@ -63,7 +63,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                     className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
                     href={item.route}
                   >
-                    {item.title}
+                    {item.title.toUpperCase()}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}

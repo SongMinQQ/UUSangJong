@@ -30,6 +30,8 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     }
   }, [isEdit, postId]);
 
+  console.log("QQr", fetchPostDetail(1));
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onClickImageUpload = () => {
