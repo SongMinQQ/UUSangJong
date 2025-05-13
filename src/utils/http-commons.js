@@ -28,7 +28,10 @@ api.interceptors.response.use(
         alert("세션이 만료되었습니다. 다시 로그인해주세요.");
       } else {
         const isAllowed = allowAnonymousPaths.includes(pathname);
-        if (!isAllowed) alert("권한이 없습니다. 로그인을 해 주세요");
+        if (!isAllowed) {
+          window.history.back();
+          alert("권한이 없습니다. 로그인을 해 주세요");
+        }
       }
     }
     return Promise.reject(err);

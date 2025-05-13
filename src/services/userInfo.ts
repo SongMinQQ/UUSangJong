@@ -1,7 +1,7 @@
 import { UserInfo } from "@/types/userInfo";
-import axios from "../utils/http-commons";
+import api from "@/utils/http-commons";
 
 export const fetchUserInfo = async (): Promise<UserInfo> => {
-  const { data } = await axios.get("/user/me");
+  const { data } = await api.get("/user/me");
   return data;
 };

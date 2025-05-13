@@ -12,7 +12,7 @@ import { Dialog, DialogTrigger } from "../ui/dialog";
 import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
 import { handleApi } from "@/utils/handleApi";
-import { fetchCurrentUser } from "@/services/login";
+import { fetchCurrentUser, logout } from "@/services/login";
 import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
@@ -39,47 +39,34 @@ const navItems = [
 ];
 
 function AppHeader({ isSticky }: { isSticky?: boolean }) {
-<<<<<<< HEAD
-  // const { isLogin } = useLogin();
-  // const { setUserInfo } = useUser();
+  const [isRankingOpen, setIsRankingOpen] = useState(false);
+  const router = useRouter();
 
-  // const checkLogin = useCallback(async () => {
-  //   const { data } = await handleApi(() => fetchCurrentUser());
-  //   if (data) setUserInfo(data);
-  // }, [setUserInfo])
-
-  // 로그인 상태가 바뀌면 유저 정보를 받아온 후 전역으로 관리
-  // useEffect(() => {
-  //   checkLogin();
-  // }, [isLogin])
-=======
   const { isLogin, toggleLogin } = useLogin();
   const { setUserInfo, deleteUserInfo } = useUser();
 
   const checkLogin = useCallback(async () => {
     const { data } = await handleApi(() => fetchCurrentUser());
+    console.log(data);
     if (data) setUserInfo(data);
-  }, [setUserInfo]);
+  }, [isLogin]);
 
   // 로그인 상태가 바뀌면 유저 정보를 받아온 후 전역으로 관리
   useEffect(() => {
-    if (isLogin) {
-      checkLogin();
-    }
-  }, [isLogin, checkLogin]);
+
+    checkLogin();
+  }, []);
 
   const handleLogout = () => {
     toggleLogin(false); // 로그인 상태 변경
     deleteUserInfo(); // 사용자 정보 초기화
-    // sessionStorage.removeItem("jsession"); // 세션 삭제
+    handleApi(() => logout());
     alert("로그아웃 되었습니다.");
     router.push("/"); // 홈으로 리다이렉트
   };
 
-  const [isRankingOpen, setIsRankingOpen] = useState(false);
 
-  const router = useRouter();
->>>>>>> a3c83d29378feea21b588a00f64ca9a95957c59b
+
   return (
     <Fragment>
       {/* Header with navigation */}
