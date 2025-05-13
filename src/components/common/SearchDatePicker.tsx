@@ -1,25 +1,17 @@
 import { useCallback, useState } from "react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { DateRange } from "react-day-picker";
-import { addDays, addMonths, format } from "date-fns";
+import { addMonths, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 
 export default function SearchDatePicker() {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addMonths(new Date(), 1),
-  });
+  const [date, setDate] = useState<Date>(addMonths(new Date(), 1));
 
-  const handleDate = useCallback((range: DateRange | undefined) => {
-    console.log(range);
-    if (range?.from && range?.to && range.to < range.from) {
-      setDateRange({ from: range.to, to: range.from });
-    } else {
-      setDateRange(range);
-    }
+  const handleDate = useCallback((date: Date | undefined) => {
+    console.log(date);
+    if (date) setDate(date);
   }, []);
 
   return (
@@ -35,38 +27,28 @@ export default function SearchDatePicker() {
               variant={"outline"}
               className={cn(
                 "w-full justify-start text-left font-normal text-white bg-transparent",
-                !dateRange && "text-muted-foreground"
+                !date && "text-muted-foreground"
               )}
             >
               <CalendarIcon />
-              {dateRange?.from ? (
-                dateRange.to ? (
-                  <>
-                    {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
-                  </>
-                ) : (
-                  format(dateRange.from, "LLL dd, y")
-                )
-              ) : (
-                <span>Pick a date</span>
-              )}
+              {date ? format(date, "LLL dd, y") : <span>Pick a date</span>}
             </Button>
           </PopoverTrigger>
         </div>
 
-        <PopoverContent className="w-auto p-0 border-none" align="start">
+        <PopoverContent
+          className="w-auto p-4 bg-[#fefdf6] border-none rounded-md z-50"
+          align="center"
+        >
           <Calendar
             initialFocus
-            mode="range"
-            selected={dateRange}
+            mode="single"
+            selected={date}
             onSelect={handleDate}
-            numberOfMonths={2}
-            className="bg-white rounded-sm border-none"
+            numberOfMonths={1}
             classNames={{
-              day_range_start:
-                "bg-indigo-600 text-white hover:bg-indigo-700 font-semibold shadow-md",
-              day_range_middle: "bg-indigo-100 text-indigo-700 rounded-none",
-              day_range_end: "bg-indigo-600 text-white hover:bg-indigo-700 font-semibold shadow-md",
+              day_selected: "bg-[#4c4528] text-white",
+              day_today: "text-[#4c4528] border-1 rounded-full",
             }}
           />
         </PopoverContent>
