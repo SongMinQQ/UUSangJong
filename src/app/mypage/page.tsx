@@ -76,7 +76,7 @@ export default function MyPage() {
               onClose={() => setIsModalOpen(false)}
               onSuccess={() => {
                 setIsModalOpen(false);
-                router.push("/update-info");
+                router.push("/mypage/update-info");
               }}
             />
           )}
