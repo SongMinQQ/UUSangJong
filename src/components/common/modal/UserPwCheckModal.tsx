@@ -18,7 +18,8 @@ export default function ModalUserPwCheck({
   const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
-    const data = await handleApi(() => checkPassword(password));
+    const { data } = await handleApi(() => checkPassword(password));
+    console.log("비밀번호 체크 요청 결과 : ", data);
     if (data) {
       onSuccess();
       onClose();
