@@ -36,18 +36,18 @@ const navItems = [
 ];
 
 function AppHeader({ isSticky }: { isSticky?: boolean }) {
-  const { isLogin } = useLogin();
-  const { setUserInfo } = useUser();
+  // const { isLogin } = useLogin();
+  // const { setUserInfo } = useUser();
 
-  const checkLogin = useCallback(async () => {
-    const { data } = await handleApi(() => fetchCurrentUser());
-    if (data) setUserInfo(data);
-  }, [setUserInfo])
+  // const checkLogin = useCallback(async () => {
+  //   const { data } = await handleApi(() => fetchCurrentUser());
+  //   if (data) setUserInfo(data);
+  // }, [setUserInfo])
 
   // 로그인 상태가 바뀌면 유저 정보를 받아온 후 전역으로 관리
-  useEffect(() => {
-    checkLogin();
-  }, [isLogin])
+  // useEffect(() => {
+  //   checkLogin();
+  // }, [isLogin])
   return (
     <Fragment>
       {/* Header with navigation */}
