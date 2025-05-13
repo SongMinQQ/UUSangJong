@@ -83,3 +83,49 @@ export const useSearch = create<SearchProps>()(
     { name: "search-storage" }
   )
 );
+
+interface BoardItemList {
+  ids: number[];
+  currentId: number;
+}
+
+interface NavPanelInfo {
+  nextID?: number;
+  prevID?: number;
+  totalCount: number;
+  currentIndex: number;
+}
+
+interface BoardItemListProps extends Partial<BoardItemList> {
+  setIds: (ids: number[]) => void;
+  setCurrentId: (id: number) => void;
+  getNavPanelInfo: () => NavPanelInfo;
+}
+
+export const useBoardItemList = create<BoardItemListProps>()(
+  persist(
+    (set, get) => ({
+      ids: [],
+      currentId: 0,
+      setIds: (ids) => set(() => ({ ids })),
+      setCurrentId: (id) => set(() => ({ currentId: id })),
+      getNavPanelInfo: () => {
+        const { ids, currentId } = get();
+        if (ids && currentId) {
+          const currentIndex = ids.indexOf(currentId);
+          const nextID = currentIndex < ids.length - 1 ? ids[currentIndex + 1] : undefined;
+          const prevID = currentIndex > 0 ? ids[currentIndex - 1] : undefined;
+
+          return {
+            nextID,
+            prevID,
+            totalCount: ids.length,
+            currentIndex,
+          };
+        }
+        return { totalCount: 0, currentIndex: 0 };
+      },
+    }),
+    { name: "boardItemList-storage" }
+  )
+);
