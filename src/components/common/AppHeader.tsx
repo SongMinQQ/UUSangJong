@@ -1,5 +1,5 @@
-"use client"
-import { Fragment, memo, useCallback, useEffect } from "react";
+"use client";
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
   NavigationMenu,
@@ -13,7 +13,10 @@ import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
 import { handleApi } from "@/utils/handleApi";
 import { fetchCurrentUser } from "@/services/login";
+import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
+import { useRouter } from "next/navigation";
+import { CircleUserRound } from "lucide-react";
 
 // Navigation menu items
 const navItems = [
@@ -36,6 +39,7 @@ const navItems = [
 ];
 
 function AppHeader({ isSticky }: { isSticky?: boolean }) {
+<<<<<<< HEAD
   // const { isLogin } = useLogin();
   // const { setUserInfo } = useUser();
 
@@ -48,6 +52,34 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
   // useEffect(() => {
   //   checkLogin();
   // }, [isLogin])
+=======
+  const { isLogin, toggleLogin } = useLogin();
+  const { setUserInfo, deleteUserInfo } = useUser();
+
+  const checkLogin = useCallback(async () => {
+    const { data } = await handleApi(() => fetchCurrentUser());
+    if (data) setUserInfo(data);
+  }, [setUserInfo]);
+
+  // 로그인 상태가 바뀌면 유저 정보를 받아온 후 전역으로 관리
+  useEffect(() => {
+    if (isLogin) {
+      checkLogin();
+    }
+  }, [isLogin, checkLogin]);
+
+  const handleLogout = () => {
+    toggleLogin(false); // 로그인 상태 변경
+    deleteUserInfo(); // 사용자 정보 초기화
+    // sessionStorage.removeItem("jsession"); // 세션 삭제
+    alert("로그아웃 되었습니다.");
+    router.push("/"); // 홈으로 리다이렉트
+  };
+
+  const [isRankingOpen, setIsRankingOpen] = useState(false);
+
+  const router = useRouter();
+>>>>>>> a3c83d29378feea21b588a00f64ca9a95957c59b
   return (
     <Fragment>
       {/* Header with navigation */}
@@ -59,32 +91,70 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           {/* Navigation */}
           <NavigationMenu className="mx-auto">
             <NavigationMenuList className="flex gap-8">
-              {navItems.map((item) => (
-                <NavigationMenuItem key={item.title}>
-                  <NavigationMenuLink
-                    className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
-                    href={item.route}
-                  >
-                    {item.title}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
+              {navItems.map((item) => {
+                if (item.title === "ranking") {
+                  return (
+                    <Dialog key="ranking" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
+                      <DialogTrigger asChild>
+                        <NavigationMenuItem>
+                          <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors">
+                            ranking
+                          </div>
+                        </NavigationMenuItem>
+                      </DialogTrigger>
+
+                      <ModalRanking open={isRankingOpen} />
+                    </Dialog>
+                  );
+                }
+
+                // 다른 메뉴는 기존처럼 링크 유지
+                return (
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuLink
+                      className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
+                      href={item.route}
+                    >
+                      {item.title}
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                );
+              })}
             </NavigationMenuList>
           </NavigationMenu>
 
           {/* Login button and search icon */}
           <div className="absolute right-8 top-6 flex items-center gap-4">
-            <Dialog>
-              <DialogTrigger asChild>
+            {isLogin ? (
+              <>
                 <Button
                   variant="link"
-                  className="font-['Julius_Sans_One',Helvetica] text-2xl text-black p-0"
+                  className="font-['Julius_Sans_One',Helvetica] text-xl text-black p-0 cursor-pointer"
+                  onClick={handleLogout}
                 >
-                  Login
+                  Logout
                 </Button>
-              </DialogTrigger>
-              <DialogWrapper />
-            </Dialog>
+                <Button
+                  variant="link"
+                  className="flex items-center justify-center cursor-pointer"
+                  onClick={() => router.push("/mypage")}
+                >
+                  <CircleUserRound className="text-black" />
+                </Button>
+              </>
+            ) : (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="link"
+                    className="font-['Julius_Sans_One',Helvetica] text-1xl text-black p-0 cursor-pointer"
+                  >
+                    Login
+                  </Button>
+                </DialogTrigger>
+                <DialogWrapper />
+              </Dialog>
+            )}
 
             {isSticky && (
               <Dialog modal={false}>
