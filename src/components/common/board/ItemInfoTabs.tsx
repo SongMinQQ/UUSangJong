@@ -4,10 +4,9 @@ import { Separator } from "@/components/ui/separator";
 import { AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const ItemInfoTabs = ({ data }) => {
+const ItemInfoTabs = ({ data = {} }) => {
   const router = useRouter();
 
-  console.log("ItemInfoTabs content:", data.content);
   const bidHistoryData = [
     { id: 1, price: "50000", comment: "첫 입찰입니다." },
     { id: 2, price: "60000", comment: "두 번째 입찰입니다." },
@@ -29,7 +28,7 @@ const ItemInfoTabs = ({ data }) => {
         </TabsList>
 
         <TabsContent value="productDescription" className="mt-0">
-          {data.content}
+          {data.content ?? "등록 내용 없음"}
         </TabsContent>
 
         <TabsContent value="bidHistory" className="mt-0">

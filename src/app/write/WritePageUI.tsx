@@ -3,10 +3,16 @@
 import { Button } from "@/components/ui/button";
 import "swiper/css";
 import "swiper/css/scrollbar";
-import ImageSlider from "./ImageSlider"; // ImageSlider 컴포넌트를 작성해두신 파일
+import ImageSlider from "./ImageSlider";
 import TextEditor from "@/components/common/Texteditor";
+import { Slider } from "@/components/ui/slider";
+import { useCallback, useState } from "react";
 
 export default function WritePageUI(props) {
+  const [dueDate, setDueDate] = useState(1);
+  const handleDueDateChange = useCallback((value: number[]) => {
+    setDueDate(value[0]);
+  }, []);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">
       {/* 제목 */}
@@ -20,27 +26,13 @@ export default function WritePageUI(props) {
       <div className="flex w-[1111px] gap-6 mb-6">
         {/* 이미지 영역 */}
         <div className="w-1/2 flex flex-col items-center">
-          <div className="w-full h-full flex flex-col items-center">
-            {
-              <div className="w-full mb-2 h-full">
-                <ImageSlider
-                  images={props.imageUrls}
-                  onClickImageUpload={props.onClickImageUpload}
-                  onClickDeleteImage={props.onClickDeleteImage}
-                />
-              </div>
-            }
-            {/* 이미지 업로드 버튼
-            {props.imageUrls.length < 5 && (
-              <div
-                onClick={props.onClickImageUpload}
-                className="w-24 h-24 border-2 border-dashed border-gray-400 flex items-center justify-center cursor-pointer text-2xl text-gray-500 hover:border-blue-500 transition"
-              >
-                +
-              </div>
-            )} */}
+          <div className="w-full mb-2 h-full">
+            <ImageSlider
+              images={props.imageUrls}
+              onClickImageUpload={props.onClickImageUpload}
+              onClickDeleteImage={props.onClickDeleteImage}
+            />
           </div>
-
           <input
             type="file"
             multiple
@@ -67,9 +59,11 @@ export default function WritePageUI(props) {
 
           {/* 즉시 구매가 & 시작 가격 */}
           <div className="flex flex-col gap-8 mb-4">
-            {/* 시작 가격 */}
             <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label htmlFor="direct" className="text-sm text-gray-700 whitespace-nowrap w-[100px]">
+              <label
+                htmlFor="startPrice"
+                className="text-sm text-gray-700 whitespace-nowrap w-[100px]"
+              >
                 시작 가격
               </label>
               <input
@@ -83,16 +77,12 @@ export default function WritePageUI(props) {
                 onChange={props.onChangeForm}
               />
             </div>
-            {/* 즉시 구매가 */}
             <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label
-                htmlFor="direct"
-                className="text-sm text-gray-700 whitespace-nowrap w-[100px] "
-              >
+              <label htmlFor="price" className="text-sm text-gray-700 whitespace-nowrap w-[100px]">
                 즉시 구매가
               </label>
               <input
-                id="direct"
+                id="price"
                 name="price"
                 type="number"
                 value={props.form.price}
@@ -103,6 +93,44 @@ export default function WritePageUI(props) {
                 onChange={props.onChangeForm}
               />
             </div>
+
+            {/* 경매 마감일 (슬라이더) */}
+            <div className="w-full flex flex-row items-center gap-8 pl-10">
+              <label
+                htmlFor="endDate"
+                className="text-sm text-gray-700 whitespace-nowrap w-[100px]"
+              >
+                경매 마감일
+              </label>
+              <div className="relative w-1/2">
+                <Slider
+                  value={[dueDate]}
+                  min={1}
+                  max={7}
+                  step={2}
+                  onValueChange={handleDueDateChange}
+                  className="w-full 
+    [&_[role=track]]:h-2 
+    [&_[role=track]]:bg-gray-300 
+    [&_[role=range]]:h-2 
+    [&_[role=range]]:bg-[#4C4528] 
+    [&_[role=slider]]:w-5 
+    [&_[role=slider]]:h-5 
+    [&_[role=slider]]:bg-white 
+    [&_[role=slider]]:border 
+    [&_[role=slider]]:border-gray-400 
+    [&_[role=slider]]:rounded-full
+     [&_[data-slot=slider-track]]:bg-gray-200
+    [&_[data-slot=slider-track]]:h-[0.5px]
+    [&_[data-slot=slider-thumb]]:w-5
+    [&_[data-slot=slider-thumb]]:h-5
+    "
+                />
+                <div className="text-sm text-gray-500 mt-2">
+                  {props.form.endDate ? `${props.form.endDate} days` : `${dueDate} days`}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -110,12 +138,11 @@ export default function WritePageUI(props) {
       {/* 제품 상세 설명 */}
       <div className="w-[1111px]">
         <TextEditor />
-        <label className="text-[16px]  text-gray-700 block mt-[100px] mb-1">제품 상세 설명</label>
-
+        <label className="text-[16px] text-gray-700 block mt-[100px] mb-1">제품 상세 설명</label>
         <textarea
           name="contents"
           placeholder="제품 상세 설명을 입력하세요"
-          className="border p-2 text-m w-full h-[609px] resize-none mb-[113px]"
+          className="border p-2 text-base w-full h-[609px] resize-none mb-[113px]"
           value={props.form.contents}
           onChange={props.onChangeForm}
         ></textarea>
@@ -125,7 +152,7 @@ export default function WritePageUI(props) {
       <div className="flex gap-4 mt-8">
         <Button
           className="cursor-pointer bg-[#BEB8B8] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
-          onClick={props.onClickBUttonBack}
+          onClick={props.onClickButtonBack}
         >
           돌아가기
         </Button>
