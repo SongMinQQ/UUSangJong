@@ -141,7 +141,6 @@ function Board() {
       });
     return tmp;
   }, [data]);
-  console.log("qq", idList);
 
   useEffect(() => {
     setIds(idList);
@@ -152,9 +151,8 @@ function Board() {
       {/* Content grid */}
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0">
-          {data&&data.map((item) => (
-            <ContentItem key={`boardItem_${item.post_id}`} itemData={item} />
-          ))}
+          {data &&
+            data.map((item) => <ContentItem key={`boardItem_${item.post_id}`} itemData={item} />)}
         </div>
       </main>
     </div>
