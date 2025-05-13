@@ -13,6 +13,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     price: "",
     startPrice: "",
     contents: "",
+    endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10),
   });
   const { postId } = useParams();
   console.log("postId:", postId);
@@ -27,6 +30,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
             price: String(data.instant_price ?? "0"),
             startPrice: String(data.start_price ?? "0"),
             contents: data.content ?? "",
+            endDate: data.end_date.slice(0, 10),
           });
         })
         .catch((error) => {
@@ -51,6 +55,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       alert("모든 필드를 입력해주세요.");
       return;
     }
+    const formattedEndDate = form.endDate.replace("T", " ") + ":00";
     try {
       if (isEdit) {
         await updatePost({
@@ -59,7 +64,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           content: form.contents,
           start_price: Number(form.startPrice),
           instant_price: Number(form.price),
-          end_date: "2025-12-31 23:59:59",
+          end_date: formattedEndDate,
           is_sold: "on_sale",
         });
 
@@ -71,20 +76,12 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           content: form.contents,
           start_price: Number(form.startPrice),
           instant_price: Number(form.price),
-          end_date: "2025-12-31 23:59:59",
+          end_date: formattedEndDate,
           is_sold: "on_sale",
         });
         console.log("등록 응답:", response);
         alert("등록이 완료되었습니다!");
-        router.push(
-          `/detailtest/1?title=${encodeURIComponent(form.title)}&content=${encodeURIComponent(
-            form.contents
-          )}&start_price=${encodeURIComponent(form.startPrice)}&instant_price=${encodeURIComponent(
-            form.price
-          )}&end_date=${encodeURIComponent(form.endDate)}&is_sold=${encodeURIComponent(
-            form.isSold
-          )}`
-        );
+        router.push(`/detailtest/${response.post_id}`);
       }
     } catch (err) {
       console.error(err);
@@ -96,12 +93,16 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     router.push("/board");
   };
 
-  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChangeForm = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const onChangeFile = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
     const files = event.target.files;
     if (!files) return;
 
