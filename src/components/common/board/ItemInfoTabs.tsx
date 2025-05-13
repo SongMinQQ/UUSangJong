@@ -2,30 +2,17 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-const ItemInfoTabs = () => {
+const ItemInfoTabs = ({ data }) => {
+  const router = useRouter();
+
+  console.log("ItemInfoTabs content:", data.content);
   const bidHistoryData = [
-    {
-      price: 4000,
-      comment: "테스트용 등록 데이터",
-      id: 1,
-    },
-    {
-      price: 2000,
-      comment: "노트북이 혹시 공책 말하시는건 아니죠?",
-      id: 2,
-    },
-    {
-      price: 1500,
-      comment: "어 내가 먹을거야~",
-      id: 3,
-    },
-    {
-      price: 1200,
-      comment: "노트북 낭낭하게 잘 먹고 갑니다~",
-      id: 4,
-    },
+    { id: 1, price: "50000", comment: "첫 입찰입니다." },
+    { id: 2, price: "60000", comment: "두 번째 입찰입니다." },
   ];
+
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
@@ -42,7 +29,7 @@ const ItemInfoTabs = () => {
         </TabsList>
 
         <TabsContent value="productDescription" className="mt-0">
-          {/* 제품 설명 내용 */}
+          {data.content}
         </TabsContent>
 
         <TabsContent value="bidHistory" className="mt-0">

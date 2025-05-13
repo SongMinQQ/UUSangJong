@@ -7,18 +7,19 @@ import { AlertTriangle, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const ItemBidCard = ({ postId }: { postId: number }) => {
-  // Data for the auction item
+const ItemBidCard = (props) => {
   const router = useRouter();
-  const auctionData = {
-    date: "2025-03-30",
-    title: "작은 습관의 힘",
-    immediatePrice: 10000,
-    startingPrice: 1000,
-    currentBid: 4000,
+  // Data for the auction item
+  // State for bid inputs
+  const data = {
+    title: props.title ?? "등록된 제목 없음",
+    content: props.content ?? "등록된 내용 없음",
+    startPrice: props.startPrice ?? "등록된 시작가 없음",
+    instantPrice: props.instantPrice ?? "등록된 즉시가 없음",
+    endDate: props.endDate ?? "등록된 종료일 없음",
+    isSold: props.isSold ?? "등록된 상태 없음",
   };
 
-  // State for bid inputs
   const [bidPrice, setBidPrice] = useState("");
   const [bidComment, setBidComment] = useState("");
 
@@ -30,25 +31,25 @@ const ItemBidCard = ({ postId }: { postId: number }) => {
     <Card className="w-[90vw] max-w-[440px] h-[75vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
       <CardContent className="p-0 relative">
         <div className="absolute top-0 left-[33px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-base tracking-[0] leading-normal whitespace-nowrap">
-          {auctionData.date}
+          종료일: {data.endDate}
         </div>
 
         <h1 className="absolute w-[249px] top-[26px] left-[33px] [font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-black text-[32px] whitespace-nowrap tracking-[0] leading-normal">
-          {auctionData.title}
+          {data.title}
         </h1>
 
         <Separator className="absolute top-24 w-[428px] bg-[#cccccc] left-0" />
 
         <div className="absolute top-[123px] left-[34px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-2xl tracking-[0] leading-normal">
-          즉시 구매가 :&nbsp;&nbsp; {auctionData.immediatePrice}
+          즉시 구매가 :&nbsp;&nbsp; {data.instantPrice}
         </div>
 
         <div className="absolute top-[173px] left-[33px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-2xl tracking-[0] leading-normal">
-          시작가 :&nbsp;&nbsp;{auctionData.startingPrice}
+          시작가 :&nbsp;&nbsp;{data.startPrice}
         </div>
 
         <div className="absolute top-[222px] left-[33px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-2xl tracking-[0] leading-normal">
-          현재 최고 입찰가 :&nbsp;&nbsp;{auctionData.currentBid}
+          현재 최고 입찰가 :&nbsp;&nbsp;{data.isSold}
         </div>
 
         <Separator className="absolute top-[277px] w-[428px] bg-[#cccccc] left-0" />

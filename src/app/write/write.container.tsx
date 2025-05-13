@@ -74,7 +74,15 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
         });
         console.log("등록 응답:", response);
         alert("등록이 완료되었습니다!");
-        router.push(`/board`);
+        router.push(
+          `/detailtest/1?title=${encodeURIComponent(form.title)}&content=${encodeURIComponent(
+            form.contents
+          )}&start_price=${encodeURIComponent(form.startPrice)}&instant_price=${encodeURIComponent(
+            form.price
+          )}&end_date=${encodeURIComponent(form.endDate)}&is_sold=${encodeURIComponent(
+            form.isSold
+          )}`
+        );
       }
     } catch (err) {
       console.error(err);
