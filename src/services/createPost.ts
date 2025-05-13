@@ -1,4 +1,4 @@
-import axios from "@/utils/http-commons";
+import { proxyRequestSelector } from "./apiProxy";
 
 export interface CreatePostInput {
   title: string;
@@ -15,7 +15,10 @@ export interface CreatePostResponse {
 }
 
 export const createPost = async (params: CreatePostInput): Promise<CreatePostResponse> => {
-  const { data } = await axios.post("/post", params);
-  console.log("createPost 응답:", data);
+  // const { data } = await axios.post("/post", params);
+  const data = await proxyRequestSelector<CreatePostResponse>({
+    options: { path: ["post"], data: params },
+    method: "POST",
+  });
   return data;
 };

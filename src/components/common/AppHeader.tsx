@@ -29,11 +29,11 @@ const navItems = [
     route: "/new",
   },
   {
-    title: "ranking",
+    title: "Ranking",
     route: "/ranking",
   },
   {
-    title: "write",
+    title: "Write",
     route: "/write",
   },
 ];
@@ -77,13 +77,13 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           <NavigationMenu className="mx-auto">
             <NavigationMenuList className="flex gap-8">
               {navItems.map((item) => {
-                if (item.title === "ranking") {
+                if (item.title === "Ranking") {
                   return (
-                    <Dialog key="ranking" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
+                    <Dialog key="Ranking" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
                       <DialogTrigger asChild>
                         <NavigationMenuItem>
                           <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors">
-                            ranking
+                            {item.title}
                           </div>
                         </NavigationMenuItem>
                       </DialogTrigger>
