@@ -3,13 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useBoardItemList } from "@/store/store";
 import { AlertTriangle, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ItemBidCard = ({ postId }: { postId: number }) => {
   // Data for the auction item
   const router = useRouter();
+  const { setCurrentId } = useBoardItemList();
+
+  useEffect(() => {
+    console.log("postId", postId);
+    setCurrentId(postId);
+  }, [postId, setCurrentId]);
+
   const auctionData = {
     date: "2025-03-30",
     title: "작은 습관의 힘",

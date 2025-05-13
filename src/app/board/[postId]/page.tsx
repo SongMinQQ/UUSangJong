@@ -14,9 +14,9 @@ const ContentDetailPage = () => {
     <div className="relative w-full min-h-screen px-4">
       <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
         <ItemInfo />
-        <ItemBidCard postId={fixed} />
+        <ItemBidCard postId={Number(postId)} />
       </div>
-      <ItemInfoTabs postId={fixed} />
+      <ItemInfoTabs postId={Number(postId)} />
     </div>
   );
 };
