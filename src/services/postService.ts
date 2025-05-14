@@ -11,6 +11,11 @@ export interface updatePost {
   is_sold: string;
 }
 
+export interface BoardType extends updatePost {
+  sample_image: string;
+  now_price: string;
+}
+
 export const updatePost = async (params: updatePost): Promise<any> => {
   const { data } = await axios.put("/post", params);
   return data;

@@ -70,9 +70,11 @@ export default function UpdateInfoPage() {
       await updateUser(updateFields); // useUpdateUser 훅에서 처리
       alert("회원정보가 성공적으로 업데이트되었습니다.");
       router.push("/mypage");
-    } catch (error) {
-      console.error("업데이트 중 오류 발생:", error);
-      alert("회원정보 업데이트에 실패했습니다.");
+    } catch (error: any) {
+      // Axios 에러 메시지 추출
+      const message =
+        error?.response?.data ?? error?.message ?? "회원정보 업데이트에 실패했습니다.";
+      alert(message);
     }
   };
 

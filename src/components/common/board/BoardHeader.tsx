@@ -1,5 +1,6 @@
-import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import NavPanel from "../NavPanel";
 
 const BoardHeader = () => {
   return (
@@ -8,13 +9,7 @@ const BoardHeader = () => {
         <ChevronLeft className="w-5 h-5" />
       </button>
 
-      <div className="flex items-center gap-[5px]">
-        <ChevronLeft className="w-6 h-6" />
-        <span className="w-[88px] [font-family:'Julius_Sans_One-Regular',Helvetica] font-normal text-black text-2xl text-center">
-          2 of 10
-        </span>
-        <ChevronRight className="w-6 h-6" />
-      </div>
+      <NavPanel />
     </header>
   );
 };
