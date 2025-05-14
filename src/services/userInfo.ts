@@ -5,3 +5,8 @@ export const fetchUserInfo = async (): Promise<UserInfo> => {
   const { data } = await api.get("/user/me");
   return data;
 };
+
+export const checkPassword = async (password: string): Promise<boolean> => {
+  const { data } = await axios.post("/user/passwordcheck", { password });
+  return data;
+};

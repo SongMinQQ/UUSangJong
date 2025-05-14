@@ -8,13 +8,9 @@ import React, { useState } from "react";
 
 export default function MyPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const router = useRouter();
+  const { userInfo } = useUser();
 
-  const { userInfo, loading } = useUser();
-  if (loading) {
-    return <div className="text-center">Loading...</div>;
-  }
   if (!userInfo) {
     return <div className="text-center">User not found</div>;
   }
@@ -76,7 +72,7 @@ export default function MyPage() {
               onClose={() => setIsModalOpen(false)}
               onSuccess={() => {
                 setIsModalOpen(false);
-                router.push("/update-info");
+                router.push("/mypage/update-info");
               }}
             />
           )}

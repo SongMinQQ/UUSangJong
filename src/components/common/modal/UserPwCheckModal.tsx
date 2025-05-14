@@ -4,7 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import axios from "axios";
+import { checkPassword } from "@/services/userInfo";
+import { handleApi } from "@/utils/handleApi";
 import React, { useState } from "react";
 
 export default function ModalUserPwCheck({
@@ -15,22 +16,15 @@ export default function ModalUserPwCheck({
   onSuccess: () => void;
 }) {
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post("/verify-password", { password });
-      if (response.data === true) {
-        onSuccess(); //성공시 콜백 호출.
-      } else {
-        alert("비밀번호가 일치하지 않습니다.");
-      }
-    } catch (error) {
-      console.error("비밀번호 검증 실패:", error);
-      alert("에러발생: 서버 요청 실패.");
-    } finally {
-      setLoading(false);
+    const { data } = await handleApi(() => checkPassword(password));
+    console.log("비밀번호 체크 요청 결과 : ", data);
+    if (data) {
+      onSuccess();
+      onClose();
+    } else {
+      alert("비밀번호가 틀렸습니다.");
     }
   };
 
@@ -65,7 +59,6 @@ export default function ModalUserPwCheck({
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="rounded-none border-0 border-b border-gray-300  px-0 h-6 text-uusj-themesysdarksurface-container-highest placeholder:text-uusj-themesysdarksurface-container-highest focus-visible:ring-0 focus-visible:ring-offset-0"
-                    defaultValue=""
                     placeholder="비밀번호를 입력하세요."
                   />
                 </div>
@@ -74,10 +67,9 @@ export default function ModalUserPwCheck({
             </div>
             <Button
               onClick={handleSubmit}
-              disabled={loading}
               className="w-full h-[66px] bg-[#222222] hover:bg-[#666666] cursor-pointer rounded-[10px] text-white text-2xl font-semibold tracking-[0.15px]"
             >
-              {loading ? "확인 중" : "CONTINUE"}
+              CONTINUE
             </Button>
           </div>
         </CardContent>
