@@ -16,7 +16,7 @@ import { fetchCurrentUser, logout } from "@/services/login";
 import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
-import { CircleUserRound } from "lucide-react";
+import { HiOutlineUserCircle } from "react-icons/hi2";
 
 // Navigation menu items
 const navItems = [
@@ -116,7 +116,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
               <>
                 <Button
                   variant="link"
-                  className="font-['Julius_Sans_One',Helvetica] text-xl text-black p-0 cursor-pointer"
+                  className="font-['Julius_Sans_One',Helvetica] text-1xl text-black p-0 cursor-pointer"
                   onClick={handleLogout}
                 >
                   Logout
@@ -126,7 +126,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                   className="flex items-center justify-center cursor-pointer"
                   onClick={() => router.push("/mypage")}
                 >
-                  <CircleUserRound className="text-black" />
+                  <HiOutlineUserCircle style={{ width: "25px", height: "25px" }} />
                 </Button>
               </>
             ) : (

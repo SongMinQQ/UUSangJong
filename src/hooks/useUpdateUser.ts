@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "../utils/http-commons";
+import axios from "@/utils/http-commons";
 
 interface UpdatePayload {
   email?: string;
