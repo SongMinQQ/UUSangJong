@@ -3,21 +3,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useBoardItemList } from "@/store/store";
 import { AlertTriangle, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ItemBidCard = (props) => {
   const router = useRouter();
-  // Data for the auction item
-  // State for bid inputs
-  const data = {
-    title: props.title ?? "등록된 제목 없음",
-    content: props.content ?? "등록된 내용 없음",
-    startPrice: props.startPrice ?? "등록된 시작가 없음",
-    instantPrice: props.instantPrice ?? "등록된 즉시가 없음",
-    endDate: props.endDate ?? "등록된 종료일 없음",
-    isSold: props.isSold ?? "등록된 상태 없음",
+  const { setCurrentId } = useBoardItemList();
+
+  useEffect(() => {
+    console.log("postId", postId);
+    setCurrentId(postId);
+  }, [postId, setCurrentId]);
+
+  const auctionData = {
+    date: "2025-03-30",
+    title: "작은 습관의 힘",
+    immediatePrice: 10000,
+    startingPrice: 1000,
+    currentBid: 4000,
   };
 
   const [bidPrice, setBidPrice] = useState("");

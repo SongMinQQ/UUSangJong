@@ -19,3 +19,7 @@ export const fetchCurrentUser = async (): Promise<CheckLogin> => {
   const { data } = await axios.get("/user/me");
   return data;
 }
+
+export const logout = async (): Promise<void> => {
+  await axios.get("/logout");
+}
