@@ -13,6 +13,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     price: "",
     startPrice: "",
     contents: "",
+    endDate: 1,
   });
   const { postId } = useParams();
   console.log("postId:", postId);
@@ -52,6 +53,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       return;
     }
     try {
+      const endDte = new Date();
+      endDte.setDate(endDte.getDate() + form.endDate);
+      const formattedEndDate = `${endDate.getDate()}`
       if (isEdit) {
         await updatePost({
           post_id: Number(postId),
