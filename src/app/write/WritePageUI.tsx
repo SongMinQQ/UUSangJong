@@ -166,7 +166,7 @@ export default function WritePageUI(props) {
       <div className="flex gap-4 mt-8">
         <Button
           className="cursor-pointer bg-[#BEB8B8] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
-          onClick={props.onClickButtonBack}
+          onClick={props.onClickBUttonBack}
         >
           돌아가기
         </Button>

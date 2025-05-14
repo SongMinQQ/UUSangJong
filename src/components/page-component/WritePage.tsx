@@ -4,22 +4,23 @@ import WritePageUI from "../../app/write/WritePageUI";
 import { useRouter } from "next/navigation";
 import { createPost } from "@/services/createPost";
 import { updatePost, fetchPostDetail } from "@/services/postService";
+import { uploadPostImage } from "@/services/uploadPostImage";
 import { useParams } from "next/navigation";
 import { addDays, format } from "date-fns";
 
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [form, setForm] = useState({
     title: "",
     price: "",
     startPrice: "",
     contents: "",
-    // endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
     endDate: format(addDays(new Date(Date.now()), 1), "yyyy-MM-dd"),
   });
   const { postId } = useParams();
-  console.log("postId:", postId);
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isEdit && postId) {
@@ -39,29 +40,36 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     }
   }, [isEdit, postId]);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const onClickImageUpload = () => {
     fileInputRef.current?.click();
   };
 
   const onClickDeleteImage = (index: number) => {
-    setImageUrls((prev) => prev.filter((_, i) => i !== index));
+    setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+    const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
+    const newPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
+    setImageFiles((prev) => [...prev, ...selectedFiles]);
+  };
+
   const onClickButton = async () => {
     if (!form.title || !form.price || !form.contents) {
       alert("모든 필드를 입력해주세요.");
       return;
     }
-    //const formattedEndDate = form.endDate.replace("T", " ") + ":00";
+
     try {
-      const endDte = new Date();
-      // endDte.setDate(endDte.getDate() + Number(form.endDate));
-      const formattedEndDate = `${endDte.getDate()}`;
-      console.log("formattedEndDate:", form.endDate);
+      let createdPostId = Number(postId);
+
       if (isEdit) {
         await updatePost({
-          post_id: Number(postId),
+          post_id: createdPostId,
           title: form.title,
           content: form.contents,
           start_price: Number(form.startPrice),
@@ -69,9 +77,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           end_date: form.endDate,
           is_sold: "on_sale",
         });
-
-        alert("수정이 완료되었습니다.");
-        router.push(`/board/${postId}/edit`);
+        alert("수정 완료");
       } else {
         const response = await createPost({
           title: form.title,
@@ -81,13 +87,40 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           end_date: form.endDate,
           is_sold: "on_sale",
         });
-        console.log("등록 응답:", response);
-        alert("등록이 완료되었습니다!");
-        router.push(`/detailtest/${response.postId}`);
+
+        console.log("응답", response);
+
+        if (!response?.postId) {
+          console.error("📡 등록 실패 응답:", response);
+          alert("게시물 등록 실패");
+          return;
+        }
+
+        createdPostId = response.postId;
+        console.log("✅ 게시물 등록 성공:", createdPostId);
+
+        if (imageFiles.length > 0) {
+          for (const file of imageFiles) {
+            await uploadPostImage({ postId: createdPostId, image: file });
+          }
+          console.log("🖼 이미지 업로드 완료");
+        }
+
+        alert("등록 완료");
       }
-    } catch (err) {
-      console.error(err);
-      alert("오류가 발생했습니다.");
+
+      router.push(`/detailtest/${createdPostId}`);
+    } catch (err: any) {
+      if (err.response) {
+        console.error("📡 서버 응답 오류:", err.response.data);
+        alert(`서버 오류: ${err.response.data}`);
+      } else if (err.request) {
+        console.error("🌐 요청은 갔으나 응답 없음:", err.request);
+        alert("요청 오류: 응답이 없습니다");
+      } else {
+        console.error("❗ 기타 오류:", err.message);
+        alert(`기타 오류: ${err.message}`);
+      }
     }
   };
 
@@ -100,41 +133,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-    const files = event.target.files;
-    if (!files) return;
-
-    // 최대 5장까지만 업로드 가능
-    const selectedFiles = Array.from(files).slice(0, 5 - imageUrls.length);
-
-    const newImageUrls: string[] = [];
-
-    for (const file of selectedFiles) {
-      try {
-        const reader = new FileReader();
-
-        const preview = await new Promise<string>((resolve) => {
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-            const result = e.target?.result;
-            if (typeof result === "string") {
-              resolve(result);
-            }
-          };
-          reader.readAsDataURL(file);
-        });
-
-        newImageUrls.push(preview);
-      } catch (error) {
-        console.error("업로드 실패:", error);
-      }
-    }
-
-    setImageUrls((prev) => [...prev, ...newImageUrls]);
-  };
-
   return (
     <WritePageUI
-      imageUrls={imageUrls}
+      imageUrls={previewUrls}
       onClickImageUpload={onClickImageUpload}
       onChangeFile={onChangeFile}
       fileInputRef={fileInputRef}
