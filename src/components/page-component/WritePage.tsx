@@ -11,6 +11,13 @@ import { addDays, format } from "date-fns";
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [formError, setFormError] = useState({
+    title: "",
+    price: "",
+    startPrice: "",
+    contents: "",
+    images: "",
+  });
   const [form, setForm] = useState({
     title: "",
     price: "",
@@ -53,16 +60,27 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     const files = event.target.files;
     if (!files) return;
     const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
-    const newPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    const newPreviewUrls = selectedFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
     setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
     setImageFiles((prev) => [...prev, ...selectedFiles]);
+    setFormError((prev) => ({ ...prev, images: "" })); // 이미지 에러 즉시 제거
   };
 
   const onClickButton = async () => {
-    if (!form.title || !form.price || !form.contents) {
-      alert("모든 필드를 입력해주세요.");
-      return;
-    }
+    const errors = {
+      title: form.title ? "" : "제목을 입력해주세요.",
+      startPrice: form.startPrice ? "" : "시작가를 입력해주세요.",
+      price: form.price ? "" : "즉시구매 가격을 입력해주세요.",
+      contents: form.contents ? "" : "내용을 입력해주세요.",
+      images: imageFiles.length > 0 ? "" : "이미지는 1개 이상 등록해주세요.",
+    };
+
+    setFormError(errors);
+
+    const hasError = Object.values(errors).some((msg) => msg !== "");
+    if (hasError) return;
 
     try {
       let createdPostId = Number(postId);
@@ -88,22 +106,17 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           is_sold: "on_sale",
         });
 
-        console.log("응답", response);
-
         if (!response?.postId) {
-          console.error("📡 등록 실패 응답:", response);
           alert("게시물 등록 실패");
           return;
         }
 
         createdPostId = response.postId;
-        console.log("✅ 게시물 등록 성공:", createdPostId);
 
         if (imageFiles.length > 0) {
           for (const file of imageFiles) {
             await uploadPostImage({ postId: createdPostId, image: file });
           }
-          console.log("🖼 이미지 업로드 완료");
         }
 
         alert("등록 완료");
@@ -111,16 +124,8 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
 
       router.push(`/detailtest/${createdPostId}`);
     } catch (err: any) {
-      if (err.response) {
-        console.error("📡 서버 응답 오류:", err.response.data);
-        alert(`서버 오류: ${err.response.data}`);
-      } else if (err.request) {
-        console.error("🌐 요청은 갔으나 응답 없음:", err.request);
-        alert("요청 오류: 응답이 없습니다");
-      } else {
-        console.error("❗ 기타 오류:", err.message);
-        alert(`기타 오류: ${err.message}`);
-      }
+      console.error(err);
+      alert(`오류: ${err.message}`);
     }
   };
 
@@ -128,9 +133,13 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     router.push("/board");
   };
 
-  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // ✅ 실시간 입력 시 해당 필드 에러 제거
+  const onChangeForm = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setFormError((prev) => ({ ...prev, [name]: "" }));
   };
 
   return (
@@ -145,6 +154,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       onClickDeleteImage={onClickDeleteImage}
       isEdit={isEdit}
       form={form}
+      formError={formError}
+      imageFiles={imageFiles}
+      setImageFiles={setImageFiles}
     />
   );
 }

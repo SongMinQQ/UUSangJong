@@ -14,6 +14,7 @@ export default function WritePageUI(props) {
   const handleDueDateChange = useCallback((value: number[]) => {
     setDueDate(value[0]);
   }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">
       {/* 제목 */}
@@ -33,6 +34,11 @@ export default function WritePageUI(props) {
               onClickImageUpload={props.onClickImageUpload}
               onClickDeleteImage={props.onClickDeleteImage}
             />
+            {props.formError.images && (
+              <p className="text-red-500 text-sm text-left mt-2">
+                {props.formError.images}
+              </p>
+            )}
           </div>
           <input
             type="file"
@@ -42,6 +48,9 @@ export default function WritePageUI(props) {
             ref={props.fileInputRef}
             className="hidden"
           />
+          {props.formError.images && (
+            <p className="text-red-500 text-sm text-left w-full"></p>
+          )}
         </div>
 
         {/* 작성 영역 */}
@@ -52,97 +61,101 @@ export default function WritePageUI(props) {
             <input
               name="title"
               placeholder="Value"
-              className="border-b p-2 w-full text-sm mb-7"
+              className="border-b p-2 w-full text-sm mb-1"
               value={props.form.title}
               onChange={props.onChangeForm}
             />
+            {props.formError.title && (
+              <p className="text-red-500 text-sm text-left">
+                {props.formError.title}
+              </p>
+            )}
           </div>
 
-          {/* 즉시 구매가 & 시작 가격 */}
-          <div className="flex flex-col gap-8 mb-4">
-            <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label
-                htmlFor="startPrice"
-                className="text-sm text-gray-700 whitespace-nowrap w-[100px]"
-              >
-                시작 가격
-              </label>
-              <input
-                name="startPrice"
-                id="startPrice"
-                value={props.form.startPrice}
-                placeholder="Value"
-                min={0}
-                step={100}
-                className="border-b p-2 text-sm w-1/2"
-                onChange={props.onChangeForm}
+          {/* 시작 가격 */}
+          <div className="mb-4">
+            <label className="text-sm text-gray-700 block mb-1">
+              시작 가격
+            </label>
+            <input
+              name="startPrice"
+              value={props.form.startPrice}
+              placeholder="Value"
+              min={0}
+              step={100}
+              className="border-b p-2 text-sm w-full mb-1"
+              onChange={props.onChangeForm}
+            />
+            {props.formError.startPrice && (
+              <p className="text-red-500 text-sm text-left">
+                {props.formError.startPrice}
+              </p>
+            )}
+          </div>
+
+          {/* 즉시 구매가 */}
+          <div className="mb-4">
+            <label className="text-sm text-gray-700 block mb-1">
+              즉시 구매가
+            </label>
+            <input
+              name="price"
+              type="number"
+              value={props.form.price}
+              placeholder="Value"
+              min={Number(props.form.startPrice)}
+              step={100}
+              className="border-b p-2 text-sm w-full mb-1"
+              onChange={props.onChangeForm}
+            />
+            {props.formError.price && (
+              <p className="text-red-500 text-sm text-left">
+                {props.formError.price}
+              </p>
+            )}
+          </div>
+
+          {/* 경매 마감일 (슬라이더) */}
+          <div className="mb-4">
+            <label
+              htmlFor="endDate"
+              className="text-sm text-gray-700 block mb-1"
+            >
+              경매 마감일
+            </label>
+            <div className="relative w-full mt-[5px]">
+              <Slider
+                value={[dueDate]}
+                min={1}
+                max={7}
+                step={2}
+                onValueChange={(value) => {
+                  setDueDate(value[0]);
+                  const nextDate = format(
+                    addDays(new Date(), value[0]),
+                    "yyyy-MM-dd"
+                  );
+                  props.onChangeForm({
+                    target: { name: "endDate", value: nextDate },
+                  });
+                }}
+                className="
+                  w-full mt-2
+                  [&_[data-slot=slider-track]]:h-[4px] 
+                  [&_[data-slot=slider-track]]:bg-gray-300 
+                  [&_[data-slot=slider-range]]:h-[4px] 
+                  [&_[data-slot=slider-range]]:bg-[#4C4528] 
+                  [&_[data-slot=slider-thumb]]:w-6 
+                  [&_[data-slot=slider-thumb]]:h-6 
+                  [&_[data-slot=slider-thumb]]:bg-white 
+                  [&_[data-slot=slider-thumb]]:border 
+                  [&_[data-slot=slider-thumb]]:border-gray-400 
+                  [&_[data-slot=slider-thumb]]:rounded-full
+                  [&_[data-slot=slider-track]]:rounded-full
+                "
               />
-            </div>
-            <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label htmlFor="price" className="text-sm text-gray-700 whitespace-nowrap w-[100px]">
-                즉시 구매가
-              </label>
-              <input
-                id="price"
-                name="price"
-                type="number"
-                value={props.form.price}
-                placeholder="Value"
-                min={Number(props.form.startPrice)}
-                step={100}
-                className="border-b p-2 text-sm w-1/2"
-                onChange={props.onChangeForm}
-              />
-            </div>
-
-            {/* 경매 마감일 (슬라이더) */}
-            <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label
-                htmlFor="endDate"
-                className="text-sm text-gray-700 whitespace-nowrap w-[100px]"
-              >
-                경매 마감일
-              </label>
-              <div className="relative w-1/2 mt-[5px]">
-                <Slider
-                  value={[dueDate]}
-                  min={1}
-                  max={7}
-                  step={2}
-                  onValueChange={(value) => {
-                    setDueDate(value[0]);
-                    const nextDate = format(addDays(new Date(), value[0]), "yyyy-MM-dd");
-                    setDueDate(value[0]);
-                    props.onChangeForm({
-                      target: { name: "endDate", value: nextDate },
-                    });
-                  }}
-                  className="
-    w-full mt-2
-
-    /* 전체 트랙 (슬라이더 바의 전체 영역) */
-    [&_[data-slot=slider-track]]:h-[4px] 
-    [&_[data-slot=slider-track]]:bg-gray-300 
-
-    /* 선택된 범위 (왼쪽부터 thumb까지의 범위) */
-    [&_[data-slot=slider-range]]:h-[4px] 
-    [&_[data-slot=slider-range]]:bg-[#4C4528] 
-
-    /* 슬라이더 thumb (핸들) */
-    [&_[data-slot=slider-thumb]]:w-6 
-    [&_[data-slot=slider-thumb]]:h-6 
-    [&_[data-slot=slider-thumb]]:bg-white 
-    [&_[data-slot=slider-thumb]]:border 
-    [&_[data-slot=slider-thumb]]:border-gray-400 
-    [&_[data-slot=slider-thumb]]:rounded-full
-
-    /* 트랙 라인 커스텀 (선택 영역 뒷부분 선도 동일 굵기로 유지하려면) */
-    [&_[data-slot=slider-track]]:rounded-full
-  "
-                />
-                <div className="text-sm text-gray-500 mt-2">
-                  {props.form.endDate ? props.form.endDate.replace("T", " ") : ""}
-                </div>
+              <div className="text-sm text-gray-500 mt-2">
+                {props.form.endDate ? props.form.endDate.replace("T", " ") : ""}
               </div>
             </div>
           </div>
@@ -150,16 +163,22 @@ export default function WritePageUI(props) {
       </div>
 
       {/* 제품 상세 설명 */}
-      <div className="w-[1111px]">
-        <TextEditor />
-        <label className="text-[16px] text-gray-700 block mt-[100px] mb-1">제품 상세 설명</label>
+      <div className="w-[1111px] mb-[113px]">
+        <label className="text-[16px] text-gray-700 block mb-1">
+          제품 상세 설명
+        </label>
         <textarea
           name="contents"
           placeholder="제품 상세 설명을 입력하세요"
-          className="border p-2 text-base w-full h-[609px] resize-none mb-[113px]"
+          className="border p-2 text-base w-full h-[609px] resize-none mb-1"
           value={props.form.contents}
           onChange={props.onChangeForm}
         ></textarea>
+        {props.formError.contents && (
+          <p className="text-red-500 text-sm text-left">
+            {props.formError.contents}
+          </p>
+        )}
       </div>
 
       {/* 버튼 영역 */}
