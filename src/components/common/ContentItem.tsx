@@ -45,7 +45,7 @@ function ContentItem({ itemData }: ContentItemProp) {
             filter: isHover ? "blur(2px) brightness(50%)" : "none",
             transition: { duration: 0.3 },
           }}
-          src={itemData.sample_image}
+          src={`https://minq.online${itemData.sample_image}`}
           alt={itemData.content}
           className="w-full h-full object-cover"
         />

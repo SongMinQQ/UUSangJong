@@ -1,5 +1,5 @@
 import axios from "@/utils/http-commons";
-import { proxyGetRequest } from "@/services/apiProxy";
+import { proxyGetRequest, proxyRequestSelector } from "@/services/apiProxy";
 
 export interface updatePost {
   post_id: number;
@@ -24,9 +24,15 @@ export const updatePost = async (params: updatePost): Promise<any> => {
 export const fetchPostDetail = async (
   postId: string | number
 ): Promise<any> => {
-  if (!postId) throw new Error("postId 없음");
+  // const { data } = await axios.get(`/post/${postId}`);
+  const data = await proxyRequestSelector({
+    queryKey: { queryKey: ["post", postId] },
+    method: "GET",
+  });
+  return data;
+};
 
-  const cPostId = Number(postId);
-  const data = await proxyGetRequest(`/post/${cPostId}`);
+export const getBoardList = async (): Promise<BoardType[]> => {
+  const { data } = await axios.get("/post");
   return data;
 };
