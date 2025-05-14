@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createPost } from "@/services/createPost";
 import { updatePost, fetchPostDetail } from "@/services/postService";
 import { useParams } from "next/navigation";
+import { addDays } from "date-fns";
 
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -13,7 +14,8 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     price: "",
     startPrice: "",
     contents: "",
-    endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+    // endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+    endDate: addDays(new Date(Date.now()), 1).toLocaleDateString("ko-KR"),
   });
   const { postId } = useParams();
   console.log("postId:", postId);
@@ -51,11 +53,11 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       alert("모든 필드를 입력해주세요.");
       return;
     }
-    const formattedEndDate = form.endDate.replace("T", " ") + ":00";
+    //const formattedEndDate = form.endDate.replace("T", " ") + ":00";
     try {
       const endDte = new Date();
-      endDte.setDate(endDte.getDate() + form.endDate);
-      const formattedEndDate = `${endDate.getDate()}`;
+      endDte.setDate(endDte.getDate() + Number(form.endDate));
+      const formattedEndDate = `${endDte.getDate()}`;
       if (isEdit) {
         await updatePost({
           post_id: Number(postId),

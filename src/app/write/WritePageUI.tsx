@@ -7,6 +7,7 @@ import ImageSlider from "./ImageSlider";
 import TextEditor from "@/components/common/Texteditor";
 import { Slider } from "@/components/ui/slider";
 import { useCallback, useState } from "react";
+import { addDays } from "date-fns";
 
 export default function WritePageUI(props) {
   const [dueDate, setDueDate] = useState(1);
@@ -78,10 +79,7 @@ export default function WritePageUI(props) {
               />
             </div>
             <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label
-                htmlFor="price"
-                className="text-sm text-gray-700 whitespace-nowrap w-[100px]"
-              >
+              <label htmlFor="price" className="text-sm text-gray-700 whitespace-nowrap w-[100px]">
                 즉시 구매가
               </label>
               <input
@@ -113,11 +111,8 @@ export default function WritePageUI(props) {
                   step={2}
                   onValueChange={(value) => {
                     setDueDate(value[0]);
-                    const nextDate = new Date(
-                      Date.now() + value[0] * 24 * 60 * 60 * 1000
-                    )
-                      .toISOString()
-                      .slice(0, 10);
+                    const nextDate = addDays(new Date(), value[0]).toLocaleDateString("ko-KR");
+                    setDueDate(value[0]);
                     props.onChangeForm({
                       target: { name: "endDate", value: nextDate },
                     });
@@ -146,9 +141,7 @@ export default function WritePageUI(props) {
   "
                 />
                 <div className="text-sm text-gray-500 mt-2">
-                  {props.form.endDate
-                    ? props.form.endDate.replace("T", " ")
-                    : ""}
+                  {props.form.endDate ? props.form.endDate.replace("T", " ") : ""}
                 </div>
               </div>
             </div>
@@ -159,9 +152,7 @@ export default function WritePageUI(props) {
       {/* 제품 상세 설명 */}
       <div className="w-[1111px]">
         <TextEditor />
-        <label className="text-[16px] text-gray-700 block mt-[100px] mb-1">
-          제품 상세 설명
-        </label>
+        <label className="text-[16px] text-gray-700 block mt-[100px] mb-1">제품 상세 설명</label>
         <textarea
           name="contents"
           placeholder="제품 상세 설명을 입력하세요"
