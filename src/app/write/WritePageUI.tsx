@@ -78,7 +78,10 @@ export default function WritePageUI(props) {
               />
             </div>
             <div className="w-full flex flex-row items-center gap-8 pl-10">
-              <label htmlFor="price" className="text-sm text-gray-700 whitespace-nowrap w-[100px]">
+              <label
+                htmlFor="price"
+                className="text-sm text-gray-700 whitespace-nowrap w-[100px]"
+              >
                 즉시 구매가
               </label>
               <input
@@ -102,32 +105,50 @@ export default function WritePageUI(props) {
               >
                 경매 마감일
               </label>
-              <div className="relative w-1/2">
+              <div className="relative w-1/2 mt-[5px]">
                 <Slider
                   value={[dueDate]}
                   min={1}
                   max={7}
                   step={2}
-                  onValueChange={handleDueDateChange}
-                  className="w-full 
-    [&_[role=track]]:h-2 
-    [&_[role=track]]:bg-gray-300 
-    [&_[role=range]]:h-2 
-    [&_[role=range]]:bg-[#4C4528] 
-    [&_[role=slider]]:w-5 
-    [&_[role=slider]]:h-5 
-    [&_[role=slider]]:bg-white 
-    [&_[role=slider]]:border 
-    [&_[role=slider]]:border-gray-400 
-    [&_[role=slider]]:rounded-full
-     [&_[data-slot=slider-track]]:bg-gray-200
-    [&_[data-slot=slider-track]]:h-[0.5px]
-    [&_[data-slot=slider-thumb]]:w-5
-    [&_[data-slot=slider-thumb]]:h-5
-    "
+                  onValueChange={(value) => {
+                    setDueDate(value[0]);
+                    const nextDate = new Date(
+                      Date.now() + value[0] * 24 * 60 * 60 * 1000
+                    )
+                      .toISOString()
+                      .slice(0, 10);
+                    props.onChangeForm({
+                      target: { name: "endDate", value: nextDate },
+                    });
+                  }}
+                  className="
+    w-full mt-2
+
+    /* 전체 트랙 (슬라이더 바의 전체 영역) */
+    [&_[data-slot=slider-track]]:h-[4px] 
+    [&_[data-slot=slider-track]]:bg-gray-300 
+
+    /* 선택된 범위 (왼쪽부터 thumb까지의 범위) */
+    [&_[data-slot=slider-range]]:h-[4px] 
+    [&_[data-slot=slider-range]]:bg-[#4C4528] 
+
+    /* 슬라이더 thumb (핸들) */
+    [&_[data-slot=slider-thumb]]:w-6 
+    [&_[data-slot=slider-thumb]]:h-6 
+    [&_[data-slot=slider-thumb]]:bg-white 
+    [&_[data-slot=slider-thumb]]:border 
+    [&_[data-slot=slider-thumb]]:border-gray-400 
+    [&_[data-slot=slider-thumb]]:rounded-full
+
+    /* 트랙 라인 커스텀 (선택 영역 뒷부분 선도 동일 굵기로 유지하려면) */
+    [&_[data-slot=slider-track]]:rounded-full
+  "
                 />
                 <div className="text-sm text-gray-500 mt-2">
-                  {props.form.endDate ? `${props.form.endDate} days` : `${dueDate} days`}
+                  {props.form.endDate
+                    ? props.form.endDate.replace("T", " ")
+                    : ""}
                 </div>
               </div>
             </div>
@@ -138,7 +159,9 @@ export default function WritePageUI(props) {
       {/* 제품 상세 설명 */}
       <div className="w-[1111px]">
         <TextEditor />
-        <label className="text-[16px] text-gray-700 block mt-[100px] mb-1">제품 상세 설명</label>
+        <label className="text-[16px] text-gray-700 block mt-[100px] mb-1">
+          제품 상세 설명
+        </label>
         <textarea
           name="contents"
           placeholder="제품 상세 설명을 입력하세요"

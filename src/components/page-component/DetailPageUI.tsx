@@ -3,19 +3,31 @@
 import ItemBidCard from "@/components/common/board/ItemBidCard";
 import ItemInfo from "@/components/common/board/ItemInfo";
 import ItemInfoTabs from "@/components/common/board/ItemInfoTabs";
-import { useSearchParams } from "next/navigation";
+import { fetchPostDetail } from "@/services/postService";
+import { useParams } from "next/navigation";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function DetailPageUI() {
-  const searchParams = useSearchParams();
+  const { postId } = useParams();
 
-  const title = searchParams.get("title");
-  const content = searchParams.get("content");
-  const startPrice = searchParams.get("start_price");
-  const instantPrice = searchParams.get("instant_price");
-  const endDate = searchParams.get("end_date");
-  const isSold = searchParams.get("is_sold");
+  const [postData, setPostData] = useState<any>();
+
+  useEffect(() => {
+    console.log("postId:", postId);
+    if (!postId) return;
+
+    fetchPostDetail(Number(postId))
+      .then((data) => {
+        setPostData(data);
+      })
+      .catch((error) => {
+        console.error("게시물 불러오기 실패:", error);
+      });
+  }, [postId]);
+
+  if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
+  if (!postData) return <div>로딩 중...</div>;
 
   return (
     <div className="relative w-full min-h-screen px-4">
@@ -23,16 +35,16 @@ export default function DetailPageUI() {
         <ItemInfo />
         {/* 이미지 썸네일부분 */}
         <ItemBidCard
-          title={title}
-          content={content}
-          startPrice={startPrice}
-          instantPrice={instantPrice}
-          endDate={endDate}
-          isSold={isSold}
+          title={postData?.title}
+          content={postData?.content}
+          startPrice={postData?.start_price}
+          instantPrice={postData?.instant_Price}
+          endDate={postData?.end_date}
+          isSold={postData?.is_sold}
         />
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs data={{ content }} />
+      <ItemInfoTabs data={{ content: postData.content }} />
       {/* 입찰 댓글.제품설명.QnA */}
     </div>
   );
