@@ -1,18 +1,25 @@
 import { useCallback, useState } from "react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { addMonths, format } from "date-fns";
+import { addMonths, format, formatDate } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
+import { useSearch } from "@/store/store";
 
 export default function SearchDatePicker() {
-  const [date, setDate] = useState<Date>(addMonths(new Date(), 1));
+  const { setDueDate, due_date } = useSearch();
+  const [date, setDate] = useState<Date>(new Date(due_date || addMonths(Date.now(), 1)));
 
-  const handleDate = useCallback((date: Date | undefined) => {
-    console.log(date);
-    if (date) setDate(date);
-  }, []);
+  const handleDate = useCallback(
+    (date: Date | undefined) => {
+      if (date) {
+        setDueDate(formatDate(date, "yyyy.MM.dd"));
+        setDate(date);
+      }
+    },
+    [setDueDate]
+  );
 
   return (
     <div className="gap-2">
