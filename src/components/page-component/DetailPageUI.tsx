@@ -10,15 +10,17 @@ import React, { useEffect, useState } from "react";
 
 export default function DetailPageUI() {
   const { postId } = useParams();
-
-  const [postData, setPostData] = useState<any>();
+  const [postData, setPostData] = useState<any>(null);
 
   useEffect(() => {
-    console.log("postId:", postId);
-    if (!postId) return;
+    if (!postId) {
+      console.error("postId가 없습니다. URL을 확인하세요.");
+      return;
+    }
 
     fetchPostDetail(Number(postId))
       .then((data) => {
+        console.log("게시물 데이터:", data);
         setPostData(data);
       })
       .catch((error) => {
@@ -35,10 +37,12 @@ export default function DetailPageUI() {
         <ItemInfo />
         {/* 이미지 썸네일부분 */}
         <ItemBidCard
+          postId={Number(postId)}
+          imageUrls={postData?.image_urls}
           title={postData?.title}
           content={postData?.content}
           startPrice={postData?.start_price}
-          instantPrice={postData?.instant_Price}
+          instantPrice={postData?.instant_price}
           endDate={postData?.end_date}
           isSold={postData?.is_sold}
         />

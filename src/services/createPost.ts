@@ -10,7 +10,7 @@ export interface CreatePostInput {
 }
 
 export interface CreatePostResponse {
-  post_id: number;
+  postId: number;
   message?: string;
 }
 

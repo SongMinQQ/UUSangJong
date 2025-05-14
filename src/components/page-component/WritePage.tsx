@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createPost } from "@/services/createPost";
 import { updatePost, fetchPostDetail } from "@/services/postService";
 import { useParams } from "next/navigation";
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -15,7 +15,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     startPrice: "",
     contents: "",
     // endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
-    endDate: addDays(new Date(Date.now()), 1).toLocaleDateString("ko-KR"),
+    endDate: format(addDays(new Date(Date.now()), 1), "yyyy-MM-dd"),
   });
   const { postId } = useParams();
   console.log("postId:", postId);
@@ -56,8 +56,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     //const formattedEndDate = form.endDate.replace("T", " ") + ":00";
     try {
       const endDte = new Date();
-      endDte.setDate(endDte.getDate() + Number(form.endDate));
+      // endDte.setDate(endDte.getDate() + Number(form.endDate));
       const formattedEndDate = `${endDte.getDate()}`;
+      console.log("formattedEndDate:", form.endDate);
       if (isEdit) {
         await updatePost({
           post_id: Number(postId),
@@ -65,7 +66,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           content: form.contents,
           start_price: Number(form.startPrice),
           instant_price: Number(form.price),
-          end_date: formattedEndDate,
+          end_date: form.endDate,
           is_sold: "on_sale",
         });
 
@@ -77,12 +78,12 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           content: form.contents,
           start_price: Number(form.startPrice),
           instant_price: Number(form.price),
-          end_date: formattedEndDate,
+          end_date: form.endDate,
           is_sold: "on_sale",
         });
         console.log("등록 응답:", response);
         alert("등록이 완료되었습니다!");
-        router.push(`/detailtest/${response.post_id}`);
+        router.push(`/detailtest/${response.postId}`);
       }
     } catch (err) {
       console.error(err);

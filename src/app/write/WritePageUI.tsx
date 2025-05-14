@@ -7,7 +7,7 @@ import ImageSlider from "./ImageSlider";
 import TextEditor from "@/components/common/Texteditor";
 import { Slider } from "@/components/ui/slider";
 import { useCallback, useState } from "react";
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 
 export default function WritePageUI(props) {
   const [dueDate, setDueDate] = useState(1);
@@ -111,7 +111,7 @@ export default function WritePageUI(props) {
                   step={2}
                   onValueChange={(value) => {
                     setDueDate(value[0]);
-                    const nextDate = addDays(new Date(), value[0]).toLocaleDateString("ko-KR");
+                    const nextDate = format(addDays(new Date(), value[0]), "yyyy-MM-dd");
                     setDueDate(value[0]);
                     props.onChangeForm({
                       target: { name: "endDate", value: nextDate },
