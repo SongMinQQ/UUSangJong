@@ -1,3 +1,4 @@
+import { addMonths, format } from "date-fns";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -40,7 +41,7 @@ export const useUser = create<userStore>()(
   )
 );
 
-interface SearchParams {
+export interface SearchParams {
   is_sold: boolean;
   due_date: string;
   title: string;
@@ -54,10 +55,10 @@ interface SearchParams {
 interface SearchProps extends Partial<SearchParams> {
   setIsSold: (value: boolean) => void;
   setDueDate: (value: string) => void;
-  setTitle: (value: string) => void;
-  setLowPrice: (value: string) => void;
-  setHighPrice: (value: string) => void;
-  setDelivery: (value: string) => void;
+  setTitle: (value?: string) => void;
+  setLowPrice: (value?: string) => void;
+  setHighPrice: (value?: string) => void;
+  setDelivery: (value?: string) => void;
   setOrderBy: (value: string) => void;
   setSortBy: (value: string) => void;
 }
@@ -70,6 +71,7 @@ export const useSearch = create<SearchProps>()(
       delivery: "normal",
       low_price: "0",
       high_price: "3000000",
+      due_date: `${format(addMonths(new Date(), 1), "yyyy.MM.dd")}`,
       is_sold: true,
       setIsSold: (value: boolean) => set(() => ({ is_sold: value })),
       setDueDate: (value: string) => set(() => ({ due_date: value })),

@@ -11,6 +11,10 @@ interface LabeledInputProps {
   value?: string;
   defaultValue?: string;
   boxStyle?: string;
+  type?: string;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export default function LabeledInput({
@@ -19,6 +23,10 @@ export default function LabeledInput({
   className,
   ref,
   value,
+  type,
+  min,
+  max,
+  step,
   defaultValue,
   boxStyle,
   onChange,
@@ -32,6 +40,10 @@ export default function LabeledInput({
         className={`text-white ${className}`}
         value={value}
         defaultValue={defaultValue}
+        type={type}
+        min={min}
+        max={max}
+        step={step}
       />
     </div>
   );
