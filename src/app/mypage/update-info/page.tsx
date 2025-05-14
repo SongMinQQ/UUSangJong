@@ -5,6 +5,7 @@ import { fetchUserInfo } from "@/services/userInfo";
 import { useUpdateUser } from "@/hooks/useUpdateUser";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface UserForm {
   email: string;
@@ -39,7 +40,7 @@ export default function UpdateInfoPage() {
         setForm({ email, realname, nickname, password: "" });
       } catch (error) {
         console.log("에러", error);
-        alert("유저 정보 불러오기에 실패 했습니다.");
+        toast.warning("유저 정보 불러오기에 실패 했습니다.");
       }
     };
     fetchDate();
@@ -62,19 +63,19 @@ export default function UpdateInfoPage() {
     }
 
     if (Object.keys(updateFields).length === 0) {
-      alert("변경된 항목이 없습니다.");
+      toast.warning("변경된 항목이 없습니다.");
       return;
     }
 
     try {
       await updateUser(updateFields); // useUpdateUser 훅에서 처리
-      alert("회원정보가 성공적으로 업데이트되었습니다.");
+      toast.success("회원정보가 성공적으로 업데이트되었습니다.");
       router.push("/mypage");
     } catch (error: any) {
       // Axios 에러 메시지 추출
       const message =
         error?.response?.data ?? error?.message ?? "회원정보 업데이트에 실패했습니다.";
-      alert(message);
+      toast.warning(message);
     }
   };
 
