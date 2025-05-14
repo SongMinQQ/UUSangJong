@@ -7,6 +7,6 @@ export const fetchUserInfo = async (): Promise<UserInfo> => {
 };
 
 export const checkPassword = async (password: string): Promise<boolean> => {
-  const { data } = await axios.post("/user/passwordcheck", { password });
+  const { data } = await api.post("/user/passwordcheck", { password });
   return data;
 };
