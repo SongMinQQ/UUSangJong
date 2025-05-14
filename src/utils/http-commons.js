@@ -5,7 +5,7 @@ import { useLogin, useUser } from "@/store/store";
 const BASE_URL = "https://minq.online/";
 
 // 접근 허용할 페이지 배열
-const allowAnonymousPaths = ["/", "/board", "/login"];
+const allowAnonymousPaths = ["/", "/board", "/login", "/board/**"];
 // local vue api axios instance
 const api = axios.create({
   baseURL: BASE_URL,

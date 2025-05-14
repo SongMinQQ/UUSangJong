@@ -1,31 +1,10 @@
-import React from "react";
+import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { AlertCircle } from "lucide-react";
+import { BidMessage } from "@/types/bid";
 
-const ItemInfoTabs = () => {
-  const bidHistoryData = [
-    {
-      price: 4000,
-      comment: "테스트용 등록 데이터",
-      id: 1,
-    },
-    {
-      price: 2000,
-      comment: "노트북이 혹시 공책 말하시는건 아니죠?",
-      id: 2,
-    },
-    {
-      price: 1500,
-      comment: "어 내가 먹을거야~",
-      id: 3,
-    },
-    {
-      price: 1200,
-      comment: "노트북 낭낭하게 잘 먹고 갑니다~",
-      id: 4,
-    },
-  ];
+const ItemInfoTabs = ({ bids }: { bids: BidMessage[] }): JSX.Element => {
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
@@ -47,14 +26,15 @@ const ItemInfoTabs = () => {
 
         <TabsContent value="bidHistory" className="mt-0">
           <div className="w-full">
-            {bidHistoryData.map((bid, index) => (
-              <div key={bid.id} className="relative">
+            {bids.map((bid, index) => (
+              <div key={index} className="relative">
                 <div className="py-[15px]">
                   <p className="[font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-black text-[4vw] sm:text-base lg:text-xl">
-                    입찰가 : {bid.price}
+                    입찰가 : {bid.bid_price}
                     <br />
+                    {bid.content}
                     <br />
-                    {bid.comment}
+                    {new Date(bid.created_at).toLocaleString()}
                   </p>
                 </div>
 
@@ -62,7 +42,7 @@ const ItemInfoTabs = () => {
                   <AlertCircle className="w-[25px] h-[25px]" />
                 </div>
 
-                {index < bidHistoryData.length - 1 && (
+                {index < bids.length - 1 && (
                   <Separator className="w-full h-px bg-[#cccccc]" />
                 )}
               </div>
