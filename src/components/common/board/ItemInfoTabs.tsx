@@ -1,12 +1,22 @@
-import React from "react";
+import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { AlertCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { BidMessage } from "@/types/bid";
 
-const ItemInfoTabs = ({ data = {} }) => {
-  const router = useRouter();
+interface ItemInfoTabsProps {
+  data: {
+    content: string;
+    bidHistoy: Array<{
+      id: number;
+      price: string;
+      comment: string;
+    }>;
+  };
+  bids: BidMessage[];
+}
 
+const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps) => {
   const bidHistoryData = data.bidHistoy ?? [
     { id: 1, price: "50000", comment: "첫 입찰입니다." },
     { id: 2, price: "60000", comment: "두 번째 입찰입니다." },
@@ -34,26 +44,29 @@ const ItemInfoTabs = ({ data = {} }) => {
 
         <TabsContent value="bidHistory" className="mt-0">
           <div className="w-full">
-            {bidHistoryData.map((bid, index) => (
-              <div key={bid.id} className="relative">
-                <div className="py-[15px]">
-                  <p className="[font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-black text-[4vw] sm:text-base lg:text-xl">
-                    입찰가 : {bid.price}
-                    <br />
-                    <br />
-                    {bid.comment}
-                  </p>
-                </div>
+            {bids ? (
+              bids.map((bid, index) => (
+                <div key={index} className="relative">
+                  <div className="py-[15px]">
+                    <p className="[font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-black text-[4vw] sm:text-base lg:text-xl">
+                      입찰가 : {bid.bid_price}
+                      <br />
+                      {bid.content}
+                      <br />
+                      {new Date(bid.created_at).toLocaleString()}
+                    </p>
+                  </div>
 
-                <div className="absolute top-1 right-[2px]">
-                  <AlertCircle className="w-[25px] h-[25px]" />
-                </div>
+                  <div className="absolute top-1 right-[2px]">
+                    <AlertCircle className="w-[25px] h-[25px]" />
+                  </div>
 
-                {index < bidHistoryData.length - 1 && (
-                  <Separator className="w-full h-px bg-[#cccccc]" />
-                )}
-              </div>
-            ))}
+                  {index < bids.length - 1 && <Separator className="w-full h-px bg-[#cccccc]" />}
+                </div>
+              ))
+            ) : (
+              <div>입찰 내역이 없습니다.</div>
+            )}
           </div>
         </TabsContent>
 
