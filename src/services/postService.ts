@@ -1,5 +1,7 @@
 import axios from "@/utils/http-commons";
-import { proxyGetRequest, proxyRequestSelector } from "@/services/apiProxy";
+import { proxyRequestSelector } from "@/services/apiProxy";
+
+import { SearchParams } from "@/store/store";
 
 export interface updatePost {
   post_id: number;
@@ -21,9 +23,7 @@ export const updatePost = async (params: updatePost): Promise<any> => {
   return data;
 };
 
-export const fetchPostDetail = async (
-  postId: string | number
-): Promise<any> => {
+export const fetchPostDetail = async (postId: string | number): Promise<any> => {
   // const { data } = await axios.get(`/post/${postId}`);
   const data = await proxyRequestSelector({
     queryKey: { queryKey: ["post", postId] },
@@ -32,7 +32,27 @@ export const fetchPostDetail = async (
   return data;
 };
 
-export const getBoardList = async (): Promise<BoardType[]> => {
-  const { data } = await axios.get("/post");
+export const getBoardList = async ({
+  title,
+  delivery,
+  due_date,
+  high_price,
+  is_sold,
+  low_price,
+  orderBy,
+  sortBy,
+}: Partial<SearchParams>): Promise<BoardType[]> => {
+  const { data } = await axios.get("/post", {
+    params: {
+      title,
+      delivery,
+      due_date,
+      high_price: Number(high_price),
+      is_sold: is_sold ? "on_sale" : "on_sale,sold_out,closed",
+      low_price: Number(low_price),
+      orderBy,
+      sortBy,
+    },
+  });
   return data;
 };
