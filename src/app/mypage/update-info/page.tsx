@@ -6,6 +6,17 @@ import { useUpdateUser } from "@/hooks/useUpdateUser";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface UserForm {
   email: string;
@@ -108,15 +119,26 @@ export default function UpdateInfoPage() {
           />
         </div>
 
-        <Button
-          onClick={handleUpdate}
-          className={`w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666] cursor-pointer ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          disabled={loading}
-        >
-          {loading ? "업데이트 중..." : "UPDATE"}
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              className="w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666]"
+              disabled={loading}
+            >
+              {loading ? "업데이트 중..." : "UPDATE"}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>회원정보를 업데이트할까요?</AlertDialogTitle>
+              <AlertDialogDescription>변경된 내용을 저장합니다.</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>cancle</AlertDialogCancel>
+              <AlertDialogAction onClick={handleUpdate}>continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
