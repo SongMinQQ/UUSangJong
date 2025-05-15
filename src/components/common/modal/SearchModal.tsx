@@ -291,7 +291,7 @@ function SearchModal() {
         <Button
           variant={"outline"}
           onClick={handleSearchClick}
-          className="w-[150px] mt-auto mb-auto bg-[#eee9e9] border-none"
+          className="w-[150px] mt-auto mb-auto bg-[#eee9e9] border-none cursor-pointer"
         >
           Search
         </Button>

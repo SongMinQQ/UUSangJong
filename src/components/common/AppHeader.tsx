@@ -142,7 +142,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
             {isSticky && (
               <Dialog modal={false}>
                 <DialogTrigger>
-                  <SearchIcon className="w-10 h-10" />
+                  <SearchIcon className="w-10 h-10 cursor-pointer" />
                 </DialogTrigger>
                 <SearchModal />
               </Dialog>

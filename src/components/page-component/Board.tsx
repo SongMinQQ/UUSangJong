@@ -73,7 +73,6 @@ function Board() {
     setIds(idList);
   }, [idList, setIds]);
 
-  if (isPending) return <div>Loading...</div>;
   return (
     <div className="bg-[#fefdf6] flex flex-col min-h-screen w-full">
       {/* Content grid */}

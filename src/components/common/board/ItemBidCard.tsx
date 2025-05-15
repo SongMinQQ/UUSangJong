@@ -65,14 +65,13 @@ const ItemBidCard = ({
         </div>
 
         <div className="absolute top-[222px] left-[33px] font-light text-black text-2xl">
-          현재 상태 :&nbsp;&nbsp;{isSold}
+          현재 상태 :&nbsp;&nbsp;
+          {isSold === "on_sale" ? "판매중" : isSold === "sold_out" ? "판매 완료" : "판매 취소"}
         </div>
 
         <Separator className="absolute top-[277px] w-[428px] bg-[#cccccc] left-0" />
 
-        <div className="absolute top-[295px] left-[33px] font-normal text-black text-2xl">
-          입찰
-        </div>
+        <div className="absolute top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
 
         <div className="absolute w-[399px] h-[115px] top-[349px] left-[19px]">
           <div className="absolute w-[395px] h-[50px] bg-[#efefef] rounded-[5px] flex items-center">
