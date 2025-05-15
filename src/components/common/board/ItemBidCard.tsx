@@ -1,74 +1,83 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useBoardItemList } from "@/store/store";
 import { AlertTriangle, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useBoardItemList } from "@/store/store";
 import React, { useEffect, useState } from "react";
 
-const ItemBidCard = ({ postId }: { postId: number }) => {
-  // Data for the auction item
+// ✅ props 타입 명확하게 정의
+interface ItemBidCardProps {
+  postId: number;
+  title: string;
+  content: string;
+  startPrice: number;
+  instantPrice: number;
+  endDate: string;
+  isSold: string;
+}
+
+const ItemBidCard = ({
+  postId,
+  title,
+  startPrice,
+  instantPrice,
+  endDate,
+  isSold,
+}: ItemBidCardProps) => {
   const router = useRouter();
   const { setCurrentId } = useBoardItemList();
 
   useEffect(() => {
-    console.log("postId", postId);
     setCurrentId(postId);
   }, [postId, setCurrentId]);
 
-  const auctionData = {
-    date: "2025-03-30",
-    title: "작은 습관의 힘",
-    immediatePrice: 10000,
-    startingPrice: 1000,
-    currentBid: 4000,
-  };
-
-  // State for bid inputs
   const [bidPrice, setBidPrice] = useState("");
   const [bidComment, setBidComment] = useState("");
 
-  const onClickEdit = async () => {
-    router.push(`/board/1/edit`);
+  const onClickEdit = () => {
+    router.push(`/board/${postId}/edit`);
   };
+  console.log(instantPrice);
 
   return (
     <Card className="w-[90vw] max-w-[440px] h-[75vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
       <CardContent className="p-0 relative">
-        <div className="absolute top-0 left-[33px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-base tracking-[0] leading-normal whitespace-nowrap">
-          {auctionData.date}
+        <div className="absolute top-0 left-[33px] font-light text-black text-base whitespace-nowrap">
+          종료일: {endDate}
         </div>
 
-        <h1 className="absolute w-[249px] top-[26px] left-[33px] [font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-black text-[32px] whitespace-nowrap tracking-[0] leading-normal">
-          {auctionData.title}
+        <h1 className="absolute w-[249px] top-[26px] left-[33px] font-bold text-black text-[32px] whitespace-nowrap">
+          {title}
         </h1>
 
         <Separator className="absolute top-24 w-[428px] bg-[#cccccc] left-0" />
 
-        <div className="absolute top-[123px] left-[34px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-2xl tracking-[0] leading-normal">
-          즉시 구매가 :&nbsp;&nbsp; {auctionData.immediatePrice}
+        <div className="absolute top-[123px] left-[34px] font-light text-black text-2xl">
+          즉시 구매가 :&nbsp;&nbsp; {instantPrice}
         </div>
 
-        <div className="absolute top-[173px] left-[33px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-2xl tracking-[0] leading-normal">
-          시작가 :&nbsp;&nbsp;{auctionData.startingPrice}
+        <div className="absolute top-[173px] left-[33px] font-light text-black text-2xl">
+          시작가 :&nbsp;&nbsp;{startPrice}
         </div>
 
-        <div className="absolute top-[222px] left-[33px] [font-family:'Noto_Sans_KR-Light',Helvetica] font-light text-black text-2xl tracking-[0] leading-normal">
-          현재 최고 입찰가 :&nbsp;&nbsp;{auctionData.currentBid}
+        <div className="absolute top-[222px] left-[33px] font-light text-black text-2xl">
+          현재 상태 :&nbsp;&nbsp;{isSold}
         </div>
 
         <Separator className="absolute top-[277px] w-[428px] bg-[#cccccc] left-0" />
 
-        <div className="absolute top-[295px] left-[33px] [font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-black text-2xl tracking-[0] leading-normal">
+        <div className="absolute top-[295px] left-[33px] font-normal text-black text-2xl">
           입찰
         </div>
 
         <div className="absolute w-[399px] h-[115px] top-[349px] left-[19px]">
-          <div className="absolute w-[395px] h-[50px] top-0 left-0 bg-[#efefef] rounded-[5px] flex items-center">
+          <div className="absolute w-[395px] h-[50px] bg-[#efefef] rounded-[5px] flex items-center">
             <Input
-              className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl [font-family:'Noto_Sans_KR-Regular',Helvetica] placeholder:text-[#a7a7a7]"
+              className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
               placeholder="입찰 가격"
               value={bidPrice}
               onChange={(e) => setBidPrice(e.target.value)}
@@ -77,7 +86,7 @@ const ItemBidCard = ({ postId }: { postId: number }) => {
 
           <div className="absolute w-[395px] h-[50px] top-[65px] left-0 bg-[#efefef] rounded-[5px] flex items-center">
             <Input
-              className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl [font-family:'Noto_Sans_KR-Regular',Helvetica] placeholder:text-[#a7a7a7]"
+              className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
               placeholder="입찰 코멘트"
               value={bidComment}
               onChange={(e) => setBidComment(e.target.value)}
@@ -86,7 +95,7 @@ const ItemBidCard = ({ postId }: { postId: number }) => {
         </div>
 
         <div className="absolute w-[202px] h-[49px] top-[484px] left-[116px]">
-          <Button className="w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] [font-family:'Noto_Sans_KR-Regular',Helvetica] hover:bg-[#252323]">
+          <Button className="w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]">
             입찰하기
           </Button>
         </div>
@@ -97,7 +106,7 @@ const ItemBidCard = ({ postId }: { postId: number }) => {
           <Edit className="w-6 h-6" />
           <button
             onClick={onClickEdit}
-            className="relative w-fit mt-[-1.00px] [font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-uusj-theme-schemes-outline text-xl underline whitespace-nowrap tracking-[0] leading-normal"
+            className="relative font-normal text-uusj-theme-schemes-outline text-xl underline"
           >
             게시물 수정
           </button>

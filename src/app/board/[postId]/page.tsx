@@ -1,12 +1,5 @@
-import BoardDetailMain from "@/components/common/board/BoardDetailMain";
-import React, { Fragment } from "react";
-const ContentDetailPage = () => {
+import DetailPageUI from "@/components/page-component/DetailPageUI";
 
-  return (
-    <Fragment>
-      <BoardDetailMain />
-    </Fragment>
-  );
-};
-
-export default ContentDetailPage;
+export default function DetailTestPage() {
+  return <DetailPageUI />;
+}

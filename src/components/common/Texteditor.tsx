@@ -6,12 +6,30 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
-import { BoldIcon, Code, ItalicIcon, StrikethroughIcon } from "lucide-react";
+import { BoldIcon, ItalicIcon, StrikethroughIcon } from "lucide-react";
+import TextStyle from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
 
-export default function TextEditor() {
+export default function TextEditor({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (html: string) => void;
+}) {
   const editor = useEditor({
-    extensions: [StarterKit, Bold, Italic],
-    content: "<p>Hello, Tiptap!</p>",
+    extensions: [StarterKit, Bold, Italic, TextStyle, Color],
+    content: value,
+    onUpdate: ({ editor }) => {
+      const html = editor.getHTML();
+      onChange(html);
+    },
+    editorProps: {
+      attributes: {
+        class:
+          "ProseMirror prose w-full h-full outline-none border-none p-0 m-0 focus:outline-none focus:border-none",
+      },
+    },
   });
 
   useEffect(() => {
@@ -23,9 +41,9 @@ export default function TextEditor() {
   if (!editor) return null;
 
   return (
-    <div className="prose max-w-none p-4 border rounded">
+    <div className="w-[1111px] h-[609px] border bg-white flex flex-col">
       {/* Toolbar */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 p-2">
         <Button
           variant="default"
           size="sm"
@@ -78,8 +96,14 @@ export default function TextEditor() {
         >
           H3
         </Button>
+        <Button
+          onClick={() => editor.chain().focus().setColor("#ff0000").run()}
+          className={editor.isActive("textStyle", { color: "#ff0000" }) ? "bg-gray-200" : ""}
+        >
+          Red
+        </Button>
       </div>
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className="flex-1 w-full h-full p-4" />
     </div>
   );
 }

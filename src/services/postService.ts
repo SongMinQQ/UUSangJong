@@ -1,5 +1,6 @@
 import axios from "@/utils/http-commons";
-import { proxyRequestSelector } from "./apiProxy";
+import { proxyRequestSelector } from "@/services/apiProxy";
+
 import { SearchParams } from "@/store/store";
 
 export interface updatePost {
