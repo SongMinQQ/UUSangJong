@@ -16,6 +16,7 @@ import { fetchCurrentUser, logout } from "@/services/login";
 import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
+import LinearProgress from "./LinearProgress";
 
 // Navigation menu items
 const navItems = [
@@ -150,6 +151,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           </div>
         </div>
       </header>
+      <LinearProgress colorClassName="bg-[black]" />
     </Fragment>
   );
 }
