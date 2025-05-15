@@ -7,7 +7,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "../ui/navigation-menu";
-import { SearchIcon } from "lucide-react";
+import { CircleUserRound, SearchIcon } from "lucide-react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
@@ -16,7 +16,6 @@ import { fetchCurrentUser, logout } from "@/services/login";
 import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
-import { HiOutlineUserCircle } from "react-icons/hi2";
 
 // Navigation menu items
 const navItems = [
@@ -53,7 +52,6 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
 
   // 로그인 상태가 바뀌면 유저 정보를 받아온 후 전역으로 관리
   useEffect(() => {
-
     checkLogin();
   }, []);
 
@@ -64,8 +62,6 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     alert("로그아웃 되었습니다.");
     router.push("/"); // 홈으로 리다이렉트
   };
-
-
 
   return (
     <Fragment>
@@ -126,7 +122,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                   className="flex items-center justify-center cursor-pointer"
                   onClick={() => router.push("/mypage")}
                 >
-                  <HiOutlineUserCircle style={{ width: "25px", height: "25px" }} />
+                  <CircleUserRound strokeWidth={2} className="size-[25px] text-[#4c4528]" />
                 </Button>
               </>
             ) : (
