@@ -1,5 +1,5 @@
 "use client";
-import React, { memo, useCallback, useMemo, useRef } from "react";
+import React, { ChangeEvent, memo, useCallback, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
@@ -21,7 +21,6 @@ import { useSearch } from "@/store/store";
 function SearchModal() {
   const {
     setDelivery,
-    setDueDate,
     setHighPrice,
     setIsSold,
     setLowPrice,
@@ -40,59 +39,95 @@ function SearchModal() {
   const titleRef = useRef<HTMLInputElement>(null);
   const lowPriceRef = useRef<HTMLInputElement>(null);
   const highPriceRef = useRef<HTMLInputElement>(null);
-
-  const defaultOrderBy = useMemo(() => (orderBy ? orderBy : "title"), [orderBy]);
-  const defaultSortBy = useMemo(() => (sortBy ? sortBy : "desc"), [sortBy]);
+  const isSoldRef = useRef<HTMLButtonElement>(null);
+  const [orderByValue, setOrderByValue] = useState<string | undefined>(orderBy);
+  const [sortByValue, setSortByValue] = useState<string | undefined>(sortBy);
+  const [deliveryValue, setDeliveryValue] = useState<string | undefined>(delivery);
+  const [isSoldValue, setIsSoldValue] = useState<boolean | undefined>(is_sold);
+  const [lowPriceValue, setLowPriceValue] = useState<string | undefined>(low_price);
+  const [highPriceValue, setHighPriceValue] = useState<string | undefined>(high_price);
 
   const priceRange = useMemo(
-    () => [Number(low_price) ?? 0, Number(high_price) ?? 3000000],
-    [high_price, low_price]
+    () => [Number(lowPriceValue) || 0, Number(highPriceValue) || 3000000],
+    [highPriceValue, lowPriceValue]
   );
-
-  console.log(priceRange);
 
   const handleOrderChange = useCallback(
     (value: string) => {
-      setOrderBy(value);
+      setOrderByValue(value);
     },
-    [setOrderBy]
+    [setOrderByValue]
   );
 
   const handleSortChange = useCallback(
     (value: string) => {
-      setSortBy(value);
+      setSortByValue(value);
     },
-    [setSortBy]
+    [setSortByValue]
   );
 
   const handleIsSoldChange = useCallback(
     (value: boolean) => {
-      setIsSold(value);
+      setIsSoldValue(value);
     },
-    [setIsSold]
+    [setIsSoldValue]
+  );
+
+  const handleLowPriceChange = useCallback(
+    (e?: ChangeEvent<HTMLInputElement>, value?: string) => {
+      if (value) setLowPriceValue(value);
+      if (e) setLowPriceValue(e.target.value);
+    },
+    [setLowPriceValue]
+  );
+
+  const handleHighPriceChange = useCallback(
+    (e?: ChangeEvent<HTMLInputElement>, value?: string) => {
+      if (value) setHighPriceValue(value);
+      if (e) setHighPriceValue(e.target.value);
+    },
+    [setHighPriceValue]
   );
 
   const handlePriceRangeChange = useCallback(
     (range: number[]) => {
-      console.log(range);
-      setLowPrice(String(range.at(0)));
-      setHighPrice(String(range.at(1)));
+      handleLowPriceChange(undefined, String(range.at(0)));
+      handleHighPriceChange(undefined, String(range.at(1)));
     },
-    [setHighPrice, setLowPrice]
+    [handleHighPriceChange, handleLowPriceChange]
   );
 
   const handleDeliveryChange = useCallback(
     (value: string) => {
-      setDelivery(value);
+      setDeliveryValue(value);
     },
-    [setDelivery]
+    [setDeliveryValue]
   );
 
   const handleSearchClick = useCallback(() => {
     if (titleRef.current?.value) setTitle(titleRef.current.value);
+    else setTitle(undefined);
     if (lowPriceRef.current?.value) setLowPrice(lowPriceRef.current.value);
+    else setLowPrice(undefined);
     if (highPriceRef.current?.value) setHighPrice(highPriceRef.current.value);
-  }, [setHighPrice, setLowPrice, setTitle]);
+    else setHighPrice(undefined);
+    setDelivery(deliveryValue);
+    setOrderBy(orderByValue!);
+    setSortBy(sortByValue!);
+    setIsSold(isSoldValue!);
+  }, [
+    deliveryValue,
+    isSoldValue,
+    orderByValue,
+    setDelivery,
+    setHighPrice,
+    setIsSold,
+    setLowPrice,
+    setOrderBy,
+    setSortBy,
+    setTitle,
+    sortByValue,
+  ]);
 
   return (
     <DialogContent
@@ -104,17 +139,17 @@ function SearchModal() {
         Search
         <div className="flex flex-row justify-around mt-4">
           {/* Sort */}
-          <Select onValueChange={handleOrderChange} defaultValue={defaultOrderBy}>
+          <Select onValueChange={handleOrderChange} value={orderByValue}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="정렬" />
             </SelectTrigger>
             <SelectContent className="bg-[white]">
               <SelectItem value="title">제목 순</SelectItem>
-              <SelectItem value="price">가격 순</SelectItem>
-              <SelectItem value="due_date">시간 순</SelectItem>
+              <SelectItem value="now_price">가격 순</SelectItem>
+              <SelectItem value="end_date">시간 순</SelectItem>
             </SelectContent>
           </Select>
-          <RadioGroup defaultValue={defaultSortBy} onValueChange={handleSortChange}>
+          <RadioGroup value={sortByValue} onValueChange={handleSortChange}>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="asc" id="r1" />
               <Label htmlFor="r1">오름차순</Label>
@@ -140,7 +175,7 @@ function SearchModal() {
           배송형태
         </Label>
         <RadioGroup
-          value={delivery}
+          value={deliveryValue}
           onValueChange={handleDeliveryChange}
           className="text-white flex flex-row justify-around"
           id="delivery"
@@ -185,17 +220,23 @@ function SearchModal() {
           title="최소"
           boxStyle="inline w-[150px]"
           className="w-[150px] border-[white]"
-          value={Number(low_price ?? 0)?.toLocaleString()}
-          onChange={() => {}}
+          value={lowPriceValue}
+          onChange={handleLowPriceChange}
           ref={lowPriceRef}
+          type={"number"}
+          min={0}
+          max={Number(high_price)}
         />
         <LabeledInput
           title="최대"
           boxStyle="inline w-[150px]"
           className="w-[150px] border-[white]"
-          value={Number(high_price ?? 3000000)?.toLocaleString()}
-          onChange={() => {}}
+          value={highPriceValue}
+          onChange={handleHighPriceChange}
           ref={highPriceRef}
+          type="number"
+          min={Number(low_price)}
+          max={3000000}
         />
       </div>
       {/* isSold Filter */}
@@ -207,7 +248,8 @@ function SearchModal() {
           id="showAvailableOnly"
           className=" text-center mt-auto mb-auto text-white ml-2"
           onCheckedChange={handleIsSoldChange}
-          checked={is_sold}
+          checked={isSoldValue}
+          ref={isSoldRef}
         />
       </div>
       {/* Button Group */}
