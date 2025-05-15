@@ -1,7 +1,6 @@
 import axios from "@/utils/http-commons";
-import { proxyRequestSelector } from "./apiProxy";
 import { SearchEnabled } from "@/store/store";
-
+import { proxyRequestSelector } from "@/services/apiProxy";
 const ROWS_PER_PAGE = 24;
 
 export interface updatePost {

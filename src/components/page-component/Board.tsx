@@ -2,9 +2,8 @@
 import { memo, useEffect, useMemo } from "react";
 import ContentItem from "../common/ContentItem";
 import { BoardType, getBoardList } from "@/services/postService";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useBoardItemList, useSearch } from "@/store/store";
-import { all } from "axios";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 const ROWS_PER_PAGE = 24;

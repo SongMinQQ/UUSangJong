@@ -11,7 +11,7 @@ export default function ItemInfo(): JSX.Element {
             {[...Array(3)].map((_, idx) => (
               <Card
                 key={idx}
-                className="w-[28vw] sm:w-[22vw] md:w-[18vw] max-w-[125px] aspect-square border border-[#cccccc] bg-gradient-to-t from-[#fefdf6] to-[#fefdf6]"
+                className="w-[28vw] sm:w-[22vw] md:w-[18vw] max-w-[125px] aspect-square border border-[#cccccc] bg-gradient-to-t from-[#fefdf6] to-[#fefdf6] rounded-none"
               >
                 <CardContent className="p-0 h-full"></CardContent>
               </Card>
@@ -19,7 +19,7 @@ export default function ItemInfo(): JSX.Element {
           </div>
 
           {/* Main product display */}
-          <Card className="lg:ml-[3vw] w-full max-w-[691px] aspect-[3/2] sm:aspect-[4/3] lg:w-[30vw] border border-[#cccccc] bg-gradient-to-t from-[#fefdf6] to-[#fefdf6]">
+          <Card className="lg:ml-[3vw] w-full max-w-[691px] aspect-[3/2] sm:aspect-[4/3] lg:w-[30vw] border border-[#cccccc] bg-gradient-to-t from-[#fefdf6] to-[#fefdf6] rounded-none">
             <CardContent className="p-0 h-full w-full"></CardContent>
           </Card>
         </div>

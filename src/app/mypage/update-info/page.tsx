@@ -5,6 +5,18 @@ import { fetchUserInfo } from "@/services/userInfo";
 import { useUpdateUser } from "@/hooks/useUpdateUser";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface UserForm {
   email: string;
@@ -39,7 +51,7 @@ export default function UpdateInfoPage() {
         setForm({ email, realname, nickname, password: "" });
       } catch (error) {
         console.log("에러", error);
-        alert("유저 정보 불러오기에 실패 했습니다.");
+        toast.warning("유저 정보 불러오기에 실패 했습니다.");
       }
     };
     fetchDate();
@@ -62,19 +74,19 @@ export default function UpdateInfoPage() {
     }
 
     if (Object.keys(updateFields).length === 0) {
-      alert("변경된 항목이 없습니다.");
+      toast.warning("변경된 항목이 없습니다.");
       return;
     }
 
     try {
       await updateUser(updateFields); // useUpdateUser 훅에서 처리
-      alert("회원정보가 성공적으로 업데이트되었습니다.");
+      toast.success("회원정보가 성공적으로 업데이트되었습니다.");
       router.push("/mypage");
     } catch (error: any) {
       // Axios 에러 메시지 추출
       const message =
         error?.response?.data ?? error?.message ?? "회원정보 업데이트에 실패했습니다.";
-      alert(message);
+      toast.warning(message);
     }
   };
 
@@ -107,15 +119,26 @@ export default function UpdateInfoPage() {
           />
         </div>
 
-        <Button
-          onClick={handleUpdate}
-          className={`w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666] cursor-pointer ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          disabled={loading}
-        >
-          {loading ? "업데이트 중..." : "UPDATE"}
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              className="w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666]"
+              disabled={loading}
+            >
+              {loading ? "업데이트 중..." : "UPDATE"}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>회원정보를 업데이트할까요?</AlertDialogTitle>
+              <AlertDialogDescription>변경된 내용을 저장합니다.</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>cancle</AlertDialogCancel>
+              <AlertDialogAction onClick={handleUpdate}>continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
