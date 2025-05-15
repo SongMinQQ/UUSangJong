@@ -27,3 +27,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.ProseMirror h1 {
+  @apply text-3xl font-bold;
+}
+.ProseMirror h2 {
+  @apply text-2xl font-semibold;
+}
+.ProseMirror h3 {
+  @apply text-xl font-semibold;
+}

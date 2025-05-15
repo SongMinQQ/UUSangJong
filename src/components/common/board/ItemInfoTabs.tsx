@@ -7,10 +7,11 @@ import { useRouter } from "next/navigation";
 const ItemInfoTabs = ({ data = {} }) => {
   const router = useRouter();
 
-  const bidHistoryData = [
+  const bidHistoryData = data.bidHistoy ?? [
     { id: 1, price: "50000", comment: "첫 입찰입니다." },
     { id: 2, price: "60000", comment: "두 번째 입찰입니다." },
   ];
+  console.log(data.content, "ab", typeof data.content);
 
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
@@ -28,7 +29,7 @@ const ItemInfoTabs = ({ data = {} }) => {
         </TabsList>
 
         <TabsContent value="productDescription" className="mt-0">
-          {data.content ?? "등록 내용 없음"}
+          <div dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }} />
         </TabsContent>
 
         <TabsContent value="bidHistory" className="mt-0">

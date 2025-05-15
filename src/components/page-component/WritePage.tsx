@@ -60,9 +60,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     const files = event.target.files;
     if (!files) return;
     const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
-    const newPreviewUrls = selectedFiles.map((file) =>
-      URL.createObjectURL(file)
-    );
+    const newPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
     setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
     setImageFiles((prev) => [...prev, ...selectedFiles]);
     setFormError((prev) => ({ ...prev, images: "" })); // 이미지 에러 즉시 제거
@@ -122,7 +120,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
         alert("등록 완료");
       }
 
-      router.push(`/detailtest/${createdPostId}`);
+      router.push(`/board/${createdPostId}`);
     } catch (err: any) {
       console.error(err);
       alert(`오류: ${err.message}`);
@@ -134,12 +132,15 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
   };
 
   // ✅ 실시간 입력 시 해당 필드 에러 제거
-  const onChangeForm = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setFormError((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const onChangeContents = (html: string) => {
+    setForm((prev) => ({ ...prev, contents: html }));
+    setFormError((prev) => ({ ...prev, contents: "" }));
   };
 
   return (
@@ -152,6 +153,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       onClickBUttonBack={onClickBUttonBack}
       onChangeForm={onChangeForm}
       onClickDeleteImage={onClickDeleteImage}
+      onChangeContents={onChangeContents}
       isEdit={isEdit}
       form={form}
       formError={formError}

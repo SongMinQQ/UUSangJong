@@ -35,9 +35,7 @@ export default function WritePageUI(props) {
               onClickDeleteImage={props.onClickDeleteImage}
             />
             {props.formError.images && (
-              <p className="text-red-500 text-sm text-left mt-2">
-                {props.formError.images}
-              </p>
+              <p className="text-red-500 text-sm text-left mt-2">{props.formError.images}</p>
             )}
           </div>
           <input
@@ -48,9 +46,7 @@ export default function WritePageUI(props) {
             ref={props.fileInputRef}
             className="hidden"
           />
-          {props.formError.images && (
-            <p className="text-red-500 text-sm text-left w-full"></p>
-          )}
+          {props.formError.images && <p className="text-red-500 text-sm text-left w-full"></p>}
         </div>
 
         {/* 작성 영역 */}
@@ -66,17 +62,13 @@ export default function WritePageUI(props) {
               onChange={props.onChangeForm}
             />
             {props.formError.title && (
-              <p className="text-red-500 text-sm text-left">
-                {props.formError.title}
-              </p>
+              <p className="text-red-500 text-sm text-left">{props.formError.title}</p>
             )}
           </div>
 
           {/* 시작 가격 */}
           <div className="mb-4">
-            <label className="text-sm text-gray-700 block mb-1">
-              시작 가격
-            </label>
+            <label className="text-sm text-gray-700 block mb-1">시작 가격</label>
             <input
               name="startPrice"
               value={props.form.startPrice}
@@ -87,17 +79,13 @@ export default function WritePageUI(props) {
               onChange={props.onChangeForm}
             />
             {props.formError.startPrice && (
-              <p className="text-red-500 text-sm text-left">
-                {props.formError.startPrice}
-              </p>
+              <p className="text-red-500 text-sm text-left">{props.formError.startPrice}</p>
             )}
           </div>
 
           {/* 즉시 구매가 */}
           <div className="mb-4">
-            <label className="text-sm text-gray-700 block mb-1">
-              즉시 구매가
-            </label>
+            <label className="text-sm text-gray-700 block mb-1">즉시 구매가</label>
             <input
               name="price"
               type="number"
@@ -109,18 +97,13 @@ export default function WritePageUI(props) {
               onChange={props.onChangeForm}
             />
             {props.formError.price && (
-              <p className="text-red-500 text-sm text-left">
-                {props.formError.price}
-              </p>
+              <p className="text-red-500 text-sm text-left">{props.formError.price}</p>
             )}
           </div>
 
           {/* 경매 마감일 (슬라이더) */}
           <div className="mb-4">
-            <label
-              htmlFor="endDate"
-              className="text-sm text-gray-700 block mb-1"
-            >
+            <label htmlFor="endDate" className="text-sm text-gray-700 block mb-1">
               경매 마감일
             </label>
             <div className="relative w-full mt-[5px]">
@@ -131,10 +114,7 @@ export default function WritePageUI(props) {
                 step={2}
                 onValueChange={(value) => {
                   setDueDate(value[0]);
-                  const nextDate = format(
-                    addDays(new Date(), value[0]),
-                    "yyyy-MM-dd"
-                  );
+                  const nextDate = format(addDays(new Date(), value[0]), "yyyy-MM-dd");
                   props.onChangeForm({
                     target: { name: "endDate", value: nextDate },
                   });
@@ -164,22 +144,18 @@ export default function WritePageUI(props) {
 
       {/* 제품 상세 설명 */}
       <div className="w-[1111px] mb-[113px]">
-        <label className="text-[16px] text-gray-700 block mb-1">
-          제품 상세 설명
-        </label>
-        <textarea
-          name="contents"
-          placeholder="제품 상세 설명을 입력하세요"
-          className="border p-2 text-base w-full h-[609px] resize-none mb-1"
+        <label className="text-[16px] text-gray-700 block mb-1">제품 상세 설명</label>
+
+        <TextEditor
           value={props.form.contents}
-          onChange={props.onChangeForm}
-        ></textarea>
-        {props.formError.contents && (
-          <p className="text-red-500 text-sm text-left">
-            {props.formError.contents}
-          </p>
-        )}
+          onChange={(html) => {
+            props.onChangeContents(html);
+          }}
+        />
       </div>
+      {props.formError.contents && (
+        <p className="text-red-500 text-sm text-left">{props.formError.contents}</p>
+      )}
 
       {/* 버튼 영역 */}
       <div className="flex gap-4 mt-8">

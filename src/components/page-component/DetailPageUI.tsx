@@ -5,6 +5,7 @@ import ItemInfo from "@/components/common/board/ItemInfo";
 import ItemInfoTabs from "@/components/common/board/ItemInfoTabs";
 import { fetchPostDetail } from "@/services/postService";
 import { useParams } from "next/navigation";
+import DOMPurify from "dompurify";
 
 import React, { useEffect, useState } from "react";
 
@@ -31,6 +32,8 @@ export default function DetailPageUI() {
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
   if (!postData) return <div>로딩 중...</div>;
 
+  const safeHtml = DOMPurify.sanitize(post.contents);
+
   return (
     <div className="relative w-full min-h-screen px-4">
       <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
@@ -48,7 +51,7 @@ export default function DetailPageUI() {
         />
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs data={{ content: postData.content }} />
+      <ItemInfoTabs data={{ content: safeHtml, bidHistory: postData.bidHistory }} />
       {/* 입찰 댓글.제품설명.QnA */}
     </div>
   );
