@@ -19,7 +19,7 @@ export default function TextEditor({
 }) {
   const editor = useEditor({
     extensions: [StarterKit, Bold, Italic, TextStyle, Color],
-    content: value,
+    content: value || "<p></p>", //null 보호를 위해
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       onChange(html);
@@ -33,10 +33,10 @@ export default function TextEditor({
   });
 
   useEffect(() => {
-    if (editor) {
-      console.log("Editor ready", editor);
+    if (editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value || "<p></p>", false);
     }
-  }, [editor]);
+  }, [editor, value]);
 
   if (!editor) return null;
 
@@ -78,27 +78,43 @@ export default function TextEditor({
                   <Code /> Code
               </Button> */}
         <Button
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={editor.isActive("heading", { level: 1 }) ? "bg-gray-200" : ""}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
+          className={
+            editor.isActive("heading", { level: 1 }) ? "bg-gray-200" : ""
+          }
         >
           H1
         </Button>
 
         <Button
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={
+            editor.isActive("heading", { level: 2 }) ? "is-active" : ""
+          }
         >
           H2
         </Button>
         <Button
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
+          }
+          className={
+            editor.isActive("heading", { level: 3 }) ? "is-active" : ""
+          }
         >
           H3
         </Button>
         <Button
           onClick={() => editor.chain().focus().setColor("#ff0000").run()}
-          className={editor.isActive("textStyle", { color: "#ff0000" }) ? "bg-gray-200" : ""}
+          className={
+            editor.isActive("textStyle", { color: "#ff0000" })
+              ? "bg-gray-200"
+              : ""
+          }
         >
           Red
         </Button>
