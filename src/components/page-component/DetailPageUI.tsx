@@ -32,7 +32,7 @@ export default function DetailPageUI() {
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
   if (!postData) return <div>로딩 중...</div>;
 
-  const safeHtml = DOMPurify.sanitize(post.contents);
+  const safeHtml = DOMPurify.sanitize(postData.contents);
 
   return (
     <div className="relative w-full min-h-screen px-4">
