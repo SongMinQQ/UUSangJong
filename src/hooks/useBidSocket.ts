@@ -1,11 +1,10 @@
 // hooks/useBidSocket.ts
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import SockJS from "sockjs-client";
 import { Client, IMessage } from "@stomp/stompjs";
 import { BidMessage } from "@/types/bid";
 
-export function useBidSocket(postId: number) {
-  const [bids, setBids] = useState<BidMessage[]>([]);
+export function useBidSocket(postId: number, onNewBid: (bid: BidMessage) => void) {
 
   useEffect(() => {
     if (!postId) return;
@@ -22,17 +21,12 @@ export function useBidSocket(postId: number) {
         client.subscribe(`/topic/bids/${postId}`, (message: IMessage) => {
           if (message.body) {
             try {
-              const bidList: BidMessage[] = JSON.parse(message.body);
-              setBids(bidList);
+              const bid: BidMessage = JSON.parse(message.body);
+              onNewBid(bid);
             } catch (err) {
               console.error("❌ Failed to parse bid message", err);
             }
           }
-        });
-
-        client.publish({
-          destination: "/app/bid/init",
-          body: JSON.stringify({ postId }),
         });
       },
       onStompError: (frame) => {
@@ -45,7 +39,5 @@ export function useBidSocket(postId: number) {
     return () => {
       client.deactivate();
     };
-  }, [postId]);
-
-  return bids;
+  }, [postId, onNewBid]);
 }

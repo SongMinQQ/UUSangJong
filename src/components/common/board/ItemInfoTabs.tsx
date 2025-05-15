@@ -26,7 +26,7 @@ const ItemInfoTabs = ({ bids }: { bids: BidMessage[] }): JSX.Element => {
 
         <TabsContent value="bidHistory" className="mt-0">
           <div className="w-full">
-            {bids.map((bid, index) => (
+            {bids ? bids.map((bid, index) => (
               <div key={index} className="relative">
                 <div className="py-[15px]">
                   <p className="[font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-black text-[4vw] sm:text-base lg:text-xl">
@@ -46,7 +46,10 @@ const ItemInfoTabs = ({ bids }: { bids: BidMessage[] }): JSX.Element => {
                   <Separator className="w-full h-px bg-[#cccccc]" />
                 )}
               </div>
-            ))}
+            ))
+              :
+              <div>입찰 내역이 없습니다.</div>
+            }
           </div>
         </TabsContent>
 
