@@ -157,3 +157,18 @@ export const useBoardItemList = create<BoardItemListProps>()(
     { name: "boardItemList-storage" }
   )
 );
+
+interface Progressing {
+  isLoading?: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+}
+
+export const useProgressing = create<Progressing>()(
+  persist(
+    (set) => ({
+      isLoading: false,
+      setIsLoading: (isLoading) => set(() => ({ isLoading })),
+    }),
+    { name: "progressing-storage" }
+  )
+);

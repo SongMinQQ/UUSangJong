@@ -3,12 +3,13 @@ import { memo, useEffect, useMemo } from "react";
 import ContentItem from "../common/ContentItem";
 import { BoardType, getBoardList } from "@/services/postService";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useBoardItemList, useSearch } from "@/store/store";
+import { useBoardItemList, useProgressing, useSearch } from "@/store/store";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 const ROWS_PER_PAGE = 24;
 function Board() {
   const { setIds } = useBoardItemList();
+  const { setIsLoading } = useProgressing();
   const {
     title,
     sortBy,
@@ -50,6 +51,10 @@ function Board() {
     },
     initialPageParam: 1,
   });
+
+  useEffect(() => {
+    setIsLoading(isPending);
+  }, [isPending, setIsLoading]);
 
   const target = useInfiniteScroll({
     hasNextPage,
