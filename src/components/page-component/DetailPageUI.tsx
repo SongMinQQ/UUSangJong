@@ -32,7 +32,7 @@ export default function DetailPageUI() {
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
   if (!postData) return <div>로딩 중...</div>;
 
-  const safeHtml = DOMPurify.sanitize(postData.contents);
+  const safeHtml = DOMPurify.sanitize(postData.content);
 
   return (
     <div className="relative w-full min-h-screen px-4">
@@ -51,7 +51,9 @@ export default function DetailPageUI() {
         />
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs data={{ content: safeHtml, bidHistory: postData.bidHistory }} />
+      <ItemInfoTabs
+        data={{ content: safeHtml, bidHistory: postData.bidHistory }}
+      />
       {/* 입찰 댓글.제품설명.QnA */}
     </div>
   );
