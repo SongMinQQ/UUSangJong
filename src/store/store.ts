@@ -85,7 +85,7 @@ export const useSearch = create<SearchProps>()(
       titleEnabled: false,
       priceEnabled: false,
       deliveryEnabled: false,
-      orderBy: "title",
+      orderBy: "post_id",
       sortBy: "desc",
       delivery: "normal",
       low_price: "0",

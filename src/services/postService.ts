@@ -64,3 +64,15 @@ export const getBoardList = async ({
   });
   return data;
 };
+
+export const getPreview = async (): Promise<BoardType[]> => {
+  const { data } = await axios.get("/post", {
+    params: {
+      interval: 3,
+      start: 0,
+      orderBy: "post_id",
+      sortBy: "desc",
+    },
+  });
+  return data;
+};
