@@ -1,44 +1,17 @@
+"use client";
 import { FadeInWhenVisible } from "../common/FadeInWhenVisible";
 import Link from "next/link";
 import { memo } from "react";
 import ContentItem from "../common/ContentItem";
 import BannerCarousel from "../common/BannerCarousel";
-
-// Gallery images
-const galleryImages = [
-  {
-    id: 1,
-    imageUrl: "https://c.animaapp.com/qLJkd6AM/img/unsplash-2wmk7kh4kqi@2x.png",
-    alt: "Gallery image 1",
-    detail: {
-      title: "Preview",
-      description: "item preview입니다.",
-      price: "15000원",
-    },
-  },
-  {
-    id: 2,
-    imageUrl: "https://c.animaapp.com/qLJkd6AM/img/unsplash-bhbonc07wsi@2x.png",
-    alt: "Gallery image 2",
-    detail: {
-      title: "Preview2",
-      description: "item preview 2 입니다.",
-      price: "15000원",
-    },
-  },
-  {
-    id: 3,
-    imageUrl: "https://c.animaapp.com/qLJkd6AM/img/unsplash-zb3ebibrjka.png",
-    alt: "Gallery image 3",
-    detail: {
-      title: "Preview 3",
-      description: "item preview 3 입니다.",
-      price: "15000원",
-    },
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getPreview } from "@/services/postService";
 
 function Home() {
+  const { data } = useQuery({
+    queryKey: ["board"],
+    queryFn: getPreview,
+  });
   return (
     <div className="bg-[#fefdf6] flex flex-col items-center w-full">
       <div className="bg-[#fefdf6] w-full max-w-[1440px] relative">
@@ -90,9 +63,10 @@ function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {galleryImages.map((image, index) => (
-                <ContentItem itemData={image} key={`preview_${index}`} />
-              ))}
+              {data &&
+                data.map((image, index) => (
+                  <ContentItem itemData={image} key={`preview_${index}`} isPreview={true} />
+                ))}
             </div>
           </section>
         </main>

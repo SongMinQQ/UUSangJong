@@ -1,14 +1,16 @@
 "use client";
 import { useBoardItemList } from "@/store/store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Fragment, memo, useCallback, useEffect, useMemo, useState } from "react";
 
 function NavPanel() {
+  const searchParams = useSearchParams();
   const { getNavPanelInfo } = useBoardItemList();
   const { nextID, prevID, currentIndex, totalCount } = getNavPanelInfo();
   const router = useRouter();
   const [isHydrated, setIsHydrated] = useState(false);
+  const isPreview = searchParams.get("isPreview");
 
   useEffect(() => {
     setIsHydrated(true);
@@ -43,7 +45,9 @@ function NavPanel() {
       </div>
     );
 
-  return (
+  return isPreview ? (
+    <Fragment></Fragment>
+  ) : (
     <div className="flex items-center gap-[5px]">
       <button onClick={handlePrevPage} disabled={prevDisabled}>
         <ChevronLeft className="w-6 h-6" />

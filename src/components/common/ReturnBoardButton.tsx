@@ -1,12 +1,15 @@
 "use client";
 import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { memo } from "react";
 
 function ReturnBoardButton() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get("isPreview");
   const handleReturn = () => {
-    router.push("/board");
+    if (isPreview) router.back();
+    else router.push("/board");
   };
 
   return (
