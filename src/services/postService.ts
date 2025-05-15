@@ -1,7 +1,7 @@
 import axios from "@/utils/http-commons";
+import { SearchEnabled } from "@/store/store";
 import { proxyRequestSelector } from "@/services/apiProxy";
-
-import { SearchParams } from "@/store/store";
+const ROWS_PER_PAGE = 24;
 
 export interface updatePost {
   post_id: number;
@@ -41,17 +41,25 @@ export const getBoardList = async ({
   low_price,
   orderBy,
   sortBy,
-}: Partial<SearchParams>): Promise<BoardType[]> => {
+  isSoldEnabled,
+  dueDateEnabled,
+  titleEnabled,
+  priceEnabled,
+  deliveryEnabled,
+  page = 1,
+}: Partial<SearchEnabled>): Promise<BoardType[]> => {
   const { data } = await axios.get("/post", {
     params: {
-      title,
-      delivery,
-      due_date,
-      high_price: Number(high_price),
-      is_sold: is_sold ? "on_sale" : "on_sale,sold_out,closed",
-      low_price: Number(low_price),
+      title: titleEnabled ? title : undefined,
+      delivery: deliveryEnabled ? delivery : undefined,
+      due_date: dueDateEnabled ? due_date : undefined,
+      high_price: priceEnabled ? Number(high_price) : undefined,
+      is_sold: isSoldEnabled ? (is_sold ? "on_sale" : "on_sale,sold_out,closed") : undefined,
+      low_price: priceEnabled ? Number(low_price) : undefined,
       orderBy,
       sortBy,
+      interval: ROWS_PER_PAGE,
+      start: (page - 1) * ROWS_PER_PAGE,
     },
   });
   return data;

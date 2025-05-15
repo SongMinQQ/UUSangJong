@@ -17,6 +17,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useSearch } from "@/store/store";
+import { Switch } from "@/components/ui/switch";
 
 function SearchModal() {
   const {
@@ -34,6 +35,12 @@ function SearchModal() {
     sortBy,
     delivery,
     is_sold,
+    setTitleEnabled,
+    setPriceEnabled,
+    setDeliveryEnabled,
+    titleEnabled,
+    priceEnabled,
+    deliveryEnabled,
   } = useSearch();
 
   const titleRef = useRef<HTMLInputElement>(null);
@@ -104,6 +111,18 @@ function SearchModal() {
     [setDeliveryValue]
   );
 
+  const handleDisabledTitle = useCallback(() => {
+    setTitleEnabled();
+  }, [setTitleEnabled]);
+
+  const handleTogglePrice = useCallback(() => {
+    setPriceEnabled();
+  }, [setPriceEnabled]);
+
+  const handleToggleDelivery = useCallback(() => {
+    setDeliveryEnabled();
+  }, [setDeliveryEnabled]);
+
   const handleSearchClick = useCallback(() => {
     if (titleRef.current?.value) setTitle(titleRef.current.value);
     else setTitle(undefined);
@@ -168,31 +187,36 @@ function SearchModal() {
         className="w-full border-[white]"
         defaultValue={title}
         ref={titleRef}
+        toggleSwitch={handleDisabledTitle}
+        isView={titleEnabled}
       />
       {/* Delivery */}
       <div>
         <Label htmlFor="delivery" className="text-white font-bold text-lg mb-5">
           배송형태
+          <Switch onClick={handleToggleDelivery} />
         </Label>
-        <RadioGroup
-          value={deliveryValue}
-          onValueChange={handleDeliveryChange}
-          className="text-white flex flex-row justify-around"
-          id="delivery"
-        >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="quick" id="quick" />
-            <Label htmlFor="quick">로켓배송</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="normal" id="normal" />
-            <Label htmlFor="normal">일반배송</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="early" id="early" />
-            <Label htmlFor="early">새벽배송</Label>
-          </div>
-        </RadioGroup>
+        {deliveryEnabled && (
+          <RadioGroup
+            value={deliveryValue}
+            onValueChange={handleDeliveryChange}
+            className="text-white flex flex-row justify-around"
+            id="delivery"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="quick" id="quick" />
+              <Label htmlFor="quick">로켓배송</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="normal" id="normal" />
+              <Label htmlFor="normal">일반배송</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="early" id="early" />
+              <Label htmlFor="early">새벽배송</Label>
+            </div>
+          </RadioGroup>
+        )}
       </div>
       {/* Date Picker */}
       <SearchDatePicker />
@@ -200,45 +224,54 @@ function SearchModal() {
       <div>
         <Label htmlFor="priceRange" className="text-white font-bold text-lg mb-5">
           가격 범위
+          <Switch onClick={handleTogglePrice} />
         </Label>
-        <Slider
-          max={3000000}
-          className="
+        {priceEnabled && (
+          <Slider
+            max={3000000}
+            className="
     [&_[data-slot=slider-track]]:bg-gray-200
     [&_[data-slot=slider-track]]:h-[0.5px]
     [&_[data-slot=slider-thumb]]:w-5
     [&_[data-slot=slider-thumb]]:h-5
   "
-          value={priceRange}
-          step={100}
-          onValueChange={handlePriceRangeChange}
-          id="priceRange"
-        />
+            value={priceRange}
+            step={100}
+            onValueChange={handlePriceRangeChange}
+            id="priceRange"
+          />
+        )}
       </div>
-      <div className="flex justify-around">
-        <LabeledInput
-          title="최소"
-          boxStyle="inline w-[150px]"
-          className="w-[150px] border-[white]"
-          value={lowPriceValue}
-          onChange={handleLowPriceChange}
-          ref={lowPriceRef}
-          type={"number"}
-          min={0}
-          max={Number(high_price)}
-        />
-        <LabeledInput
-          title="최대"
-          boxStyle="inline w-[150px]"
-          className="w-[150px] border-[white]"
-          value={highPriceValue}
-          onChange={handleHighPriceChange}
-          ref={highPriceRef}
-          type="number"
-          min={Number(low_price)}
-          max={3000000}
-        />
-      </div>
+      {priceEnabled && (
+        <div className="flex justify-around">
+          <LabeledInput
+            title="최소"
+            boxStyle="inline w-[150px]"
+            className="w-[150px] border-[white]"
+            value={lowPriceValue}
+            onChange={handleLowPriceChange}
+            ref={lowPriceRef}
+            type={"number"}
+            min={0}
+            max={Number(high_price)}
+            disableToggle={true}
+            isView={priceEnabled}
+          />
+          <LabeledInput
+            title="최대"
+            boxStyle="inline w-[150px]"
+            className="w-[150px] border-[white]"
+            value={highPriceValue}
+            onChange={handleHighPriceChange}
+            ref={highPriceRef}
+            type="number"
+            min={Number(low_price)}
+            max={3000000}
+            disableToggle={true}
+            isView={priceEnabled}
+          />
+        </div>
+      )}
       {/* isSold Filter */}
       <div className="flex justify-around align-middle">
         <label htmlFor="showAvailableOnly" className="font-bold mt-auto mb-auto text-lg text-white">
@@ -254,11 +287,11 @@ function SearchModal() {
       </div>
       {/* Button Group */}
       <div className="flex justify-around align-middle">
-        <DialogClose className="w-[150px] text-white">Close</DialogClose>
+        <DialogClose className="w-[150px] text-white cursor-pointer">Close</DialogClose>
         <Button
           variant={"outline"}
           onClick={handleSearchClick}
-          className="w-[150px] mt-auto mb-auto bg-[#eee9e9] border-none"
+          className="w-[150px] mt-auto mb-auto bg-[#eee9e9] border-none cursor-pointer"
         >
           Search
         </Button>

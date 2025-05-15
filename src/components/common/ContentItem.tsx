@@ -50,7 +50,7 @@ function ContentItem({ itemData }: ContentItemProp) {
           className="w-full h-full object-cover"
         />
         <motion.div
-          className="absolute inset-0 flex items-center justify-center text-black text-lg font-semibold px-2"
+          className="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold px-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: isHover ? 1 : 0 }}
           transition={{ duration: 0.3 }}

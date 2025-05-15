@@ -52,7 +52,21 @@ export interface SearchParams {
   sortBy: string;
 }
 
-interface SearchProps extends Partial<SearchParams> {
+export interface SearchEnabled extends SearchParams {
+  isSoldEnabled: boolean;
+  dueDateEnabled: boolean;
+  titleEnabled: boolean;
+  priceEnabled: boolean;
+  deliveryEnabled: boolean;
+  page: number;
+  setIsSoldEnabled: () => void;
+  setDueDateEnabled: () => void;
+  setTitleEnabled: () => void;
+  setPriceEnabled: () => void;
+  setDeliveryEnabled: () => void;
+}
+
+interface SearchProps extends SearchEnabled {
   setIsSold: (value: boolean) => void;
   setDueDate: (value: string) => void;
   setTitle: (value?: string) => void;
@@ -66,21 +80,33 @@ interface SearchProps extends Partial<SearchParams> {
 export const useSearch = create<SearchProps>()(
   persist(
     (set) => ({
+      isSoldEnabled: false,
+      dueDateEnabled: false,
+      titleEnabled: false,
+      priceEnabled: false,
+      deliveryEnabled: false,
       orderBy: "title",
       sortBy: "desc",
       delivery: "normal",
       low_price: "0",
       high_price: "3000000",
+      page: 1,
       due_date: `${format(addMonths(new Date(), 1), "yyyy.MM.dd")}`,
       is_sold: true,
+      title: "",
       setIsSold: (value: boolean) => set(() => ({ is_sold: value })),
       setDueDate: (value: string) => set(() => ({ due_date: value })),
-      setTitle: (value: string) => set(() => ({ title: value })),
-      setLowPrice: (value: string) => set(() => ({ low_price: value })),
-      setHighPrice: (value: string) => set(() => ({ high_price: value })),
-      setDelivery: (value: string) => set(() => ({ delivery: value })),
+      setTitle: (value?: string) => set(() => ({ title: value })),
+      setLowPrice: (value?: string) => set(() => ({ low_price: value })),
+      setHighPrice: (value?: string) => set(() => ({ high_price: value })),
+      setDelivery: (value?: string) => set(() => ({ delivery: value })),
       setOrderBy: (value: string) => set(() => ({ orderBy: value })),
       setSortBy: (value: string) => set(() => ({ sortBy: value })),
+      setIsSoldEnabled: () => set((prev) => ({ isSoldEnabled: !prev.isSoldEnabled })),
+      setDueDateEnabled: () => set((prev) => ({ dueDateEnabled: !prev.dueDateEnabled })),
+      setTitleEnabled: () => set((prev) => ({ titleEnabled: !prev.titleEnabled })),
+      setPriceEnabled: () => set((prev) => ({ priceEnabled: !prev.priceEnabled })),
+      setDeliveryEnabled: () => set((prev) => ({ deliveryEnabled: !prev.deliveryEnabled })),
     }),
     { name: "search-storage" }
   )
