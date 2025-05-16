@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
 import React, { useEffect, useState } from "react";
 import { DialogReport } from "@/components/ui/dialogReport";
+import BidToPost from "./BidToPost";
 
 // ✅ props 타입 명확하게 정의
 interface ItemBidCardProps {
@@ -76,31 +77,7 @@ const ItemBidCard = ({
 
         <div className="absolute top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
 
-        <div className="absolute w-[399px] h-[115px] top-[349px] left-[19px]">
-          <div className="absolute w-[395px] h-[50px] bg-[#efefef] rounded-[5px] flex items-center">
-            <Input
-              className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
-              placeholder="입찰 가격"
-              value={bidPrice}
-              onChange={(e) => setBidPrice(e.target.value)}
-            />
-          </div>
-
-          <div className="absolute w-[395px] h-[50px] top-[65px] left-0 bg-[#efefef] rounded-[5px] flex items-center">
-            <Input
-              className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
-              placeholder="입찰 코멘트"
-              value={bidComment}
-              onChange={(e) => setBidComment(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="absolute w-[202px] h-[49px] top-[484px] left-[116px]">
-          <Button className="w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]">
-            입찰하기
-          </Button>
-        </div>
+        <BidToPost postId={postId} />
 
         <Separator className="absolute top-[553px] w-[428px] bg-[#cccccc] left-0" />
 

@@ -1,6 +1,5 @@
-'use client'
 "use client";
-import { memo, useCallback, useRef } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +9,17 @@ import { handleApi } from "@/utils/handleApi";
 import { login } from "@/services/login";
 import Image from "next/image";
 import { useLogin } from "@/store/store";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+import { AlertTriangle } from "lucide-react";
 
 function LoginModal({ handleChangeModal }: ModalProps) {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -17,20 +27,21 @@ function LoginModal({ handleChangeModal }: ModalProps) {
 
   const { toggleLogin } = useLogin();
 
+  const [showLoginFailDialog, setShowLoginFailDialog] = useState(false);
+
   const tryLogin = useCallback(async () => {
     const loginInfo = {
       email: emailRef.current?.value,
-      password: passwordRef.current?.value
-    }
+      password: passwordRef.current?.value,
+    };
     const { data } = await handleApi(() => login(loginInfo));
     if (data?.message === "SUCCESS") {
       toggleLogin(true);
-      alert("로그인 성공");
+      toast.success("로그인 성공");
+    } else {
+      setShowLoginFailDialog(true); //진짜 로그아웃 할건지 다이얼로그 오픈
     }
-    else {
-      alert("로그인 실패 ㅅㄱ");
-    }
-  }, [])
+  }, []);
 
   return (
     <div className="flex h-full">
@@ -96,12 +107,30 @@ function LoginModal({ handleChangeModal }: ModalProps) {
             />
           </div>
 
-          <Button className="w-full h-[66px] mt-6 bg-[#222222] hover:bg-black rounded-[10px] text-white text-2xl font-semibold"
-            onClick={tryLogin}>
+          <Button
+            className="w-full h-[66px] mt-6 bg-[#222222] hover:bg-black rounded-[10px] text-white text-2xl font-semibold"
+            onClick={tryLogin}
+          >
             CONTINUE
           </Button>
         </div>
       </div>
+      <AlertDialog open={showLoginFailDialog} onOpenChange={setShowLoginFailDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-red-500" />
+              <AlertDialogTitle>로그인 실패</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription>이메일 또는 비밀번호가 잘못되었습니다.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowLoginFailDialog(false)}>
+              확인
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
