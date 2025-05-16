@@ -63,16 +63,21 @@ function SignupModal({ handleChangeModal }: ModalProps) {
       toast.warning("ID 중복 확인을 해주세요");
       return;
     }
+    const { data, error } = await handleApi(() => joinMembership(joinInfo));
+    if (error) {
+      toast.error(error); //서버가 준 메시지 그대로 보여줌
+      return;
+    }
     if (passwordRef.current?.value !== repeatPasswordRef.current?.value) {
       toast.warning("비밀번호가 일치하지 않습니다.");
       return;
     }
-    const data = await handleApi(() => joinMembership(joinInfo));
-
-    if (data.data === "회원가입 성공!") {
+    if (data === "회원가입 성공!") {
       toast.success("회원가입 되었습니다. 로그인을 진행해 주세요");
       handleChangeModal();
-    } else toast.error("회원가입 도중 에러가 발생했습니다.");
+    } else {
+      toast.error("회원가입 도중 알 수 없는 오류가 발생했습니다.");
+    }
   }, []);
 
   return (
