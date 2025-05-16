@@ -1,7 +1,5 @@
 import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { AlertCircle } from "lucide-react";
 import { Bid } from "@/types/bid";
 import BidList from "./BidList";
 
@@ -17,7 +15,7 @@ interface ItemInfoTabsProps {
   bids: Bid[];
 }
 
-const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps) => {
+const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps): JSX.Element => {
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
