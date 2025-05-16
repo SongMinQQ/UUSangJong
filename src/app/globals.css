@@ -41,3 +41,9 @@ body {
 .ProseMirror h3 {
   @apply text-xl font-semibold;
 }
+
+@media (max-width: 1050px) {
+  .footer-flex {
+    flex-direction: column !important;
+  }
+}
