@@ -15,36 +15,45 @@ import { useRouter } from "next/navigation";
 
 interface DialogRepoerProps {
   postId: number;
-  reporterId: number;
   reportedUserId: number;
 }
 
-export function DialogReport({ postId, reporterId, reportedUserId }: DialogRepoerProps) {
+export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
   const [open, setOpen] = useState(false);
+  const [content, setContent] = useState("");
   const router = useRouter();
 
   const onClickReportCancel = () => {
     setOpen(false);
   };
 
+  console.log("postId:", postId);
+
   const onClickReportSubmit = async () => {
     const reportData = {
       post_id: postId, // 게시물 ID
-      reporter_id: reporterId, // 신고자 ID
-      reported_user_id: repertedUserId, // 신고된 사용자 ID
+      reporter_id: null, // 신고자 ID
+      reported_user_id: reportedUserId, // 신고된 사용자 ID
       content: content, // 신고 내용
-      created_at: new Date().toLocaleDateString(), // 신고 날짜
-      status: 0, // 신고 상태 (예: 0 - 대기 중)
+      // created_at: new Date().toLocaleDateString(), // 신고 날짜
     };
-    try {
-      await createReport(payload);
-      alert("신고가 완료되었습니다.");
-      setOpen(false);
-      router.refresh();
-    } catch (error) {
-      console.error("신고 실패:", error);
-      alert("신고에 실패했습니다. 다시 시도해주세요.");
-    }
+    if (!content || content.trim() === "") {
+      alert("신고 내용을 입력해주세요.");
+      return;
+    } else
+      try {
+        await createReport(reportData);
+        alert("신고가 완료되었습니다.");
+        setOpen(false);
+        router.refresh();
+      } catch (error) {
+        console.error("신고 실패:", error);
+        alert("신고에 실패했습니다. 다시 시도해주세요.");
+      }
+  };
+
+  const onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
   };
 
   return (
@@ -67,6 +76,8 @@ export function DialogReport({ postId, reporterId, reportedUserId }: DialogRepoe
               id="name"
               //   value="내용을 입력해 주세요."
               className="col-span-4 w-full h-[209px] border rounded px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#4C4528]"
+              onChange={onChangeContent}
+              placeholder="신고 내용을 입력해 주세요."
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4"></div>
@@ -81,7 +92,7 @@ export function DialogReport({ postId, reporterId, reportedUserId }: DialogRepoe
           </button>
           <Button
             type="submit"
-            className="bg-[#4C4528] w-[135px] text-white mr-[40px] hover:text-black cursor-pointer"
+            className="bg-red-500 w-[135px] text-white mr-[40px] hover:text-black cursor-pointer"
             onClick={onClickReportSubmit}
           >
             신고하기

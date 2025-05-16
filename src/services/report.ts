@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/utils/http-commons";
 
 interface ReportRequest {
   post_id: number;

@@ -19,6 +19,7 @@ interface ItemBidCardProps {
   instantPrice: number;
   endDate: string;
   isSold: string;
+  userId: number;
 }
 
 const ItemBidCard = ({
@@ -28,6 +29,7 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
+  userId,
 }: ItemBidCardProps) => {
   const router = useRouter();
   const { setCurrentId } = useBoardItemList();
@@ -111,7 +113,7 @@ const ItemBidCard = ({
             게시물 수정
           </button>
 
-          <DialogReport />
+          <DialogReport postId={postId} reportedUserId={userId} />
         </div>
       </CardContent>
     </Card>

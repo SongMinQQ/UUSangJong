@@ -48,6 +48,7 @@ export default function DetailPageUI() {
           instantPrice={postData?.instant_price}
           endDate={postData?.end_date}
           isSold={postData?.is_sold}
+          userId={postData?.user_id}
         />
         {/* 입찰 내용 */}
       </div>
