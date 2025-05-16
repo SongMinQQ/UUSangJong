@@ -17,6 +17,7 @@ const BidToPost = ({ postId }: BidToPostProps) => {
     e.preventDefault();
     if (!priceRef.current?.value || !commentRef.current?.value) {
       toast.error("모든 항목을 입력해 주세요");
+      return;
     }
     const sendBid = {
       "post_id": postId,
