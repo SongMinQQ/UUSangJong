@@ -4,10 +4,8 @@ import { AlertCircle } from 'lucide-react';
 import React, { memo } from 'react';
 interface BidListProps {
   bid: Bid;
-  bidLength: number;
-  index: number;
 }
-const BidList = ({ bid, bidLength, index }: BidListProps) => {
+const BidList = ({ bid }: BidListProps) => {
   const { bid_price, content, created_at } = bid;
   return (
     <div className="relative">
@@ -25,7 +23,7 @@ const BidList = ({ bid, bidLength, index }: BidListProps) => {
         <AlertCircle className="w-[25px] h-[25px]" />
       </div>
 
-      {index < bidLength - 1 && <Separator className="w-full h-px bg-[#cccccc]" />}
+      <Separator className="w-full h-px bg-[#cccccc]" />
     </div>
   );
 };

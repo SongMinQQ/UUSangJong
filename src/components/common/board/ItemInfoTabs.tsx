@@ -39,7 +39,7 @@ const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps): JSX.Element => {
           <div className="w-full">
             {bids ? (
               bids.map((bid, index) => (
-                <BidList bid={bid} bidLength={bids.length} index={index} key={bid.bid_id} />
+                <BidList bid={bid} key={index} />
               ))
             ) : (
               <div>입찰 내역이 없습니다.</div>
