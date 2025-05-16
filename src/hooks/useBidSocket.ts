@@ -21,6 +21,7 @@ export function useBidSocket(postId: number, onNewBid: (bid: BidMessage) => void
         client.subscribe(`/topic/bids/${postId}`, (message: IMessage) => {
           if (message.body) {
             try {
+              console.log("BODY: ", message.body)
               const bid: BidMessage = JSON.parse(message.body);
               onNewBid(bid);
             } catch (err) {

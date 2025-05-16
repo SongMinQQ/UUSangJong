@@ -39,7 +39,7 @@ export default function DetailPageUI() {
     console.log(bids);
   }, [bids])
   useBidSocket(postId, (newBid) => {
-    setBids((prev) => [...prev, newBid]);
+    setBids((prev) => [newBid, ...prev]);
   })
 
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
@@ -53,7 +53,7 @@ export default function DetailPageUI() {
         <ItemInfo />
         {/* 이미지 썸네일부분 */}
         <ItemBidCard
-          postId={Number(postId)}
+          postId={postId}
           imageUrls={postData?.image_urls}
           title={postData?.title}
           content={postData?.content}

@@ -14,3 +14,10 @@ export interface Bid {
   created_at: string;
   content: string;
 }
+
+export interface bidToPost {
+  post_id: number;
+  user_id: null;
+  bid_price: number;
+  content: string;
+}
