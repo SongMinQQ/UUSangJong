@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { AlertTriangle, Edit } from "lucide-react";
+import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
 import React, { useEffect, useState } from "react";
+import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
 
 // ✅ props 타입 명확하게 정의
@@ -19,6 +20,7 @@ interface ItemBidCardProps {
   instantPrice: number;
   endDate: string;
   isSold: string;
+  userId: number;
 }
 
 const ItemBidCard = ({
@@ -28,6 +30,7 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
+  userId,
 }: ItemBidCardProps) => {
   const router = useRouter();
   const { setCurrentId } = useBoardItemList();
@@ -86,9 +89,9 @@ const ItemBidCard = ({
           >
             게시물 수정
           </button>
-        </div>
 
-        <AlertTriangle className="absolute w-[25px] h-[25px] top-[566px] left-[402px] text-red-500" />
+          <DialogReport postId={postId} reportedUserId={userId} />
+        </div>
       </CardContent>
     </Card>
   );

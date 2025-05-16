@@ -1,3 +1,4 @@
+"use client";
 import { Separator } from "@radix-ui/react-separator";
 import React, { JSX, memo } from "react";
 

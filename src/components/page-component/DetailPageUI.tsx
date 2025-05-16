@@ -22,11 +22,11 @@ export default function DetailPageUI() {
   const fetchPostData = async () => {
     const { data } = await handleApi(() => fetchPostDetail(postId));
     if (data) setPostData(data);
-  }
+  };
   const fetchBids = async () => {
     const { data } = await handleApi(() => getBidList(postId));
     setBids(Array.isArray(data) ? data : []);
-  }
+  };
   useEffect(() => {
     if (!postId) {
       console.error("postId가 없습니다. URL을 확인하세요.");
@@ -37,10 +37,10 @@ export default function DetailPageUI() {
   }, [postId]);
   useEffect(() => {
     console.log(bids);
-  }, [bids])
+  }, [bids]);
   useBidSocket(postId, (newBid) => {
     setBids((prev) => [newBid, ...prev]);
-  })
+  });
 
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
   if (!postData) return <div>로딩 중...</div>;
@@ -61,10 +61,15 @@ export default function DetailPageUI() {
           instantPrice={postData?.instant_price}
           endDate={postData?.end_date}
           isSold={postData?.is_sold}
+          userId={postData?.user_id}
         />
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs data={{ content: safeHtml, bidHistory: postData.bidHistory }} bids={bids} />
+      <ItemInfoTabs
+        postId={postId}
+        data={{ content: safeHtml, bidHistory: postData.bidHistory }}
+        bids={bids}
+      />
       {/* 입찰 댓글.제품설명.QnA */}
     </div>
   );
