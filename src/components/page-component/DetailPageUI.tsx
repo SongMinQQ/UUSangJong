@@ -38,6 +38,10 @@ export default function DetailPageUI() {
   useEffect(() => {
     console.log(bids);
   }, [bids]);
+
+  useEffect(() => {
+    console.log("postData:", postData);
+  }, [postData]);
   useBidSocket(postId, (newBid) => {
     setBids((prev) => [newBid, ...prev]);
   });
@@ -50,7 +54,7 @@ export default function DetailPageUI() {
   return (
     <div className="relative w-full min-h-screen px-4">
       <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
-        <ItemInfo />
+        <ItemInfo images={postData?.images ?? []} />
         {/* 이미지 썸네일부분 */}
         <ItemBidCard
           postId={postId}
