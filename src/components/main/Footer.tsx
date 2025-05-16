@@ -28,7 +28,7 @@ const Footer = (): JSX.Element => {
       <footer className="w-full bg-[#7e7a7a] text-white py-6">
         <div className="w-full border-t border-dashed border-white opacity-50 mb-4" />
 
-        <div className="w-full px-14 py-6 flex flex-col gap-4 md:flex-row md:justify-between footer-flex">
+        <div className="w-full px-6 sm:px-12 py-6 flex flex-col gap-4 md:flex-row md:justify-between footer-flex">
           <div className="space-y-2">
             <p className="font-['Klee_One',Helvetica] text-sm sm:text-base md:text-lg">{teamInfo}</p>
             <p className="font-['Klee_One',Helvetica] text-sm sm:text-base md:text-lg">{contactInfo}</p>
