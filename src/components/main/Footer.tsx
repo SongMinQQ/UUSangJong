@@ -1,13 +1,9 @@
-import { Separator } from "@/components/ui/separator";
+"use client";
+import { Separator } from "@radix-ui/react-separator";
 import React, { JSX, memo } from "react";
 
 const Footer = (): JSX.Element => {
-  const members = [
-    "Song Min gyu",
-    "Kim Min Seon",
-    "Choi Yun Hyeok",
-    "Lee Hye Eun",
-  ];
+  const members = ["Song Min gyu", "Kim Min Seon", "Choi Yun Hyeok", "Lee Hye Eun"];
   const contactNameAndLinks = [
     {
       name: "Github",
@@ -25,9 +21,7 @@ const Footer = (): JSX.Element => {
   // Team members
   const teamInfo = `Our team : ${members.join(", ")}`;
   const contactInfo = "Contact : wwww123410@gmail.com";
-  const socialLinks = `${contactNameAndLinks
-    .map((item) => item.name)
-    .join(", ")}`;
+  const socialLinks = `${contactNameAndLinks.map((item) => item.name).join(", ")}`;
 
   return (
     <div>
