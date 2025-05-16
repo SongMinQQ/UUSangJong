@@ -10,8 +10,8 @@ import { login } from "@/services/login";
 import Image from "next/image";
 import { useLogin } from "@/store/store";
 import { toast } from "sonner";
-import AlertDialogComponent from "@/components/common/AlertDialog"; // 실제 경로에 맞춰 수정
-import { AlertTriangle } from "lucide-react"; // 아이콘 선택적
+import AlertDialogComponent from "@/components/common/AlertDialog";
+import { AlertTriangle } from "lucide-react";
 
 function LoginModal({ handleChangeModal }: ModalProps) {
   const emailRef = useRef<HTMLInputElement>(null);

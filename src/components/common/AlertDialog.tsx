@@ -1,43 +1,3 @@
-// import React from 'react';
-// import {
-//   AlertDialog,
-//   AlertDialogAction,
-//   AlertDialogCancel,
-//   AlertDialogContent,
-//   AlertDialogDescription,
-//   AlertDialogFooter,
-//   AlertDialogHeader,
-//   AlertDialogTitle,
-// } from "@/components/ui/alert-dialog";
-
-// interface AlertDialogProps {
-//   title: string;
-//   description: string;
-//   open: boolean;
-//   onOpenChange: (open: boolean) => void;
-//   onClick: () => void;
-// }
-// const AlertDialogComponent = ({ title, description, open, onOpenChange, onClick }: AlertDialogProps) => {
-//   return (
-//     <AlertDialog open={open} onOpenChange={onOpenChange}>
-//       <AlertDialogContent>
-//         <AlertDialogHeader>
-//           <AlertDialogTitle>{title}</AlertDialogTitle>
-//           <AlertDialogDescription>
-//             {description}
-//           </AlertDialogDescription>
-//         </AlertDialogHeader>
-//         <AlertDialogFooter>
-//           <AlertDialogCancel>취소</AlertDialogCancel>
-//           <AlertDialogAction onClick={onClick}>확인</AlertDialogAction>
-//         </AlertDialogFooter>
-//       </AlertDialogContent>
-//     </AlertDialog>
-//   );
-// };
-
-// export default AlertDialogComponent;
-
 import React from "react";
 import {
   AlertDialog,
@@ -51,15 +11,15 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface AlertDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+  open: boolean; // dialog 열림/닫힘 상태
+  onOpenChange: (open: boolean) => void; //dialog 상태를 제어하는 핸들러
   title: string;
   description: string;
   icon?: React.ReactNode; // optional icon
-  confirmLabel?: string;
-  cancelLabel?: string;
-  onConfirm: () => void;
-  showCancel?: boolean;
+  confirmLabel?: string; //확인 버튼 텍스트
+  cancelLabel?: string; //취소 버튼 텍스트
+  onConfirm: () => void; //확인 버튼 클릭 시 실행될 함수
+  showCancel?: boolean; //true면 취소 버튼 보임, false면 숨김 (기본값: true)
 }
 
 const AlertDialogComponent = ({
@@ -68,8 +28,8 @@ const AlertDialogComponent = ({
   title,
   description,
   icon,
-  confirmLabel = "확인",
-  cancelLabel = "취소",
+  confirmLabel = "continue",
+  cancelLabel = "cancel",
   onConfirm,
   showCancel = true,
 }: AlertDialogProps) => {
