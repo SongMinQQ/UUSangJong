@@ -5,20 +5,10 @@ import { updateUser } from "@/services/userInfo";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import type { UserForm } from "@/types/userInfo";
 import { handleApi } from "@/utils/handleApi";
 import { useUser } from "@/hooks/useUser";
+import AlertDialogComponent from "@/components/common/AlertDialog";
 
 export default function UpdateInfoPage() {
   const router = useRouter();
@@ -36,6 +26,8 @@ export default function UpdateInfoPage() {
     nickname: "",
     password: "",
   });
+
+  const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
     if (userInfo) {
@@ -107,23 +99,20 @@ export default function UpdateInfoPage() {
           />
         </div>
 
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button className="w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666]">
-              UPDATE
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>회원정보를 업데이트할까요?</AlertDialogTitle>
-              <AlertDialogDescription>변경된 내용을 저장합니다.</AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>cancle</AlertDialogCancel>
-              <AlertDialogAction onClick={handleUpdate}>continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <Button
+          className="w-full h-[60px] mt-6 bg-[#222] text-white text-xl font-semibold rounded-[10px] hover:bg-[#666666]"
+          onClick={() => setShowDialog(true)}
+        >
+          UPDATE
+        </Button>
+
+        <AlertDialogComponent
+          open={showDialog}
+          onOpenChange={setShowDialog}
+          title="회원정보를 업데이트할까요?"
+          description="변경된 내용을 저장합니다."
+          onConfirm={handleUpdate}
+        />
       </div>
     </div>
   );
