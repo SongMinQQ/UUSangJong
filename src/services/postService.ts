@@ -18,12 +18,12 @@ export interface BoardType extends updatePost {
   now_price: string;
 }
 
-export const updatePost = async (params: updatePost): Promise<any> => {
+export const updatePost = async (params: updatePost): Promise<string> => {
   const { data } = await axios.put("/post", params);
   return data;
 };
 
-export const fetchPostDetail = async (postId: string | number): Promise<any> => {
+export const fetchPostDetail = async (postId: string | number): Promise<string> => {
   // const { data } = await axios.get(`/post/${postId}`);
   const data = await proxyRequestSelector({
     queryKey: { queryKey: ["post", postId] },
@@ -76,3 +76,7 @@ export const getPreview = async (): Promise<BoardType[]> => {
   });
   return data;
 };
+
+// export const deletePost = async (params: number) => {
+//   const {data} = await axios.delete
+// }

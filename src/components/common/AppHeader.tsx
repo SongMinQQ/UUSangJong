@@ -17,17 +17,8 @@ import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
 import LinearProgress from "./LinearProgress";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import AlertDialogComponent from "./AlertDialog";
 
 // Navigation menu items
 const navItems = [
@@ -77,6 +68,13 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     router.push("/"); // 홈으로 리다이렉트
   };
 
+  const logoututils = {
+    title: "정말 로그아웃 하시겠어요?",
+    description: "로그아웃 시 다시 로그인해야 이용할 수 있어요.",
+    open: showLogoutDialog,
+    onOpenChange: setShowLogoutDialog,
+    onClick: executeLogout,
+  }
   return (
     <Fragment>
       {/* Header with navigation */}
@@ -164,20 +162,12 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           </div>
         </div>
       </header>
-      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>정말 로그아웃 하시겠어요?</AlertDialogTitle>
-            <AlertDialogDescription>
-              로그아웃 시 다시 로그인해야 이용할 수 있어요.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>취소</AlertDialogCancel>
-            <AlertDialogAction onClick={executeLogout}>확인</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AlertDialogComponent
+        title={logoututils.title}
+        description={logoututils.description}
+        open={logoututils.open}
+        onOpenChange={logoututils.onOpenChange}
+        onClick={logoututils.onClick} />
       <LinearProgress colorClassName="bg-[black]" />
     </Fragment>
   );

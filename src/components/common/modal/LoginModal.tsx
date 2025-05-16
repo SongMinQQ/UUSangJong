@@ -10,16 +10,7 @@ import { login } from "@/services/login";
 import Image from "next/image";
 import { useLogin } from "@/store/store";
 import { toast } from "sonner";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
-import { AlertTriangle } from "lucide-react";
+import LoginAlertDialog from "./LoginAlertDialog";
 
 function LoginModal({ handleChangeModal }: ModalProps) {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -43,6 +34,10 @@ function LoginModal({ handleChangeModal }: ModalProps) {
     }
   }, []);
 
+  const alertUtils = {
+    open: showLoginFailDialog,
+    onOpenChange: setShowLoginFailDialog
+  };
   return (
     <div className="flex h-full">
       {/* Left side - Welcome section */}
@@ -115,22 +110,7 @@ function LoginModal({ handleChangeModal }: ModalProps) {
           </Button>
         </div>
       </div>
-      <AlertDialog open={showLoginFailDialog} onOpenChange={setShowLoginFailDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-red-500" />
-              <AlertDialogTitle>로그인 실패</AlertDialogTitle>
-            </div>
-            <AlertDialogDescription>이메일 또는 비밀번호가 잘못되었습니다.</AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowLoginFailDialog(false)}>
-              확인
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <LoginAlertDialog open={alertUtils.open} onOpenChange={alertUtils.onOpenChange} />
     </div>
   );
 }
