@@ -17,6 +17,17 @@ import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
 import LinearProgress from "./LinearProgress";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 // Navigation menu items
 const navItems = [
@@ -45,6 +56,8 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
   const { isLogin, toggleLogin } = useLogin();
   const { setUserInfo, deleteUserInfo } = useUser();
 
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
   const checkLogin = useCallback(async () => {
     const { data } = await handleApi(() => fetchCurrentUser());
     console.log(data);
@@ -56,11 +69,11 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     checkLogin();
   }, []);
 
-  const handleLogout = () => {
+  const executeLogout = () => {
     toggleLogin(false); // 로그인 상태 변경
     deleteUserInfo(); // 사용자 정보 초기화
     handleApi(() => logout());
-    alert("로그아웃 되었습니다.");
+    toast.success("로그아웃 되었습니다.");
     router.push("/"); // 홈으로 리다이렉트
   };
 
@@ -114,7 +127,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                 <Button
                   variant="link"
                   className="font-['Julius_Sans_One',Helvetica] text-1xl text-black p-0 cursor-pointer"
-                  onClick={handleLogout}
+                  onClick={() => setShowLogoutDialog(true)}
                 >
                   Logout
                 </Button>
@@ -151,6 +164,20 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           </div>
         </div>
       </header>
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>정말 로그아웃 하시겠어요?</AlertDialogTitle>
+            <AlertDialogDescription>
+              로그아웃 시 다시 로그인해야 이용할 수 있어요.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>취소</AlertDialogCancel>
+            <AlertDialogAction onClick={executeLogout}>확인</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <LinearProgress colorClassName="bg-[black]" />
     </Fragment>
   );
