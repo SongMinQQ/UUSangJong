@@ -35,7 +35,9 @@ export default function DetailPageUI() {
     fetchPostData();
     fetchBids();
   }, [postId]);
-
+  useEffect(() => {
+    console.log(bids);
+  }, [bids])
   useBidSocket(postId, (newBid) => {
     setBids((prev) => [...prev, newBid]);
   })
