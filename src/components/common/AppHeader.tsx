@@ -18,7 +18,7 @@ import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
 import LinearProgress from "./LinearProgress";
 import { toast } from "sonner";
-import AlertDialogComponent from "./AlertDialog";
+import AlertDialogComponent from "@/components/common/AlertDialog";
 
 // Navigation menu items
 const navItems = [
@@ -68,13 +68,6 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     router.push("/"); // 홈으로 리다이렉트
   };
 
-  const logoututils = {
-    title: "정말 로그아웃 하시겠어요?",
-    description: "로그아웃 시 다시 로그인해야 이용할 수 있어요.",
-    open: showLogoutDialog,
-    onOpenChange: setShowLogoutDialog,
-    onClick: executeLogout,
-  }
   return (
     <Fragment>
       {/* Header with navigation */}
@@ -163,11 +156,13 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
         </div>
       </header>
       <AlertDialogComponent
-        title={logoututils.title}
-        description={logoututils.description}
-        open={logoututils.open}
-        onOpenChange={logoututils.onOpenChange}
-        onClick={logoututils.onClick} />
+        title="정말 로그아웃 하시겠어요?"
+        description="로그아웃 시 다시 로그인해야 이용할 수 있어요."
+        open={showLogoutDialog}
+        onOpenChange={setShowLogoutDialog}
+        onConfirm={executeLogout}
+      />
+
       <LinearProgress colorClassName="bg-[black]" />
     </Fragment>
   );
