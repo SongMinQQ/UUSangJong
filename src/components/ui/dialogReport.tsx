@@ -12,11 +12,7 @@ import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { createReport } from "@/services/report";
 import { useRouter } from "next/navigation";
-
-interface DialogRepoerProps {
-  postId: number;
-  reportedUserId: number;
-}
+import { DialogRepoerProps } from "@/types/report";
 
 export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
   const [open, setOpen] = useState(false);

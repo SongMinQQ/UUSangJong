@@ -1,9 +1,11 @@
 import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Bid } from "@/types/bid";
-import BidList from "./BidList";
+import BidListItem from "./BidListItem";
 
 interface ItemInfoTabsProps {
+  postId: number;
+  userId: number;
   data: {
     content: string;
     bidHistoy: Array<{
@@ -15,7 +17,7 @@ interface ItemInfoTabsProps {
   bids: Bid[];
 }
 
-const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps): JSX.Element => {
+const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
@@ -39,7 +41,7 @@ const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps): JSX.Element => {
           <div className="w-full">
             {bids ? (
               bids.map((bid, index) => (
-                <BidList bid={bid} key={index} />
+                <BidListItem bid={bid} key={index} postId={postId} userId={userId} />
               ))
             ) : (
               <div>입찰 내역이 없습니다.</div>
