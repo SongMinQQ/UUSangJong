@@ -18,6 +18,7 @@ interface ItemInfoTabsProps {
 }
 
 const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {
+  console.log("lololololo", data.content);
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
@@ -34,7 +35,10 @@ const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.El
         </TabsList>
 
         <TabsContent value="productDescription" className="mt-0">
-          <div dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }} />
+          <div
+            className="[&>h1]:text-3xl [&>h2]:text-2xl [&>h3]:text-xl"
+            dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }}
+          />
         </TabsContent>
 
         <TabsContent value="bidHistory" className="mt-0">

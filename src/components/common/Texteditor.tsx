@@ -9,6 +9,7 @@ import { Button } from "../ui/button";
 import { BoldIcon, ItalicIcon, StrikethroughIcon } from "lucide-react";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
+import "@/app/globals.css";
 
 export default function TextEditor({
   value,
@@ -17,9 +18,10 @@ export default function TextEditor({
   value: string;
   onChange: (html: string) => void;
 }) {
+  console.log(value);
   const editor = useEditor({
     extensions: [StarterKit, Bold, Italic, TextStyle, Color],
-    content: value,
+    content: value || "<p></p>", //null 보호를 위해
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       onChange(html);
@@ -33,10 +35,10 @@ export default function TextEditor({
   });
 
   useEffect(() => {
-    if (editor) {
-      console.log("Editor ready", editor);
+    if (editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value || "<p></p>", false);
     }
-  }, [editor]);
+  }, [editor, value]);
 
   if (!editor) return null;
 
