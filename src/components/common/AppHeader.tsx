@@ -72,13 +72,13 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     <Fragment>
       {/* Header with navigation */}
       <header className={`${isSticky && "sticky"} top-0 z-10 w-full bg-[#fefdf6] shadow-md`}>
-        <div className="container mx-auto px-4 py-6 flex flex-col items-center">
+        <div className="container mx-auto px-4 py-6 flex flex-col items-center relative">
           {/* Logo */}
           <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black mb-6">UUSJ</h1>
 
           {/* Navigation */}
           <NavigationMenu className="mx-auto">
-            <NavigationMenuList className="flex gap-8">
+            <NavigationMenuList className="flex flex-wrap justify-center gap-4 sm:gap-8 max-w-full overflow-hidden">
               {navItems.map((item) => {
                 if (item.title === "Ranking") {
                   return (

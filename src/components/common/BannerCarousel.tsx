@@ -31,14 +31,14 @@ const bannerContents = [
 function BannerCarousel() {
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
   return (
-    <section className="max-w-[1440px] h-[391px] relative">
+    <section className="w-full max-w-[1440px] h-[391px] relative overflow-hidden">
       <Carousel
-        className="max-w-[1440px] h-[391px]"
+        className="w-full max-w-[1440px] h-[391px]"
         plugins={[plugin.current]}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
-        <CarouselContent className="w-full h-full object-cover h-[391px]">
+        <CarouselContent className="w-full h-full">
           {bannerContents.map((item) => (
             <CarouselItem key={`banner_Content_${item.id}`}>
               <img className="w-full h-full object-cover " alt={item.alt} src={item.src} />
