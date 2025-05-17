@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { DialogReport } from "@/components/ui/dialogReport";
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 import { Bid } from "@/types/bid";
 import React, { memo } from "react";
 interface BidListProps {
