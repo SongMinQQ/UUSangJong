@@ -5,17 +5,14 @@ import { answerQna } from "@/services/qnaService";
 import { handleApi } from "@/utils/handleApi";
 import AlertDialogComponent from "@/components/common/AlertDialog"; // 실제 위치에 맞게 경로 수정 필요
 
-export default function AnswerForm({
-  qnaId,
-  postId,
-  onSuccess,
-}: {
+interface AnswerFormProps {
   qnaId: number;
   postId: number;
   onSuccess: () => void;
-}) {
-  const [content, setContent] = useState("");
-  const [dialogOpen, setDialogOpen] = useState(false); // AlertDialog 열림 상태
+}
+export default function AnswerForm({ qnaId, postId, onSuccess }: AnswerFormProps) {
+  const [content, setContent] = useState<string>("");
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false); // AlertDialog 열림 상태
 
   // AlertDialog에서 확인 버튼 눌렀을 때 실행
   const handleConfirm = async () => {

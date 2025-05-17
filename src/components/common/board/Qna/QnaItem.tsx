@@ -3,18 +3,14 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import AnswerForm from "./AnswerForm";
 
-// QnA 답변 폼 조건부 렌더링
-export default function QnaItem({
-  qna,
-  isOwner,
-  postId,
-  onSuccess,
-}: {
+interface QnaItemProps {
   qna: Qna;
   isOwner: boolean; // 현재 로그인한 유저가 글 작성자인지 여부 (판매자 여부)
   postId: number; // QnA가 속한 게시물 ID
   onSuccess: () => void;
-}) {
+}
+// QnA 답변 폼 조건부 렌더링
+export default function QnaItem({ qna, isOwner, postId, onSuccess }: QnaItemProps) {
   return (
     <Card>
       <CardHeader>

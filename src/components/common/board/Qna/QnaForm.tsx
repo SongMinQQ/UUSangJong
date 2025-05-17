@@ -8,10 +8,10 @@ import { AlertTriangle } from "lucide-react";
 import { CheckCircle } from "lucide-react"; // 아이콘은 자유롭게
 
 export default function QnaForm({ postId, onSuccess }: { postId: number; onSuccess: () => void }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [warnDialogOpen, setWarnDialogOpen] = useState(false); // 제목/내용 누락 경고 다이얼로그
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false); // 등록 확인용 다이얼로그
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [warnDialogOpen, setWarnDialogOpen] = useState<boolean>(false); // 제목/내용 누락 경고 다이얼로그
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false); // 등록 확인용 다이얼로그
 
   const handleRegister = async () => {
     const { data } = await handleApi(() => createQna(postId, title, content));
