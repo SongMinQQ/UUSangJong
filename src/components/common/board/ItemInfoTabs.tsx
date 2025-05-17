@@ -2,13 +2,14 @@ import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Bid } from "@/types/bid";
 import BidListItem from "./BidListItem";
+import QnaList from "@/components/common/board/Qna/QnaList";
 
 interface ItemInfoTabsProps {
   postId: number;
   userId: number;
   data: {
     content: string;
-    bidHistoy: Array<{
+    bidHistory: Array<{
       id: number;
       price: string;
       comment: string;
@@ -55,6 +56,7 @@ const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.El
 
         <TabsContent value="qna" className="mt-0">
           {/* QnA 내용 */}
+          <QnaList postId={postId} postOwnerId={userId} />
         </TabsContent>
       </Tabs>
     </div>

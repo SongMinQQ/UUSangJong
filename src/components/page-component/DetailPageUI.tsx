@@ -67,6 +67,7 @@ export default function DetailPageUI() {
       </div>
       <ItemInfoTabs
         postId={postId}
+        userId={postData.user_id}
         data={{ content: safeHtml, bidHistory: postData.bidHistory }}
         bids={bids}
       />
