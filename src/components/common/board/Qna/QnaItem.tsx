@@ -1,7 +1,7 @@
 import { Qna } from "@/types/qna";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import AnswerForm from "./AnswerForm";
+import { Separator } from "@/components/ui/separator";
 
 interface QnaItemProps {
   qna: Qna;
@@ -12,33 +12,44 @@ interface QnaItemProps {
 // QnA 답변 폼 조건부 렌더링
 export default function QnaItem({ qna, isOwner, postId, onSuccess }: QnaItemProps) {
   return (
-    <Card>
-      <CardHeader>
-        <div className="text-sm font-semibold">{qna.title}</div>
-        <div className="text-xs text-muted-foreground">{qna.created_at}</div>
+    // <Card className="border border-gray-100 bg-[#fffdf9] shadow-xs rounded-lg">
+    <Card className="border-none bg-[#faf8ef] rounded-lg">
+      <CardHeader className="flex flex-col gap-1">
+        <div className="w-full">
+          <div className="text-m font-bold">Q. {qna.title}</div>
+          <div className="text-xs text-muted-foreground text-end  text-gray-500">
+            {new Date(qna.created_at).toLocaleString("ko-KR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </div>
+        </div>
+        <div className="text-sm">{qna.content}</div>
       </CardHeader>
 
-      <CardContent>
-        <p className="text-sm mb-2">{qna.content}</p>
+      <Separator className="bg-gray-200" />
+      <CardContent className="">
+        {qna.answer_content ? (
+          <div className="flex items-start gap-1 mb-2">
+            {/* A. 고정 접두어 */}
+            <span className="font-bold pt-[0.5px]">A.</span>
 
-        {/* 답변이 이미 존재하는 경우 */}
-        {qna.answer_content && (
-          <>
-            <Separator className="my-2" />
-            <div className="text-sm font-bold text-green-700">답변</div>
-            <p className="text-sm">{qna.answer_content}</p>
-          </>
+            {/* 답변 박스 */}
+            <div className="text-sm rounded-md py-1 px-2 bg-[#efede3]/80 font-semibold leading-relaxed">
+              {qna.answer_content}
+            </div>
+          </div>
+        ) : (
+          <div className="text-xs text-gray-700 text-center font-bold mb-4">답변이 없습니다.</div>
         )}
 
-        {/* 답변이 없는 경우 */}
-        {!qna.answer_content && <p className="text-sm text-red-500">답변이 없습니다.</p>}
-
-        {/* 판매자인 경우 항상 답변 폼을 보여줌 */}
         {isOwner && (
-          <>
-            <Separator className="my-2" />
+          <div className="pt-2">
             <AnswerForm qnaId={qna.qna_id} postId={postId} onSuccess={onSuccess} />
-          </>
+          </div>
         )}
       </CardContent>
     </Card>

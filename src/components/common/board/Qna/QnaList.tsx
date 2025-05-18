@@ -2,6 +2,7 @@ import { useUser } from "@/hooks/useUser";
 import { useQna } from "@/hooks/useQna";
 import QnaItem from "./QnaItem";
 import QnaForm from "./QnaForm";
+import { Separator } from "@/components/ui/separator";
 
 interface QnaListProps {
   postId: number;
@@ -16,25 +17,22 @@ export default function QnaList({ postId, postOwnerId }: QnaListProps) {
   const { qnas, refetch } = useQna(postId); // 해당 postId에 대한 QnA 목록을 가져오는 커스텀 훅
 
   return (
-    <div className="space-y-4">
-      {qnas.map((qna) => (
-        <QnaItem key={qna.qna_id} qna={qna} isOwner={isOwner} postId={postId} onSuccess={refetch} />
-      ))}
+    <div className="space-y-4 p-4">
       <QnaForm postId={postId} onSuccess={refetch} />
-
-      {/* QnA 탭을 누르면 사용자 정보를 확인하기 위해 넣어놓음. 나중에 삭제 할 부분. */}
-      {process.env.NODE_ENV === "development" && (
-        <div className="mt-6 p-4 border text-sm text-gray-600 bg-gray-50 rounded-md">
-          <div>
-            📬 <strong>작성자 ID</strong>: {postOwnerId}
-          </div>
-          <div>
-            🙋 <strong>로그인한 유저 ID</strong>: {userId ?? "불러오지 못함"}
-          </div>
-          <div>
-            👑 <strong>판매자 여부</strong>: {isOwner ? "✅ 본인" : "❌ 타인"}
-          </div>
-        </div>
+      <Separator className="bg-gray-400 my-6" />
+      {/* QnA가 없을 때 메시지 출력 */}
+      {qnas.length === 0 ? (
+        <p className="text-m text-muted-foreground text-center mb-6">등록된 QnA가 없습니다.</p>
+      ) : (
+        qnas.map((qna) => (
+          <QnaItem
+            key={qna.qna_id}
+            qna={qna}
+            isOwner={isOwner}
+            postId={postId}
+            onSuccess={refetch}
+          />
+        ))
       )}
     </div>
   );

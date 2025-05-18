@@ -32,24 +32,30 @@ export default function QnaForm({ postId, onSuccess }: { postId: number; onSucce
   };
 
   return (
-    <div className="space-y-2 mt-4">
+    <div className="space-y-2 rounded-md shadow p-4 bg-[#faf8ef]">
+      <h3 className="text-md font-bold text-center">💬 판매자에게 질문을 남겨보세요</h3>
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="제목"
-        className="w-full border px-3 py-2 rounded-md text-sm"
+        placeholder="궁금한 점의 제목을 입력해주세요"
+        className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm focus:outline-none focus:ring-0 focus:border-[#353333]"
       />
       <Textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="질문 내용을 입력하세요"
+        placeholder="판매자에게 남기고 싶은 질문 내용을 자세히 입력해주세요"
         className="min-h-[100px]"
       />
 
-      <Button onClick={handleClick} className="w-full">
-        QnA 등록
-      </Button>
+      <div className="flex justify-end">
+        <Button
+          onClick={handleClick}
+          className="cursor-pointer bg-[#353333] hover:bg-[#252323] text-white"
+        >
+          QnA 등록
+        </Button>
+      </div>
 
       {/* ❌ 누락 시 경고 다이얼로그 */}
       <AlertDialogComponent
