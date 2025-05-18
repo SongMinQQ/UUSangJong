@@ -1,16 +1,18 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
-import WritePageUI from "../../app/write/WritePageUI";
+import WritePageUI from "@/components/page-component/WritePageUI";
 import { useRouter } from "next/navigation";
 import { createPost } from "@/services/createPost";
-import { updatePost, fetchPostDetail } from "@/services/postService";
+import { updatePost, fetchPostDetail, cancelPost } from "@/services/postService";
 import { uploadPostImage } from "@/services/uploadPostImage";
 import { useParams } from "next/navigation";
 import { addDays, format } from "date-fns";
+import { toast } from "sonner";
 
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [isCancle, setIsCancle] = useState(false);
   const [formError, setFormError] = useState({
     title: "",
     price: "",
@@ -40,6 +42,9 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
             contents: data.content ?? "",
             endDate: data.end_date.slice(0, 10),
           });
+          if (data.is_sold === "cancelled") setIsCancle(true);
+          {
+          }
         })
         .catch((error) => {
           console.error("게시물 불러오기 실패:", error);
@@ -75,10 +80,12 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       images: imageFiles.length > 0 ? "" : "이미지는 1개 이상 등록해주세요.",
     };
 
-    setFormError(errors);
-
     const hasError = Object.values(errors).some((msg) => msg !== "");
-    if (hasError) return;
+    if (hasError) {
+      setFormError(errors);
+      toast.error("필드를 확인해 주세요.");
+      return;
+    }
 
     try {
       let createdPostId = Number(postId);
@@ -93,7 +100,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           end_date: form.endDate,
           is_sold: "on_sale",
         });
-        alert("수정 완료");
+        toast.success("수정 완료");
       } else {
         const response = await createPost({
           title: form.title,
@@ -105,7 +112,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
         });
 
         if (!response?.postId) {
-          alert("게시물 등록 실패");
+          toast.error("게시물 등록 실패");
           return;
         }
 
@@ -117,13 +124,13 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           }
         }
 
-        alert("등록 완료");
+        toast.success("등록 완료");
       }
 
       router.push(`/board/${createdPostId}`);
     } catch (err: any) {
       console.error(err);
-      alert(`오류: ${err.message}`);
+      toast.error(`오류: ${err.message}`);
     }
   };
 
@@ -131,7 +138,20 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     router.push("/board");
   };
 
-  // ✅ 실시간 입력 시 해당 필드 에러 제거
+  const onClickButtonCancle = async () => {
+    try {
+      await cancelPost(Number(postId));
+      toast.success("경매가 취소되었습니다.");
+      setIsCancle(true);
+      router.push(`/board/${postId}`);
+      console.log("pi", postId);
+    } catch (error) {
+      console.error("경매 취소 실패:", error);
+      toast.error("경매 취소 실패했습니다.");
+    }
+  };
+
+  // 실시간 입력 시 해당 필드 에러 제거
   const onChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -151,6 +171,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       fileInputRef={fileInputRef}
       onClickButton={onClickButton}
       onClickBUttonBack={onClickBUttonBack}
+      onClickButtonCancle={onClickButtonCancle}
       onChangeForm={onChangeForm}
       onClickDeleteImage={onClickDeleteImage}
       onChangeContents={onChangeContents}
@@ -159,6 +180,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       formError={formError}
       imageFiles={imageFiles}
       setImageFiles={setImageFiles}
+      isCancle={isCancle}
     />
   );
 }

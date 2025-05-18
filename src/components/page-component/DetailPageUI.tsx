@@ -34,6 +34,8 @@ export default function DetailPageUI() {
 
   const safeHtml = DOMPurify.sanitize(postData.contents);
 
+  console.log("writerEmail", postData.email);
+
   return (
     <div className="relative w-full min-h-screen px-4">
       <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
@@ -48,6 +50,7 @@ export default function DetailPageUI() {
           instantPrice={postData?.instant_price}
           endDate={postData?.end_date}
           isSold={postData?.is_sold}
+          writerId={postData.user_id}
         />
         {/* 입찰 내용 */}
       </div>

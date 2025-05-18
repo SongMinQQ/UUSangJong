@@ -1,6 +1,7 @@
 import axios from "@/utils/http-commons";
 import { SearchEnabled } from "@/store/store";
 import { proxyRequestSelector } from "@/services/apiProxy";
+import { format } from "date-fns";
 const ROWS_PER_PAGE = 24;
 
 export interface updatePost {
@@ -18,14 +19,22 @@ export interface BoardType extends updatePost {
   now_price: string;
 }
 
+export interface PostDetail extends updatePost {
+  user_id: number;
+  delivery: string;
+  now_price: number;
+  created_at: string;
+  updated_at: string;
+  sample_image?: string;
+}
 export const updatePost = async (params: updatePost): Promise<any> => {
   const { data } = await axios.put("/post", params);
   return data;
 };
 
-export const fetchPostDetail = async (postId: string | number): Promise<any> => {
+export const fetchPostDetail = async (postId: string | number): Promise<PostDetail> => {
   // const { data } = await axios.get(`/post/${postId}`);
-  const data = await proxyRequestSelector({
+  const data = await proxyRequestSelector<PostDetail>({
     queryKey: { queryKey: ["post", postId] },
     method: "GET",
   });
@@ -75,4 +84,32 @@ export const getPreview = async (): Promise<BoardType[]> => {
     },
   });
   return data;
+};
+
+export const cancelPost = async (postId: number): Promise<PostDetail> => {
+  const postData = await fetchPostDetail(postId);
+
+  console.log("cancle:", postData);
+
+  if (!postData) {
+    throw new Error("Post not found");
+  }
+
+  const cancelParams = {
+    post_id: postData.post_id,
+    title: postData.title,
+    content: postData.content,
+    start_price: postData.start_price,
+    instant_price: postData.instant_price,
+    end_date: format(new Date(postData.end_date), "yyyy-MM-dd HH:mm:ss"),
+    is_sold: "canceled",
+    user_id: postData.user_id,
+    delivery: postData.delivery,
+    now_price: postData.now_price ?? 0,
+    created_at: format(new Date(postData.created_at), "yyyy-MM-dd HH:mm:ss"),
+    updated_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+  };
+
+  console.log("cancleParams:", cancelParams);
+  return await updatePost(cancelParams);
 };

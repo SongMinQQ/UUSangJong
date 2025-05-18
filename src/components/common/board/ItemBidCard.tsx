@@ -8,6 +8,7 @@ import { AlertTriangle, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
 import React, { useEffect, useState } from "react";
+import { useUser } from "@/store/store";
 
 // ✅ props 타입 명확하게 정의
 interface ItemBidCardProps {
@@ -18,6 +19,7 @@ interface ItemBidCardProps {
   instantPrice: number;
   endDate: string;
   isSold: string;
+  writerId: number;
 }
 
 const ItemBidCard = ({
@@ -27,6 +29,7 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
+  writerId,
 }: ItemBidCardProps) => {
   const router = useRouter();
   const { setCurrentId } = useBoardItemList();
@@ -43,6 +46,14 @@ const ItemBidCard = ({
   };
   console.log(instantPrice);
 
+  //로그인 유저와 비교
+  const { email: loginUserId } = useUser();
+  console.log("로그인 이메일", loginUserId);
+  const isOwner = loginUserId === writerId;
+
+  const isBidDisabled = isSold !== "on_sale";
+
+  console.log("postId", postId, "isSold", isSold);
   return (
     <Card className="w-[90vw] max-w-[440px] h-[75vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
       <CardContent className="p-0 relative">
@@ -80,6 +91,7 @@ const ItemBidCard = ({
               placeholder="입찰 가격"
               value={bidPrice}
               onChange={(e) => setBidPrice(e.target.value)}
+              disabled={isBidDisabled}
             />
           </div>
 
@@ -89,27 +101,45 @@ const ItemBidCard = ({
               placeholder="입찰 코멘트"
               value={bidComment}
               onChange={(e) => setBidComment(e.target.value)}
+              disabled={isBidDisabled}
             />
           </div>
         </div>
 
         <div className="absolute w-[202px] h-[49px] top-[484px] left-[116px]">
-          <Button className="w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]">
+          <Button
+            className="w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]"
+            disabled={isBidDisabled}
+          >
             입찰하기
           </Button>
         </div>
 
         <Separator className="absolute top-[553px] w-[428px] bg-[#cccccc] left-0" />
 
-        <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
-          <Edit className="w-6 h-6" />
-          <button
-            onClick={onClickEdit}
-            className="relative font-normal text-uusj-theme-schemes-outline text-xl underline"
-          >
-            게시물 수정
-          </button>
-        </div>
+        {/* {isOwner && isSold === "on_sale" && (
+          <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
+            <Edit className="w-6 h-6" />
+            <button
+              onClick={onClickEdit}
+              className="relative font-normal text-uusj-theme-schemes-outline text-xl underline"
+            >
+              게시물 수정
+            </button>
+          </div>
+        )} */}
+
+        {isSold === "on_sale" && (
+          <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
+            <Edit className="w-6 h-6" />
+            <button
+              onClick={onClickEdit}
+              className="relative font-normal text-uusj-theme-schemes-outline text-xl underline"
+            >
+              게시물 수정
+            </button>
+          </div>
+        )}
 
         <AlertTriangle className="absolute w-[25px] h-[25px] top-[566px] left-[402px] text-red-500" />
       </CardContent>

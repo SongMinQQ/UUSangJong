@@ -3,17 +3,21 @@
 import { Button } from "@/components/ui/button";
 import "swiper/css";
 import "swiper/css/scrollbar";
-import ImageSlider from "./ImageSlider";
+import ImageSlider from "../../app/write/ImageSlider";
 import TextEditor from "@/components/common/Texteditor";
 import { Slider } from "@/components/ui/slider";
 import { useCallback, useState } from "react";
 import { addDays, format } from "date-fns";
+import ConfirmDialog from "@/components/common/confirmDialog";
 
 export default function WritePageUI(props) {
   const [dueDate, setDueDate] = useState(1);
   const handleDueDateChange = useCallback((value: number[]) => {
     setDueDate(value[0]);
   }, []);
+
+  console.log("isEdit", props.isEdit);
+  console.log("isCancle", props.isCancle);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">
@@ -158,19 +162,46 @@ export default function WritePageUI(props) {
       )}
 
       {/* 버튼 영역 */}
-      <div className="flex gap-4 mt-8">
+      <div className="flex gap-15 mt-8 mb-[148px]">
         <Button
           className="cursor-pointer bg-[#BEB8B8] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
           onClick={props.onClickBUttonBack}
         >
           돌아가기
         </Button>
-        <Button
-          className="cursor-pointer bg-[#4C4528] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
-          onClick={props.onClickButton}
-        >
-          {props.isEdit ? "수정하기" : "등록하기"}
-        </Button>
+        {props.isEdit && (
+          <ConfirmDialog
+            title="Warning"
+            description="경매 등록을 취소하시면 현재 게시글을 더는 수정하실 수 없습니다. 정말 취소하시겠습니까?"
+            confirmText="위 사항을 확인했으며, 취소에 동의합니다."
+            cancelText="Cancel"
+            onConfirm={props.onClickButtonCancle}
+          >
+            <Button
+              className="cursor-pointer bg-[#BA1A1A] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
+              disabled={props.isCancle}
+            >
+              {props.isCancel ? "경매 취소됨" : "경매 취소하기"}
+            </Button>
+          </ConfirmDialog>
+        )}
+        {!props.isEdit && (
+          <Button
+            className="cursor-pointer bg-[#4C4528] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
+            onClick={props.onClickButton}
+          >
+            등록하기
+          </Button>
+        )}
+
+        {props.isEdit && !props.isCancle && (
+          <Button
+            className="cursor-pointer bg-[#4C4528] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
+            onClick={props.onClickButton}
+          >
+            수정하기
+          </Button>
+        )}
       </div>
     </div>
   );
