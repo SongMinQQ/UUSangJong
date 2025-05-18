@@ -47,9 +47,9 @@ const ItemBidCard = ({
   console.log(instantPrice);
 
   //로그인 유저와 비교
-  const { email: loginUserId } = useUser();
-  console.log("로그인 이메일", loginUserId);
-  const isOwner = loginUserId === writerId;
+  // const { email: loginUserId } = useUser();
+  // console.log("로그인 이메일", loginUserId);
+  // const isOwner = loginUserId === writerId;
 
   const isBidDisabled = isSold !== "on_sale";
 
