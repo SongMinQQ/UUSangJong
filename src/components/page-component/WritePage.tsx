@@ -4,7 +4,12 @@ import WritePageUI from "./WritePageUI";
 import { useRouter } from "next/navigation";
 import { createPost } from "@/services/createPost";
 import { updatePost, fetchPostDetail } from "@/services/postService";
-import { getPostImage, PostImage, uploadPostImage } from "@/services/uploadPostImage";
+import {
+  getPostImage,
+  PostImage,
+  uploadPostImage,
+  deletePostImage,
+} from "@/services/uploadPostImage";
 import { useParams } from "next/navigation";
 import { addDays, format } from "date-fns";
 
@@ -26,6 +31,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     endDate: format(addDays(new Date(Date.now()), 1), "yyyy-MM-dd"),
   });
   const [images, setImages] = useState<PostImage[]>([]);
+  const [deletedImage, setDeletedImage] = useState<number[]>([]);
   const { postId } = useParams();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,17 +61,25 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       getPostImage(Number(postId)).then(setImages);
     }
   }, [postId]);
-  const onClickDeleteImage = (index: number) => {
-    setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
-    setImageFiles((prev) => prev.filter((_, i) => i !== index));
-  };
-
   useEffect(() => {
     if (isEdit && images.length > 0) {
       const exUrls = images.map((image) => image.url);
       setPreviewUrls(exUrls);
     }
   }, [isEdit, images]);
+
+  //로컬 이미지 삭제
+  const onClickDeleteImage = (index: number, type: "server" | "local", image_id?: number) => {
+    if (type === "server" && image_id && typeof image_id === "number") {
+      console.log("aaa:", image_id);
+      setImages((prev) => prev.filter((img) => img.image_id !== image_id && image_id > 0));
+      setDeletedImage((prev) => [...prev, image_id]);
+    }
+    if (type === "local") {
+      setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+      setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    }
+  };
 
   const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -96,6 +110,15 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       let createdPostId = Number(postId);
 
       if (isEdit) {
+        //삭제 먼저..
+        if (isEdit && deletedImage.length > 0) {
+          console.log("삭제목록:", deletedImage);
+          for (const imageId of deletedImage) {
+            console.log("qqq:", imageId);
+            await deletePostImage(imageId);
+          }
+        }
+        // 게시글 수정..
         await updatePost({
           post_id: createdPostId,
           title: form.title,
@@ -105,6 +128,14 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           end_date: form.endDate,
           is_sold: "on_sale",
         });
+
+        // 새 이미지 업로드드
+        if (imageFiles.length > 0) {
+          for (const file of imageFiles) {
+            await uploadPostImage({ postId: createdPostId, image: file });
+          }
+        }
+
         alert("수정 완료");
       } else {
         const response = await createPost({
@@ -159,6 +190,19 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     fileInputRef.current?.click();
   };
 
+  //서버 | 로컬 이미지 데이터 통합
+  const serverLocalImages = [
+    ...images.map((image) => ({
+      url: image.url,
+      type: "server",
+      image_id: image.image_id,
+    })),
+    ...imageFiles.map((file) => ({
+      url: URL.createObjectURL(file),
+      type: "local",
+    })),
+  ];
+
   return (
     <WritePageUI
       imageUrls={previewUrls}
@@ -175,6 +219,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       formError={formError}
       imageFiles={imageFiles}
       setImageFiles={setImageFiles}
+      serverLocalImages={serverLocalImages}
     />
   );
 }

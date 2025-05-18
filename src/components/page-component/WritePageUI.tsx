@@ -30,7 +30,7 @@ export default function WritePageUI(props) {
         <div className="w-1/2 flex flex-col items-center">
           <div className="w-full mb-2 h-full">
             <ImageSlider
-              images={props.imageUrls}
+              images={props.serverLocalImages}
               onClickImageUpload={props.onClickImageUpload}
               onClickDeleteImage={props.onClickDeleteImage}
             />

@@ -10,6 +10,10 @@ export interface UploadPostImageResponse {
   message: string;
 }
 
+export interface deletePostImageInput {
+  image_id: number;
+}
+
 export interface PostImage {
   image_id: number;
   post_id: number;
@@ -20,6 +24,12 @@ export const getBoardList = async (): Promise<BoardType[]> => {
   return data;
 };
 
+//이미지 삭제
+export const deletePostImage = async (image_id: number): Promise<void> => {
+  await axios.delete(`/post/image/delete/${image_id}`);
+};
+
+//이미지 조회
 export const getPostImage = async (post_id: number): Promise<PostImage[]> => {
   const { data } = await axios.get<PostImage[]>(`/post/image/${post_id}`);
   return data;
