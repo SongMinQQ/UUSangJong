@@ -1,4 +1,5 @@
 import axios from "@/utils/http-commons";
+import { BoardType } from "./postService";
 
 export interface UploadPostImageInput {
   postId: number;
@@ -9,11 +10,22 @@ export interface UploadPostImageResponse {
   message: string;
 }
 
+export interface PostImage {
+  image_id: number;
+  post_id: number;
+  url: string;
+}
 export const getBoardList = async (): Promise<BoardType[]> => {
-  const { data } = await axios.get("/post");
+  const { data } = await axios.get<BoardType[]>("/post");
   return data;
 };
 
+export const getPostImage = async (post_id: number): Promise<PostImage[]> => {
+  const { data } = await axios.get<PostImage[]>(`/post/image/${post_id}`);
+  return data;
+};
+
+//게시글 이미지 업로드
 export const uploadPostImage = async (
   params: UploadPostImageInput
 ): Promise<UploadPostImageResponse> => {

@@ -4,7 +4,7 @@ import WritePageUI from "../../app/write/WritePageUI";
 import { useRouter } from "next/navigation";
 import { createPost } from "@/services/createPost";
 import { updatePost, fetchPostDetail } from "@/services/postService";
-import { uploadPostImage } from "@/services/uploadPostImage";
+import { getPostImage, PostImage, uploadPostImage } from "@/services/uploadPostImage";
 import { useParams } from "next/navigation";
 import { addDays, format } from "date-fns";
 
@@ -25,10 +25,12 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     contents: "",
     endDate: format(addDays(new Date(Date.now()), 1), "yyyy-MM-dd"),
   });
+  const [images, setImages] = useState<PostImage[]>([]);
   const { postId } = useParams();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  //게시물
   useEffect(() => {
     if (isEdit && postId) {
       fetchPostDetail(Number(postId))
@@ -47,14 +49,23 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     }
   }, [isEdit, postId]);
 
-  const onClickImageUpload = () => {
-    fileInputRef.current?.click();
-  };
-
+  //이미지
+  useEffect(() => {
+    if (postId) {
+      getPostImage(Number(postId)).then(setImages);
+    }
+  }, [postId]);
   const onClickDeleteImage = (index: number) => {
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
     setImageFiles((prev) => prev.filter((_, i) => i !== index));
   };
+
+  useEffect(() => {
+    if (isEdit && images.length > 0) {
+      const exUrls = images.map((image) => image.url);
+      setPreviewUrls(exUrls);
+    }
+  }, [isEdit, images]);
 
   const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -67,12 +78,13 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
   };
 
   const onClickButton = async () => {
+    const totalImages = images.length + imageFiles.length;
     const errors = {
       title: form.title ? "" : "제목을 입력해주세요.",
       startPrice: form.startPrice ? "" : "시작가를 입력해주세요.",
       price: form.price ? "" : "즉시구매 가격을 입력해주세요.",
       contents: form.contents ? "" : "내용을 입력해주세요.",
-      images: imageFiles.length > 0 ? "" : "이미지는 1개 이상 등록해주세요.",
+      images: totalImages > 0 ? "" : "이미지는 1개 이상 등록해주세요.",
     };
 
     setFormError(errors);
@@ -141,6 +153,10 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const onChangeContents = (html: string) => {
     setForm((prev) => ({ ...prev, contents: html }));
     setFormError((prev) => ({ ...prev, contents: "" }));
+  };
+
+  const onClickImageUpload = () => {
+    fileInputRef.current?.click();
   };
 
   return (
