@@ -23,7 +23,7 @@ const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.El
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
-        <TabsList className="bg-transparent p-0 h-auto mb-[39px] flex gap-x-8">
+        <TabsList className="bg-transparent p-0 h-auto flex gap-x-8">
           {["productDescription", "bidHistory", "qna"].map((key, idx) => (
             <TabsTrigger
               key={key}
