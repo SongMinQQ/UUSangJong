@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
-import WritePageUI from "../../app/write/WritePageUI";
+import WritePageUI from "./WritePageUI";
 import { useRouter } from "next/navigation";
 import { createPost } from "@/services/createPost";
 import { updatePost, fetchPostDetail } from "@/services/postService";
