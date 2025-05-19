@@ -23,7 +23,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
-import { DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 
 export default function DetailPageUI() {
@@ -83,32 +82,28 @@ export default function DetailPageUI() {
   // console.log("writerEmail", postData.email);
 
   return (
-    <Fragment>
-      <div className="w-full min-h-screen px-4 bg-[#fefdf6]">
-        <div className="flex flex-col w-full xl:flex-row gap-10 max-w-screen-xl mx-auto">
-          <div className="flex-1 xl:mr-auto">
-            <ItemInfo images={postData?.images ?? []} />
-          </div>
-          {/* 이미지 썸네일부분 */}
-
-          {/* 입찰 내용 */}
+    <div className="w-full px-4 bg-[#fefdf6]">
+      <div className="flex flex-col items-center justify-center xl:flex-row items-start gap-10 max-w-screen-xl mx-auto">
+        <div className="xl:w-auto xl:mx-0 w-full mx-auto">
+          <ItemInfo images={postData?.images ?? []} />
+          <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
         </div>
-        <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
-        {/* 입찰 댓글.제품설명.QnA */}
-      </div>
-      <div className="hidden xl:block fixed top-20 right-[10vw] z-50 w-[440px]">
-        <ItemBidCard
-          postId={postId}
-          title={postData?.title}
-          content={postData?.content}
-          startPrice={postData?.start_price}
-          instantPrice={postData?.instant_price}
-          endDate={postData?.end_date}
-          isSold={postData?.is_sold}
-          writerId={postData.user_id}
-          userId={postData?.user_id}
-          nowPrice={nowPrice}
-        />
+        {/* 이미지 썸네일부분 */}
+        <div className="hidden xl:block w-full max-w-[440px] sticky top-[139px] self-start">
+          <ItemBidCard
+            postId={postId}
+            title={postData?.title}
+            content={postData?.content}
+            startPrice={postData?.start_price}
+            instantPrice={postData?.instant_price}
+            endDate={postData?.end_date}
+            isSold={postData?.is_sold}
+            writerId={postData.user_id}
+            userId={postData?.user_id}
+            nowPrice={nowPrice}
+          />
+        </div>
+        {/* 입찰 내용 */}
       </div>
       <Drawer modal={false}>
         <DrawerTrigger asChild>
@@ -126,6 +121,6 @@ export default function DetailPageUI() {
           </DrawerClose>
         </DrawerContent>
       </Drawer>
-    </Fragment>
+    </div>
   );
 }
