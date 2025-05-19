@@ -59,7 +59,7 @@ const ItemBidCard = ({
   console.log("postOwnerId:", postOwnerId);
   console.log("isOwner:", isOwner);
   return (
-    <Card className="z-20 w-[90vw] max-w-[440px] border-none shadow-none">
+    <Card className="z-20 w-[90vw] max-w-[440px] border-none shadow-none ">
       <CardContent className="p-4 space-y-4">
         <div className=" flex flex-row align-middle justify-between top-0 left-[33px] font-light text-black text-base whitespace-nowrap">
           <p className="mt-2 mb-2">종료일: {format(addHours(endDate, 12), "yyyy.MM.dd HH:mm")}</p>
@@ -86,12 +86,14 @@ const ItemBidCard = ({
 
         <Separator className="top-[277px] w-[428px] bg-[#cccccc] left-0" />
 
-        <div className="top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
+        <div className="hidden xl:block">
+          <div className="top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
 
-        <BidToPost postId={postId} isDisabled={isBidDisabled} />
+          <BidToPost postId={postId} isDisabled={isBidDisabled} />
 
-        <Separator className="top-[553px] w-[428px] bg-[#cccccc] left-0" />
+          <Separator className="top-[553px] w-[428px] bg-[#cccccc] left-0" />
 
+        </div>
         {isSold === "on_sale" && isOwner && (
           <div className="flex items-center gap-1.5 justify-end">
             <Edit className="w-5 h-5" />

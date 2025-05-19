@@ -67,8 +67,6 @@ export default function AnswerForm({ qnaId, postId, onSuccess }: AnswerFormProps
         onOpenChange={setDialogOpen}
         title="답변 등록"
         description="작성하신 답변을 등록하시겠습니까?"
-        confirmLabel="등록"
-        cancelLabel="취소"
         onConfirm={handleConfirm}
       />
     </div>

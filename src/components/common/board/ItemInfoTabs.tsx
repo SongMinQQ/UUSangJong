@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BidMessage } from "@/types/bid";
 import BidListItem from "./BidListItem";
 import QnaList from "@/components/common/board/Qna/QnaList";
+import { Separator } from "@/components/ui/separator";
 
 interface ItemInfoTabsProps {
   postId: number;
@@ -16,23 +17,23 @@ interface ItemInfoTabsProps {
 const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {
   console.log("lololololo", data.content, bids);
   return (
-    <div className="mt-[15vh] w-[90vw] max-w-[600px] mx-auto xl:mx-0">
-      <Tabs defaultValue="bidHistory">
+    <div className="mt-[3vh] xl:mt-[15vh] w-[90vw] max-w-[600px] mx-auto xl:mx-0">
+      <Tabs defaultValue="bidHistory" className="mb-4">
         <TabsList className="bg-transparent p-0 h-auto flex gap-x-8">
           {["productDescription", "bidHistory", "qna"].map((key, idx) => (
             <TabsTrigger
               key={key}
               value={key}
-              className="[font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-[#b6b6b6] text-[5vw] sm:text-[24px] lg:text-[28px] data-[state=active]:text-black data-[state=active]:rounded-none data-[state=active]:shadow-none px-0 pb-2"
+              className="cursor-pointer hover:text-gray-600 [font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-[#b6b6b6] text-[5vw] sm:text-[24px] lg:text-[28px] data-[state=active]:text-black data-[state=active]:rounded-none data-[state=active]:shadow-none px-0 pb-2"
             >
               {["제품 설명", "입찰 내역", "QnA"][idx]}
             </TabsTrigger>
           ))}
         </TabsList>
-
+        <Separator className="bg-gray-300" />
         <TabsContent value="productDescription" className="mt-0">
           <div
-            className="[&>h1]:text-3xl [&>h2]:text-2xl [&>h3]:text-xl min-h-50 p-2 pt-10"
+            className="p-3 bg-[#faf8ef] rounded-lg shadow-sm min-h-[200px] mt-2 mb-8"
             dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }}
           />
         </TabsContent>

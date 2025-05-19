@@ -35,7 +35,7 @@ export default function QnaItem({ qna, isOwner, postId, onSuccess }: QnaItemProp
         {qna.answer_content ? (
           <div className="flex items-start gap-1 mb-2">
             {/* A. 고정 접두어 */}
-            <span className="font-bold pt-[0.5px]">A.</span>
+            <span className="font-bold pt-[3px]">A.</span>
 
             {/* 답변 박스 */}
             <div className="text-sm rounded-md py-1 px-2 bg-[#efede3]/80 font-semibold leading-relaxed">
