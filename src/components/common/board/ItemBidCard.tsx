@@ -5,6 +5,7 @@ import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
 // import { useUser } from "@/store/store";
+// import { useUser } from "@/store/store";
 import React, { memo, useEffect } from "react";
 import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
@@ -22,7 +23,6 @@ interface ItemBidCardProps {
   endDate: string;
   isSold: string;
   writerId: number;
-  postOwnerId: number;
   userId: number;
 }
 
@@ -33,7 +33,8 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
-  postOwnerId,
+  // writerId,
+  userId,
   nowPrice,
 }: ItemBidCardProps) => {
   const router = useRouter();
@@ -53,7 +54,7 @@ const ItemBidCard = ({
   const userId = userInfo?.user_id;
   const isOwner = userId === postOwnerId; // 로그인한 유저가 게시글 작성자와 같은지 확인하고 답변 권한 부여
 
-  const isBidDisabled = isSold !== "on_sale";
+  // const isBidDisabled = isSold !== "on_sale";
 
   // console.log("postId", postId, "isSold", isSold);
   console.log("userId:", userId);

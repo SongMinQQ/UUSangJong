@@ -23,6 +23,12 @@ export interface FormError {
   images: string;
 }
 
+interface PostImageType {
+  url: string;
+  type: "server" | "local";
+  image_id?: number;
+}
+
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -207,7 +213,11 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
   };
 
   // 실시간 입력 시 해당 필드 에러 제거
-  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChangeForm = (
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setFormError((prev) => ({ ...prev, [name]: "" }));
@@ -223,16 +233,22 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
   };
 
   //서버 | 로컬 이미지 데이터 통합
-  const serverLocalImages = [
-    ...images.map((image) => ({
-      url: image.url,
-      type: "server",
-      image_id: image.image_id,
-    })),
-    ...imageFiles.map((file) => ({
-      url: URL.createObjectURL(file),
-      type: "local",
-    })),
+  const serverLocalImages: PostImageType[] = [
+    ...images.map(
+      (image) =>
+        ({
+          url: image.url,
+          type: "server",
+          image_id: image.image_id,
+        } as PostImageType)
+    ),
+    ...imageFiles.map(
+      (file) =>
+        ({
+          url: URL.createObjectURL(file),
+          type: "local",
+        } as PostImageType)
+    ),
   ];
 
   return (

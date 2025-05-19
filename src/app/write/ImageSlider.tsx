@@ -9,9 +9,9 @@ export default function ImageSlider({
   onClickDeleteImage,
   onClickImageUpload,
 }: {
-  images: { url: string; type: "server" | "local"; image_id: number }[];
+  images: { url: string; type: "server" | "local"; image_id?: number }[];
   onClickImageUpload: () => void;
-  onClickDeleteImage: (index: number, type: "server" | "local", image_id: number) => void;
+  onClickDeleteImage: (index: number, type: "server" | "local", image_id?: number) => void;
 }) {
   console.log("이미지 데이터 확인:", images);
 
