@@ -20,6 +20,8 @@ interface AlertDialogProps {
   cancelLabel?: string; //취소 버튼 텍스트
   onConfirm: () => void; //확인 버튼 클릭 시 실행될 함수
   showCancel?: boolean; //true면 취소 버튼 보임, false면 숨김 (기본값: true)
+  confirmButtonClassName?: string; //확인 버튼 클래스명
+  cancelButtonClassName?: string; //취소 버튼 클래스명
 }
 
 const AlertDialogComponent = ({
@@ -32,6 +34,8 @@ const AlertDialogComponent = ({
   cancelLabel = "cancel",
   onConfirm,
   showCancel = true,
+  confirmButtonClassName,
+  cancelButtonClassName,
 }: AlertDialogProps) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -44,8 +48,12 @@ const AlertDialogComponent = ({
           <AlertDialogDescription className="">{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          {showCancel && <AlertDialogCancel>{cancelLabel}</AlertDialogCancel>}
-          <AlertDialogAction onClick={onConfirm}>{confirmLabel}</AlertDialogAction>
+          {showCancel && (
+            <AlertDialogCancel className={cancelButtonClassName}>{cancelLabel}</AlertDialogCancel>
+          )}
+          <AlertDialogAction className={confirmButtonClassName} onClick={onConfirm}>
+            {confirmLabel}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
