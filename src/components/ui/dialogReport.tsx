@@ -26,6 +26,12 @@ export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
   console.log("postId:", postId);
 
   const onClickReportSubmit = async () => {
+    // const reporter_id = null;
+
+    // if (!reporter_id) {
+    //   alert("로그인 후 신고 가능합니다.");
+    //   return;
+    // }
     const reportData = {
       post_id: postId, // 게시물 ID
       reporter_id: null, // 신고자 ID

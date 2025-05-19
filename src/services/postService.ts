@@ -2,6 +2,7 @@ import axios from "@/utils/http-commons";
 import { SearchEnabled } from "@/store/store";
 import { proxyRequestSelector } from "@/services/apiProxy";
 import { format } from "date-fns";
+import { postItem } from "@/types/post";
 const ROWS_PER_PAGE = 24;
 
 export interface updatePost {
@@ -32,9 +33,9 @@ export const updatePost = async (params: updatePost): Promise<any> => {
   return data;
 };
 
-export const fetchPostDetail = async (postId: string | number): Promise<PostDetail> => {
+export const fetchPostDetail = async <T = object>(postId: string | number): Promise<T> => {
   // const { data } = await axios.get(`/post/${postId}`);
-  const data = await proxyRequestSelector<PostDetail>({
+  const data: T = await proxyRequestSelector({
     queryKey: { queryKey: ["post", postId] },
     method: "GET",
   });
@@ -50,7 +51,6 @@ export const getBoardList = async ({
   low_price,
   orderBy,
   sortBy,
-  isSoldEnabled,
   dueDateEnabled,
   titleEnabled,
   priceEnabled,
@@ -63,7 +63,7 @@ export const getBoardList = async ({
       delivery: deliveryEnabled ? delivery : undefined,
       due_date: dueDateEnabled ? due_date : undefined,
       high_price: priceEnabled ? Number(high_price) : undefined,
-      is_sold: isSoldEnabled ? (is_sold ? "on_sale" : "on_sale,sold_out,closed") : undefined,
+      is_sold: is_sold ? "on_sale" : undefined,
       low_price: priceEnabled ? Number(low_price) : undefined,
       orderBy,
       sortBy,
@@ -87,7 +87,7 @@ export const getPreview = async (): Promise<BoardType[]> => {
 };
 
 export const cancelPost = async (postId: number): Promise<PostDetail> => {
-  const postData = await fetchPostDetail(postId);
+  const postData = await fetchPostDetail<postItem>(postId);
 
   console.log("cancle:", postData);
 

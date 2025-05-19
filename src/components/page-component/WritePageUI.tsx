@@ -6,18 +6,48 @@ import "swiper/css/scrollbar";
 import ImageSlider from "../../app/write/ImageSlider";
 import TextEditor from "@/components/common/Texteditor";
 import { Slider } from "@/components/ui/slider";
-import { useCallback, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import { addDays, format } from "date-fns";
 import ConfirmDialog from "@/components/common/confirmDialog";
+import { FormError } from "./WritePage";
 
-export default function WritePageUI(props) {
+interface WritePageUIProps {
+  imageUrls: string[];
+  onClickImageUpload: () => void;
+
+  onChangeFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  fileInputRef: RefObject<HTMLInputElement | null>;
+  onClickButton: () => Promise<void>;
+  onClickBUttonBack: () => void;
+  onClickButtonCancle: () => Promise<void>;
+  onChangeForm: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onClickDeleteImage: (index: number, type: "server" | "local", image_id?: number) => void;
+  onChangeContents: (html: string) => void;
+  isEdit: boolean;
+  form: {
+    title: string;
+    price: string;
+    startPrice: string;
+    contents: string;
+    endDate: string;
+  };
+  formError: FormError;
+  imageFiles: File[];
+  setImageFiles: Dispatch<SetStateAction<File[]>>;
+  isCancle: boolean;
+  serverLocalImages: {
+    url: string;
+    type: "server" | "local";
+    image_id: number;
+  }[];
+}
+
+export default function WritePageUI(props: WritePageUIProps) {
   const [dueDate, setDueDate] = useState(1);
-  const handleDueDateChange = useCallback((value: number[]) => {
-    setDueDate(value[0]);
-  }, []);
 
   console.log("isEdit", props.isEdit);
   console.log("isCancle", props.isCancle);
+  console.log("gdgd:", props.form.endDate);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">
@@ -34,7 +64,7 @@ export default function WritePageUI(props) {
         <div className="w-1/2 flex flex-col items-center">
           <div className="w-full mb-2 h-full">
             <ImageSlider
-              images={props.imageUrls}
+              images={props.serverLocalImages}
               onClickImageUpload={props.onClickImageUpload}
               onClickDeleteImage={props.onClickDeleteImage}
             />
@@ -139,7 +169,7 @@ export default function WritePageUI(props) {
                 "
               />
               <div className="text-sm text-gray-500 mt-2">
-                {props.form.endDate ? props.form.endDate.replace("T", " ") : ""}
+                {props.form.endDate ? props.form.endDate : ""}
               </div>
             </div>
           </div>
@@ -181,7 +211,7 @@ export default function WritePageUI(props) {
               className="cursor-pointer bg-[#BA1A1A] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
               disabled={props.isCancle}
             >
-              {props.isCancel ? "경매 취소됨" : "경매 취소하기"}
+              {props.isCancle ? "경매 취소됨" : "경매 취소하기"}
             </Button>
           </ConfirmDialog>
         )}
