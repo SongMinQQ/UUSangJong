@@ -160,7 +160,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
           }
         }
 
-        alert("수정 완료");
+        toast.success("수정 완료");
       } else {
         const response = await createPost({
           title: form.title,
