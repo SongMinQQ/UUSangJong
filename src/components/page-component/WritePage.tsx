@@ -15,7 +15,7 @@ import { addDays, format } from "date-fns";
 import { toast } from "sonner";
 import { postItem } from "@/types/post";
 
-interface FormError {
+export interface FormError {
   title: string;
   price: string;
   startPrice: string;
