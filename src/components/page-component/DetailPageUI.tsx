@@ -8,41 +8,58 @@ import { useParams } from "next/navigation";
 import DOMPurify from "dompurify";
 
 import React, { useEffect, useState } from "react";
+import { handleApi } from "@/utils/handleApi";
+import { BidMessage } from "@/types/bid";
+import { useBidSocket } from "@/hooks/useBidSocket";
+import { getBidList } from "@/services/bid";
 
 export default function DetailPageUI() {
-  const { postId } = useParams();
+  const params = useParams();
+  const postId = Number(params?.postId);
   const [postData, setPostData] = useState<any>(null);
+  const [bids, setBids] = useState<BidMessage[]>([]);
 
+  const fetchPostData = async () => {
+    const { data } = await handleApi(() => fetchPostDetail(postId));
+    if (data) setPostData(data);
+  };
+  const fetchBids = async () => {
+    const { data } = await handleApi(() => getBidList(postId));
+    setBids(Array.isArray(data) ? data : []);
+  };
   useEffect(() => {
     if (!postId) {
       console.error("postId가 없습니다. URL을 확인하세요.");
       return;
     }
-
-    fetchPostDetail(Number(postId))
-      .then((data) => {
-        console.log("게시물 데이터:", data);
-        setPostData(data);
-      })
-      .catch((error) => {
-        console.error("게시물 불러오기 실패:", error);
-      });
+    fetchPostData();
+    fetchBids();
   }, [postId]);
+  useEffect(() => {
+    console.log(bids);
+  }, [bids]);
+
+  useEffect(() => {
+    console.log("postData:", postData);
+  }, [postData]);
+  useBidSocket(postId, (newBid) => {
+    setBids((prev) => [newBid, ...prev]);
+  });
 
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
   if (!postData) return <div>로딩 중...</div>;
 
-  const safeHtml = DOMPurify.sanitize(postData.contents);
+  const safeHtml = DOMPurify.sanitize(postData.content);
 
   console.log("writerEmail", postData.email);
 
   return (
-    <div className="relative w-full min-h-screen px-4">
+    <div className="relative w-full min-h-screen px-4 bg-[#fefdf6]">
       <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
-        <ItemInfo />
+        <ItemInfo images={postData?.images ?? []} />
         {/* 이미지 썸네일부분 */}
         <ItemBidCard
-          postId={Number(postId)}
+          postId={postId}
           imageUrls={postData?.image_urls}
           title={postData?.title}
           content={postData?.content}
@@ -51,10 +68,16 @@ export default function DetailPageUI() {
           endDate={postData?.end_date}
           isSold={postData?.is_sold}
           writerId={postData.user_id}
+          userId={postData?.user_id}
         />
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs data={{ content: safeHtml, bidHistory: postData.bidHistory }} />
+      <ItemInfoTabs
+        postId={postId}
+        userId={postData.user_id}
+        data={{ content: safeHtml, bidHistory: postData.bidHistory }}
+        bids={bids}
+      />
       {/* 입찰 댓글.제품설명.QnA */}
     </div>
   );

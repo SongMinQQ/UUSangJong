@@ -1,4 +1,4 @@
-import { Separator } from "@radix-ui/react-separator";
+"use client";
 import React, { JSX, memo } from "react";
 
 const Footer = (): JSX.Element => {
@@ -25,21 +25,20 @@ const Footer = (): JSX.Element => {
   return (
     <div>
       {/* Footer */}
-      <footer className="w-full h-[186px] bg-[#7e7a7a] text-white">
-        <Separator className="w-full h-px mt-6 bg-white opacity-50" />
+      <footer className="w-full bg-[#7e7a7a] text-white py-6">
+        <div className="w-full border-t border-dashed border-white opacity-50 mb-4" />
 
-        <div className="container px-10 py-6 flex flex-col gap-4 md:flex-row md:justify-between">
-          <div className="space-y-4">
-            <p className="font-['Klee_One',Helvetica] text-xl">{teamInfo}</p>
-            <p className="font-['Klee_One',Helvetica] text-xl">{contactInfo}</p>
+        <div className="w-full px-6 sm:px-12 py-6 flex flex-col gap-4 md:flex-row md:justify-between footer-flex">
+          <div className="space-y-2">
+            <p className="font-['Klee_One',Helvetica] text-sm sm:text-base md:text-lg">{teamInfo}</p>
+            <p className="font-['Klee_One',Helvetica] text-sm sm:text-base md:text-lg">{contactInfo}</p>
           </div>
 
           <div>
-            <p className="font-['Klee_One',Helvetica] text-xl">
+            <p className="font-['Klee_One',Helvetica] text-sm sm:text-base md:text-lg">
               <span>Connect : </span>
               <span className="font-semibold">
                 {socialLinks}
-                {/* Github&nbsp;&nbsp;Instagram&nbsp;&nbsp;Linkedin{" "} */}
               </span>
             </p>
           </div>

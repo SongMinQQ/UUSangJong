@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { AlertTriangle, Edit } from "lucide-react";
+import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/store/store";
+import { DialogReport } from "@/components/ui/dialogReport";
+import BidToPost from "./BidToPost";
 
 // ✅ props 타입 명확하게 정의
 interface ItemBidCardProps {
@@ -20,6 +22,7 @@ interface ItemBidCardProps {
   endDate: string;
   isSold: string;
   writerId: number;
+  userId: number;
 }
 
 const ItemBidCard = ({
@@ -30,6 +33,7 @@ const ItemBidCard = ({
   endDate,
   isSold,
   writerId,
+  userId,
 }: ItemBidCardProps) => {
   const router = useRouter();
   const { setCurrentId } = useBoardItemList();
@@ -141,7 +145,7 @@ const ItemBidCard = ({
           </div>
         )}
 
-        <AlertTriangle className="absolute w-[25px] h-[25px] top-[566px] left-[402px] text-red-500" />
+        <DialogReport postId={postId} reportedUserId={userId} />
       </CardContent>
     </Card>
   );

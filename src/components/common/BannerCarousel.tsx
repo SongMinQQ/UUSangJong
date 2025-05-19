@@ -1,6 +1,6 @@
 "use client";
 import Autoplay from "embla-carousel-autoplay";
-import { memo, useRef } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -29,27 +29,48 @@ const bannerContents = [
 ];
 
 function BannerCarousel() {
-  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true }));
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false);
+
+  // ✅ 브라우저 너비 감지
+  useEffect(() => {
+    const checkSize = () => {
+      setIsLargeScreen(window.innerWidth >= 640); // Tailwind sm breakpoint = 640px
+    };
+
+    checkSize(); // 초기 체크
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
+
+  // ✅ 캐러셀 초기화
+  useEffect(() => {
+    if (isLargeScreen) plugin.current?.reset();
+  }, [isLargeScreen]);
   return (
-    <section className="max-w-[1440px] h-[391px] relative">
-      <Carousel
-        className="max-w-[1440px] h-[391px]"
-        plugins={[plugin.current]}
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-      >
-        <CarouselContent className="w-full h-full object-cover h-[391px]">
-          {bannerContents.map((item) => (
-            <CarouselItem key={`banner_Content_${item.id}`}>
-              <img className="w-full h-full object-cover " alt={item.alt} src={item.src} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+    <section className="w-full max-w-[1440px] h-full min-h-[300px] relative sm:block">
+      {isLargeScreen && (
+        <Carousel
+          className="w-full h-full min-h-[300px]"
+          plugins={[plugin.current]}
+        >
+          <CarouselContent className="w-full h-full min-h-[300px]">
+            {bannerContents.map((item) => (
+              <CarouselItem key={`banner_Content_${item.id}`}>
+                <img
+                  className="object-cover w- full h-full"
+                  alt={item.alt}
+                  src={item.src}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      )}
       <Separator className="w-full h-px absolute bottom-0" />
-      <div className="absolute top-0 left-0 w-[447px] h-full bg-[#141414f2] flex flex-col items-center justify-center text-center px-8">
+      <div className="absolute top-0 left-0 w-full sm:w-[447px] h-full bg-[#141414f2] flex flex-col items-center justify-center text-center px-6 sm:px-8">
         <h2 className="font-['Noto_Sans_KR',Helvetica] font-bold text-2xl text-[#c5e6ff]">
           UUSJ&nbsp;&nbsp;Auction
         </h2>

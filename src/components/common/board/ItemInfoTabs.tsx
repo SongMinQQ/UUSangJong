@@ -1,32 +1,29 @@
 import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { AlertCircle } from "lucide-react";
-import { BidMessage } from "@/types/bid";
+import { Bid } from "@/types/bid";
+import BidListItem from "./BidListItem";
+import QnaList from "@/components/common/board/Qna/QnaList";
 
 interface ItemInfoTabsProps {
+  postId: number;
+  userId: number;
   data: {
     content: string;
-    bidHistoy: Array<{
+    bidHistory: Array<{
       id: number;
       price: string;
       comment: string;
     }>;
   };
-  bids: BidMessage[];
+  bids: Bid[];
 }
 
-const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps) => {
-  const bidHistoryData = data.bidHistoy ?? [
-    { id: 1, price: "50000", comment: "첫 입찰입니다." },
-    { id: 2, price: "60000", comment: "두 번째 입찰입니다." },
-  ];
-  console.log(data.content, "ab", typeof data.content);
-
+const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {
+  console.log("lololololo", data.content);
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
-        <TabsList className="bg-transparent p-0 h-auto mb-[39px] flex gap-x-8">
+        <TabsList className="bg-transparent p-0 h-auto flex gap-x-8">
           {["productDescription", "bidHistory", "qna"].map((key, idx) => (
             <TabsTrigger
               key={key}
@@ -39,30 +36,17 @@ const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps) => {
         </TabsList>
 
         <TabsContent value="productDescription" className="mt-0">
-          <div dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }} />
+          <div
+            className="[&>h1]:text-3xl [&>h2]:text-2xl [&>h3]:text-xl"
+            dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }}
+          />
         </TabsContent>
 
         <TabsContent value="bidHistory" className="mt-0">
           <div className="w-full">
             {bids ? (
               bids.map((bid, index) => (
-                <div key={index} className="relative">
-                  <div className="py-[15px]">
-                    <p className="[font-family:'Noto_Sans_KR-Regular',Helvetica] font-normal text-black text-[4vw] sm:text-base lg:text-xl">
-                      입찰가 : {bid.bid_price}
-                      <br />
-                      {bid.content}
-                      <br />
-                      {new Date(bid.created_at).toLocaleString()}
-                    </p>
-                  </div>
-
-                  <div className="absolute top-1 right-[2px]">
-                    <AlertCircle className="w-[25px] h-[25px]" />
-                  </div>
-
-                  {index < bids.length - 1 && <Separator className="w-full h-px bg-[#cccccc]" />}
-                </div>
+                <BidListItem bid={bid} key={index} postId={postId} userId={userId} />
               ))
             ) : (
               <div>입찰 내역이 없습니다.</div>
@@ -72,6 +56,7 @@ const ItemInfoTabs = ({ data, bids }: ItemInfoTabsProps) => {
 
         <TabsContent value="qna" className="mt-0">
           {/* QnA 내용 */}
+          <QnaList postId={postId} postOwnerId={userId} />
         </TabsContent>
       </Tabs>
     </div>

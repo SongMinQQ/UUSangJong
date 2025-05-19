@@ -7,7 +7,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "../ui/navigation-menu";
-import { CircleUserRound, SearchIcon } from "lucide-react";
+import { CircleUserRound, LogIn, LogOut, SearchIcon } from "lucide-react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
@@ -17,8 +17,10 @@ import ModalRanking from "./modal/RankingModal";
 import { useLogin, useUser } from "@/store/store";
 import { useRouter } from "next/navigation";
 import LinearProgress from "./LinearProgress";
-
+import { toast } from "sonner";
+import AlertDialogComponent from "@/components/common/AlertDialog";
 // Navigation menu items
+
 const navItems = [
   {
     title: "Home",
@@ -45,6 +47,8 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
   const { isLogin, toggleLogin } = useLogin();
   const { setUserInfo, deleteUserInfo } = useUser();
 
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
   const checkLogin = useCallback(async () => {
     const { data } = await handleApi(() => fetchCurrentUser());
     console.log(data);
@@ -56,11 +60,11 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     checkLogin();
   }, []);
 
-  const handleLogout = () => {
+  const executeLogout = () => {
     toggleLogin(false); // 로그인 상태 변경
     deleteUserInfo(); // 사용자 정보 초기화
     handleApi(() => logout());
-    alert("로그아웃 되었습니다.");
+    toast.success("로그아웃 되었습니다.");
     router.push("/"); // 홈으로 리다이렉트
   };
 
@@ -68,20 +72,20 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     <Fragment>
       {/* Header with navigation */}
       <header className={`${isSticky && "sticky"} top-0 z-10 w-full bg-[#fefdf6] shadow-md`}>
-        <div className="container mx-auto px-4 py-6 flex flex-col items-center">
+        <div className="container mx-auto py-6 flex flex-col items-center relative">
           {/* Logo */}
-          <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black mb-6">UUSJ</h1>
+          <h1 className="font-['Julius_Sans_One',Helvetica] text-4xl sm:text-5xl text-black mb-6">UUSJ</h1>
 
           {/* Navigation */}
           <NavigationMenu className="mx-auto">
-            <NavigationMenuList className="flex gap-8">
+            <NavigationMenuList className="flex flex-wrap justify-center gap-4 sm:gap-8 max-w-full overflow-hidden">
               {navItems.map((item) => {
                 if (item.title === "Ranking") {
                   return (
                     <Dialog key="Ranking" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
                       <DialogTrigger asChild>
                         <NavigationMenuItem>
-                          <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors">
+                          <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-1xl  sm:text-2xl text-black hover:text-gray-600 transition-colors">
                             {item.title}
                           </div>
                         </NavigationMenuItem>
@@ -96,7 +100,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                 return (
                   <NavigationMenuItem key={item.title}>
                     <NavigationMenuLink
-                      className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
+                      className="font-['Julius_Sans_One',Helvetica] text-1xl sm:text-2xl text-black hover:text-gray-600 transition-colors"
                       href={item.route}
                     >
                       {item.title}
@@ -108,15 +112,16 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           </NavigationMenu>
 
           {/* Login button and search icon */}
-          <div className="absolute right-8 top-6 flex items-center gap-4">
+          <div className="absolute right-2 sm:right-8 sm:top-6 flex items-center gap-4">
             {isLogin ? (
               <>
                 <Button
                   variant="link"
                   className="font-['Julius_Sans_One',Helvetica] text-1xl text-black p-0 cursor-pointer"
-                  onClick={handleLogout}
+                  onClick={() => setShowLogoutDialog(true)}
                 >
-                  Logout
+                  <LogOut />
+                  <span className="hidden sm:inline">Logout</span>
                 </Button>
                 <Button
                   variant="link"
@@ -143,7 +148,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
             {isSticky && (
               <Dialog modal={false}>
                 <DialogTrigger>
-                  <SearchIcon className="w-10 h-10 cursor-pointer" />
+                  <SearchIcon className="w-7 h-7 cursor-pointer" />
                 </DialogTrigger>
                 <SearchModal />
               </Dialog>
@@ -151,6 +156,14 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           </div>
         </div>
       </header>
+      <AlertDialogComponent
+        title="정말 로그아웃 하시겠어요?"
+        description="로그아웃 시 다시 로그인해야 이용할 수 있어요."
+        open={showLogoutDialog}
+        onOpenChange={setShowLogoutDialog}
+        onConfirm={executeLogout}
+      />
+
       <LinearProgress colorClassName="bg-[black]" />
     </Fragment>
   );
