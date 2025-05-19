@@ -70,7 +70,7 @@ export function DialogReport({ postId, reportedUserId }: Partial<DialogRepoerPro
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" className="text-red-500 hover:bg-[#f8e9d7] cursor-pointer">
           <AlertTriangle className="text-red-500" />
         </Button>
       </DialogTrigger>
