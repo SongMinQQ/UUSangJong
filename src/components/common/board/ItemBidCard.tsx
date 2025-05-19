@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
-import { useUser } from "@/store/store";
+// import { useUser } from "@/store/store";
 import React, { memo, useEffect } from "react";
 import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
@@ -31,7 +31,7 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
-  writerId,
+  // writerId,
   userId,
   nowPrice,
 }: ItemBidCardProps) => {
@@ -52,7 +52,7 @@ const ItemBidCard = ({
   // console.log("로그인 이메일", loginUserId);
   // const isOwner = loginUserId === writerId;
 
-  const isBidDisabled = isSold !== "on_sale";
+  // const isBidDisabled = isSold !== "on_sale";
 
   console.log("postId", postId, "isSold", isSold);
   return (

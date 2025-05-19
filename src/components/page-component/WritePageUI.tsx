@@ -20,7 +20,11 @@ interface WritePageUIProps {
   onClickButton: () => Promise<void>;
   onClickBUttonBack: () => void;
   onClickButtonCancle: () => Promise<void>;
-  onChangeForm: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeForm: (
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
+  ) => void;
   onClickDeleteImage: (index: number, type: "server" | "local", image_id?: number) => void;
   onChangeContents: (html: string) => void;
   isEdit: boolean;
@@ -38,7 +42,7 @@ interface WritePageUIProps {
   serverLocalImages: {
     url: string;
     type: "server" | "local";
-    image_id: number;
+    image_id?: number;
   }[];
 }
 
