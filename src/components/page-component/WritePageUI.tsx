@@ -203,6 +203,14 @@ export default function WritePageUI(props: WritePageUIProps) {
         >
           돌아가기
         </Button>
+        {props.isEdit && !props.isCancle && (
+          <Button
+            className="cursor-pointer bg-[#4C4528] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
+            onClick={props.onClickButton}
+          >
+            수정하기
+          </Button>
+        )}
         {props.isEdit && (
           <ConfirmDialog
             title="Warning"
@@ -225,15 +233,6 @@ export default function WritePageUI(props: WritePageUIProps) {
             onClick={props.onClickButton}
           >
             등록하기
-          </Button>
-        )}
-
-        {props.isEdit && !props.isCancle && (
-          <Button
-            className="cursor-pointer bg-[#4C4528] text-white text-[23.06px] font-light w-[200.15px] h-[49.42px] rounded-[12px]"
-            onClick={props.onClickButton}
-          >
-            수정하기
           </Button>
         )}
       </div>
