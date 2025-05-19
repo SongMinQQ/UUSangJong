@@ -7,7 +7,7 @@ import { fetchPostDetail } from "@/services/postService";
 import { useParams } from "next/navigation";
 import DOMPurify from "dompurify";
 
-import React, { Fragment, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { BidMessage } from "@/types/bid";
 import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
@@ -83,8 +83,8 @@ export default function DetailPageUI() {
 
   return (
     <div className="w-full px-4 bg-[#fefdf6]">
-      <div className="flex flex-col items-center justify-center xl:flex-row items-start gap-10 max-w-screen-xl mx-auto">
-        <div className="xl:w-auto xl:mx-0 w-full mx-auto">
+      <div className="flex flex-col justify-center xl:flex-row items-start gap-10 max-w-screen-xl mx-auto">
+        <div className="xl:w-auto xl:mx-0 w-full mx-auto max-w-lg">
           <ItemInfo images={postData?.images ?? []} />
           <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
         </div>

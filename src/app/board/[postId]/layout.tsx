@@ -5,8 +5,7 @@ export default function BoardLayout({ children }: { children: Readonly<ReactNode
   return (
     <Fragment>
       <BoardHeader />
-      <div className="relative flex flex-row">{children}</div>
-      
+      {children}
     </Fragment>
   );
 }
