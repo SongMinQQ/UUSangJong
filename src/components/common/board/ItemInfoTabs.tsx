@@ -21,7 +21,7 @@ interface ItemInfoTabsProps {
 const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {
   console.log("lololololo", data.content);
   return (
-    <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
+    <div className="mt-[15vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[9vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
         <TabsList className="bg-transparent p-0 h-auto flex gap-x-8">
           {["productDescription", "bidHistory", "qna"].map((key, idx) => (

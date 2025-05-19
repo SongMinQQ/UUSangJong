@@ -52,21 +52,25 @@ export default function DetailPageUI() {
   const safeHtml = DOMPurify.sanitize(postData.content);
 
   return (
-    <div className="relative w-full min-h-screen px-4 bg-[#fefdf6]">
-      <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
-        <ItemInfo images={postData?.images ?? []} />
+    <div className="w-full min-h-screen px-4 bg-[#fefdf6]">
+      <div className="flex flex-col w-full xl:flex-row gap-10 max-w-screen-xl mx-auto">
+        <div className="flex-1 xl:mr-auto">
+          <ItemInfo images={postData?.images ?? []} />
+        </div>
         {/* 이미지 썸네일부분 */}
-        <ItemBidCard
-          postId={postId}
-          imageUrls={postData?.image_urls}
-          title={postData?.title}
-          content={postData?.content}
-          startPrice={postData?.start_price}
-          instantPrice={postData?.instant_price}
-          endDate={postData?.end_date}
-          isSold={postData?.is_sold}
-          userId={postData?.user_id}
-        />
+        <div className="hidden xl:block w-[440px] sticky top-[84px] self-start">
+          <ItemBidCard
+            postId={postId}
+            imageUrls={postData?.image_urls}
+            title={postData?.title}
+            content={postData?.content}
+            startPrice={postData?.start_price}
+            instantPrice={postData?.instant_price}
+            endDate={postData?.end_date}
+            isSold={postData?.is_sold}
+            userId={postData?.user_id}
+          />
+        </div>
         {/* 입찰 내용 */}
       </div>
       <ItemInfoTabs
