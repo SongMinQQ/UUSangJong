@@ -52,7 +52,7 @@ export default function DetailPageUI() {
   const safeHtml = DOMPurify.sanitize(postData.content);
 
   return (
-    <div className="relative w-full min-h-screen px-4">
+    <div className="relative w-full min-h-screen px-4 bg-[#fefdf6]">
       <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
         <ItemInfo images={postData?.images ?? []} />
         {/* 이미지 썸네일부분 */}
@@ -71,6 +71,7 @@ export default function DetailPageUI() {
       </div>
       <ItemInfoTabs
         postId={postId}
+        userId={postData.user_id}
         data={{ content: safeHtml, bidHistory: postData.bidHistory }}
         bids={bids}
       />
