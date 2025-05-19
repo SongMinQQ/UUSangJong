@@ -4,15 +4,13 @@ import { Separator } from "@/components/ui/separator";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
-// import { useUser } from "@/store/store";
-// import { useUser } from "@/store/store";
 import React, { memo, useEffect } from "react";
 import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
 import { addHours, format } from "date-fns";
 import { useUser } from "@/hooks/useUser";
+import { Button } from "@/components/ui/button";
 
-// ✅ props 타입 명확하게 정의
 interface ItemBidCardProps {
   postId: number;
   title: string;
@@ -33,7 +31,6 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
-  // writerId,
   userId: postOwnerId,
   nowPrice,
 }: ItemBidCardProps) => {
@@ -47,72 +44,70 @@ const ItemBidCard = ({
   const onClickEdit = () => {
     router.push(`/board/${postId}/edit?isEdit=true`);
   };
-  console.log(instantPrice);
 
-  // 로그인 유저와 비교
   const { userInfo } = useUser();
   const userId = userInfo?.user_id;
-  const isOwner = userId === postOwnerId; // 로그인한 유저가 게시글 작성자와 같은지 확인하고 답변 권한 부여
-
+  const isOwner = userId === postOwnerId;
   const isBidDisabled = isSold !== "on_sale";
 
-  // console.log("postId", postId, "isSold", isSold);
-  console.log("userId:", userId);
-  console.log("postOwnerId:", postOwnerId);
-  console.log("isOwner:", isOwner);
   return (
-    <Card className="w-[90vw] max-w-[440px] h-[75vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
-      <CardContent className="p-0 relative">
-        <div className="absolute top-0 left-[33px] font-light text-black text-base whitespace-nowrap">
+    <Card className="w-[90vw] max-w-[440px] h-auto mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
+      <CardContent className="p-6 flex flex-col gap-4 text-black">
+        {/* 종료일 */}
+        <div className="text-base font-light">
           종료일: {format(addHours(endDate, 12), "yyyy.MM.dd HH:mm")}
         </div>
-
-        <h1 className="absolute w-[249px] top-[26px] left-[33px] font-bold text-black text-[32px] whitespace-nowrap">
-          {title}
-        </h1>
-
-        <Separator className="absolute top-24 w-[428px] bg-[#cccccc] left-0" />
-
-        <div className="absolute top-[110px] left-[34px] font-light text-black text-2xl">
-          즉시 구매가 :&nbsp;&nbsp; {instantPrice} 원
+        {/* 제목 */}
+        <h1 className="text-[32px] font-bold">{title}</h1>
+        <Separator className="bg-[#cccccc]" />
+        {/* 가격 정보들 */}
+        <div className="space-y-2 text-2xl font-light">
+          <div> 즉시구매가: {instantPrice}</div>
+          <div>시작가 : {startPrice} 원</div>
+          <div>현재 가격 : {nowPrice ?? startPrice} 원</div>
+          <div>
+            현재 상태 :{" "}
+            {isSold === "on_sale" ? "판매중" : isSold === "sold_out" ? "판매 완료" : "판매 취소"}
+          </div>
+        </div>
+        <Separator className="bg-[#cccccc]" />
+        {/* 입찰 */}
+        <div className="flex flex-col gap-4">
+          <div className="flex text-2xl font-bold">입찰</div>
+          <BidToPost postId={postId} isDisabled={isBidDisabled} instantPrice={instantPrice} />
         </div>
 
-        <div className="absolute top-[150px] left-[33px] font-light text-black text-2xl">
-          시작가 :&nbsp;&nbsp;{startPrice} 원
-        </div>
-
-        <div className="absolute top-[190px] left-[33px] font-light text-black text-2xl">
-          현재 가격 :&nbsp;&nbsp;{nowPrice ? nowPrice : startPrice} 원
-        </div>
-
-        <div className="absolute top-[230px] left-[33px] font-light text-black text-2xl">
-          현재 상태 :&nbsp;&nbsp;
-          {isSold === "on_sale" ? "판매중" : isSold === "sold_out" ? "판매 완료" : "판매 취소"}
-        </div>
-
-        <Separator className="absolute top-[277px] w-[428px] bg-[#cccccc] left-0" />
-
-        <div className="absolute top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
-
-        <BidToPost postId={postId} isDisabled={isBidDisabled} />
-
-        <Separator className="absolute top-[553px] w-[428px] bg-[#cccccc] left-0" />
-
+        <div className="text-2xl font-bold mt-[30px]">즉시 구매</div>
+        <Button
+          className="w-full h-[60px] rounded-[16.47px] font-bold text-white flex items-center justify-center
+                    bg-[#EF6253] hover:bg-[#111111] cursor-pointer"
+          type="submit"
+          // disabled={isDisabled || parseInt(priceRef.current?.value || "0") > instantPrice}
+        >
+          즉시 구매
+        </Button>
+        {/* 
+        입찰 아래 separator (마진 효과)
+        <Separator className="mt-6 bg-[#cccccc]" /> */}
+        <Separator className="bg-[#cccccc]" />
+        {/* 게시물 수정 버튼 */}
         {isSold === "on_sale" && isOwner && (
-          <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
+          <div className="flex justify-end items-center gap-2">
             <Edit className="w-6 h-6" />
             <button
               onClick={onClickEdit}
-              className="relative font-normal text-uusj-theme-schemes-outline text-xl underline cursor-pointer"
+              className="font-normal text-uusj-theme-schemes-outline text-xl underline cursor-pointer"
             >
               게시물 수정
             </button>
           </div>
         )}
-
-        <div className="absolute top-4 right-4">
-          <DialogReport postId={postId} reportedUserId={postOwnerId} />
-        </div>
+        {/* 신고 버튼 (작성자 제외) */}
+        {!isOwner && (
+          <div className="flex justify-end">
+            <DialogReport postId={postId} reportedUserId={postOwnerId} />
+          </div>
+        )}
       </CardContent>
     </Card>
   );
