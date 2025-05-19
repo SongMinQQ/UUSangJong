@@ -86,6 +86,20 @@ export default function DetailPageUI() {
       <div className="flex flex-col items-center xl:flex-row xl:justify-center xl:items-start xl:gap-40 max-w-screen-xl mx-auto">
         <div className=" w-auto max-w-lg">
           <ItemInfo images={postData?.images ?? []} />
+          <div className="xl:hidden mt-[60px]">
+            <ItemBidCard
+              postId={postId}
+              title={postData?.title}
+              content={postData?.content}
+              startPrice={postData?.start_price}
+              instantPrice={postData?.instant_price}
+              endDate={postData?.end_date}
+              isSold={postData?.is_sold}
+              writerId={postData.user_id}
+              userId={postData?.user_id}
+              nowPrice={nowPrice}
+            />
+          </div>
           <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
         </div>
         {/* 이미지 썸네일부분 */}
