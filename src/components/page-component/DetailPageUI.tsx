@@ -86,6 +86,7 @@ export default function DetailPageUI() {
           writerId={postData.user_id}
           userId={postData?.user_id}
           nowPrice={nowPrice}
+          postOwnerId={postData?.user_id}
         />
         {/* 입찰 내용 */}
       </div>

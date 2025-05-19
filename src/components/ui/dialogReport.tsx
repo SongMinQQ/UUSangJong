@@ -13,6 +13,7 @@ import { useState } from "react";
 import { createReport } from "@/services/report";
 import { useRouter } from "next/navigation";
 import { DialogRepoerProps } from "@/types/report";
+import { useUser } from "@/store/store";
 
 export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
   const [open, setOpen] = useState(false);
@@ -25,19 +26,27 @@ export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
 
   console.log("postId:", postId);
 
-  const onClickReportSubmit = async () => {
-    // const reporter_id = null;
+  const { user_id } = useUser();
 
-    // if (!reporter_id) {
-    //   alert("로그인 후 신고 가능합니다.");
-    //   return;
-    // }
+  const reporterId = user_id || null;
+
+  const onClickReportSubmit = async () => {
+    if (!reporterId) {
+      alert("로그인 후 신고 가능합니다.");
+      return;
+    }
+
+    if (!content || content.trim() === "") {
+      alert("신고 내용을 입력해주세요.");
+      return;
+    }
+
     const reportData = {
       post_id: postId, // 게시물 ID
-      reporter_id: null, // 신고자 ID
       reported_user_id: reportedUserId, // 신고된 사용자 ID
       content: content, // 신고 내용
       // created_at: new Date().toLocaleDateString(), // 신고 날짜
+      reporter_id: reporterId,
     };
     if (!content || content.trim() === "") {
       alert("신고 내용을 입력해주세요.");

@@ -4,11 +4,12 @@ import { Separator } from "@/components/ui/separator";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
-import { useUser } from "@/store/store";
+// import { useUser } from "@/store/store";
 import React, { memo, useEffect } from "react";
 import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
 import { addHours, format } from "date-fns";
+import { useUser } from "@/hooks/useUser";
 
 // ✅ props 타입 명확하게 정의
 interface ItemBidCardProps {
@@ -21,6 +22,7 @@ interface ItemBidCardProps {
   endDate: string;
   isSold: string;
   writerId: number;
+  postOwnerId: number;
   userId: number;
 }
 
@@ -31,8 +33,7 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
-  writerId,
-  userId,
+  postOwnerId,
   nowPrice,
 }: ItemBidCardProps) => {
   const router = useRouter();
@@ -47,14 +48,17 @@ const ItemBidCard = ({
   };
   console.log(instantPrice);
 
-  //로그인 유저와 비교
-  // const { email: loginUserId } = useUser();
-  // console.log("로그인 이메일", loginUserId);
-  // const isOwner = loginUserId === writerId;
+  // 로그인 유저와 비교
+  const { userInfo } = useUser();
+  const userId = userInfo?.user_id;
+  const isOwner = userId === postOwnerId; // 로그인한 유저가 게시글 작성자와 같은지 확인하고 답변 권한 부여
 
   const isBidDisabled = isSold !== "on_sale";
 
-  console.log("postId", postId, "isSold", isSold);
+  // console.log("postId", postId, "isSold", isSold);
+  console.log("userId:", userId);
+  console.log("postOwnerId:", postOwnerId);
+  console.log("isOwner:", isOwner);
   return (
     <Card className="w-[90vw] max-w-[440px] h-[75vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
       <CardContent className="p-0 relative">
@@ -89,23 +93,25 @@ const ItemBidCard = ({
 
         <div className="absolute top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
 
-        <BidToPost postId={postId} />
+        <BidToPost postId={postId} isDisabled={isBidDisabled} />
 
         <Separator className="absolute top-[553px] w-[428px] bg-[#cccccc] left-0" />
 
-        {isSold === "on_sale" && (
+        {isSold === "on_sale" && isOwner && (
           <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
             <Edit className="w-6 h-6" />
             <button
               onClick={onClickEdit}
-              className="relative font-normal text-uusj-theme-schemes-outline text-xl underline"
+              className="relative font-normal text-uusj-theme-schemes-outline text-xl underline cursor-pointer"
             >
               게시물 수정
             </button>
           </div>
         )}
 
-        <DialogReport postId={postId} reportedUserId={userId} />
+        <div className="absolute top-4 right-4">
+          <DialogReport postId={postId} reportedUserId={userId} />
+        </div>
       </CardContent>
     </Card>
   );
