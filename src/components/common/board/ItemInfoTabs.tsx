@@ -2,13 +2,14 @@ import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Bid } from "@/types/bid";
 import BidListItem from "./BidListItem";
+import QnaList from "@/components/common/board/Qna/QnaList";
 
 interface ItemInfoTabsProps {
   postId: number;
   userId: number;
   data: {
     content: string;
-    bidHistoy: Array<{
+    bidHistory: Array<{
       id: number;
       price: string;
       comment: string;
@@ -22,7 +23,7 @@ const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.El
   return (
     <div className="mt-[8vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[18vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
-        <TabsList className="bg-transparent p-0 h-auto mb-[39px] flex gap-x-8">
+        <TabsList className="bg-transparent p-0 h-auto flex gap-x-8">
           {["productDescription", "bidHistory", "qna"].map((key, idx) => (
             <TabsTrigger
               key={key}
@@ -55,6 +56,7 @@ const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.El
 
         <TabsContent value="qna" className="mt-0">
           {/* QnA 내용 */}
+          <QnaList postId={postId} postOwnerId={userId} />
         </TabsContent>
       </Tabs>
     </div>
