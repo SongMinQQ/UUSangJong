@@ -35,13 +35,13 @@ const AlertDialogComponent = ({
 }: AlertDialogProps) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-auto sm:w-[400px]">
         <AlertDialogHeader>
           <div className="flex items-center gap-2">
             {icon}
-            <AlertDialogTitle>{title}</AlertDialogTitle>
+            <AlertDialogTitle className="text-lg font-semibold">{title}</AlertDialogTitle>
           </div>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogDescription className="">{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           {showCancel && <AlertDialogCancel>{cancelLabel}</AlertDialogCancel>}

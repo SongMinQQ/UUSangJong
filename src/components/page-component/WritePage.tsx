@@ -12,6 +12,16 @@ import {
 } from "@/services/uploadPostImage";
 import { useParams } from "next/navigation";
 import { addDays, format } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
+import { postItem } from "@/types/post";
+
+interface FormErrorType {
+  title: string;
+  price: string;
+  startPrice: string;
+  contents: string;
+  images: string;
+}
 
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -35,25 +45,22 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const { postId } = useParams();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { data } = useQuery<postItem>({
+    queryKey: ["post", { postId }],
+    queryFn: () => fetchPostDetail(Number(postId)),
+    enabled: isEdit,
+  });
 
   //게시물
   useEffect(() => {
-    if (isEdit && postId) {
-      fetchPostDetail(Number(postId))
-        .then((data) => {
-          setForm({
-            title: data.title ?? "",
-            price: String(data.instant_price ?? "0"),
-            startPrice: String(data.start_price ?? "0"),
-            contents: data.content ?? "",
-            endDate: data.end_date.slice(0, 10),
-          });
-        })
-        .catch((error) => {
-          console.error("게시물 불러오기 실패:", error);
-        });
-    }
-  }, [isEdit, postId]);
+    setForm({
+      title: data?.title ?? "",
+      price: String(data?.instant_price ?? "0"),
+      startPrice: String(data?.start_price ?? "0"),
+      contents: data?.content ?? "",
+      endDate: data?.end_date.slice(0, 10) ?? "",
+    });
+  }, [data]);
 
   //이미지
   useEffect(() => {
@@ -170,10 +177,10 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
         alert("등록 완료");
       }
 
-      router.push(`/board/${createdPostId}`);
-    } catch (err: any) {
+      router.replace(`/board/${createdPostId}?isPreview=true`);
+    } catch (err: unknown) {
       console.error(err);
-      alert(`오류: ${err.message}`);
+      alert(`오류: ${err as FormErrorType}`);
     }
   };
 

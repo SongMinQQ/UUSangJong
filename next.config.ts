@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     remotePatterns: [new URL("https://c.animaapp.com/**")],
+    domains: ["c.animaapp.com"],
   },
 };
 

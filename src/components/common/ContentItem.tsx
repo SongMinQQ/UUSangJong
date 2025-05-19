@@ -58,7 +58,9 @@ function ContentItem({ itemData, isPreview = false }: ContentItemProp) {
           <div className="absolute top-1/2 left-3 -translate-y-1/2 text-left max-w-[70%]">
             {itemData.content}
           </div>
-          <div className="absolute bottom-3 right-3 text-right">{itemData.now_price}</div>
+          <div className="absolute bottom-3 right-3 text-right">
+            {itemData.now_price === null ? itemData.start_price : itemData.now_price} 원
+          </div>
         </motion.div>
       </motion.div>
     </Link>

@@ -63,13 +63,12 @@ function Board() {
 
   const idList = useMemo(() => {
     const tmp: number[] = [];
-    console.log("DATa", data);
     if (data && Array.isArray(data.pages))
       data.pages.forEach((page) => {
-        console.log("PAGE", page);
-        page.forEach((item) => {
-          tmp.push(item.post_id);
-        });
+        if (page)
+          page.forEach((item) => {
+            tmp.push(item.post_id);
+          });
       });
     return tmp;
   }, [data]);
