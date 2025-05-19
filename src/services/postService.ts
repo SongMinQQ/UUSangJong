@@ -28,7 +28,7 @@ export interface PostDetail extends updatePost {
   updated_at: string;
   sample_image?: string;
 }
-export const updatePost = async (params: updatePost): Promise<any> => {
+export const updatePost = async (params: updatePost): Promise<string> => {
   const { data } = await axios.put("/post", params);
   return data;
 };
@@ -86,7 +86,7 @@ export const getPreview = async (): Promise<BoardType[]> => {
   return data;
 };
 
-export const cancelPost = async (postId: number): Promise<PostDetail> => {
+export const cancelPost = async (postId: number): Promise<string> => {
   const postData = await fetchPostDetail<postItem>(postId);
 
   console.log("cancle:", postData);
