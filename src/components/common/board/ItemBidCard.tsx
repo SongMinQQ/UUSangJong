@@ -5,10 +5,10 @@ import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
 import React, { memo, useEffect } from "react";
-// import { useUser } from "@/store/store";
 import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
 import { addHours, format } from "date-fns";
+import { useUser } from "@/hooks/useUser";
 
 // ✅ props 타입 명확하게 정의
 interface ItemBidCardProps {
@@ -32,7 +32,7 @@ const ItemBidCard = ({
   endDate,
   isSold,
   // writerId,
-  userId,
+  userId: postOwnerId,
   nowPrice,
 }: ItemBidCardProps) => {
   const router = useRouter();
@@ -43,23 +43,29 @@ const ItemBidCard = ({
   }, [postId, setCurrentId]);
 
   const onClickEdit = () => {
-    router.push(`/board/${postId}/edit`);
+    router.push(`/board/${postId}/edit?isEdit=true`);
   };
   console.log(instantPrice);
 
-  //로그인 유저와 비교
-  // const { email: loginUserId } = useUser();
-  // console.log("로그인 이메일", loginUserId);
-  // const isOwner = loginUserId === writerId;
+  // 로그인 유저와 비교
+  const { userInfo } = useUser();
+  const userId = userInfo?.user_id;
+  const isOwner = userId === postOwnerId; // 로그인한 유저가 게시글 작성자와 같은지 확인하고 답변 권한 부여
 
-  // const isBidDisabled = isSold !== "on_sale";
+  const isBidDisabled = isSold !== "on_sale";
 
-  console.log("postId", postId, "isSold", isSold);
+  // console.log("postId", postId, "isSold", isSold);
+  console.log("userId:", userId);
+  console.log("postOwnerId:", postOwnerId);
+  console.log("isOwner:", isOwner);
   return (
     <Card className="w-[90vw] max-w-[440px] h-auto mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
       <CardContent className="p-4 space-y-4">
-        <div className="top-0 left-[33px] font-light text-black text-base whitespace-nowrap">
-          종료일: {format(addHours(endDate, 12), "yyyy.MM.dd HH:mm")}
+        <div className=" flex flex-row align-middle justify-between top-0 left-[33px] font-light text-black text-base whitespace-nowrap">
+          <p className="mt-2 mb-2">종료일: {format(addHours(endDate, 12), "yyyy.MM.dd HH:mm")}</p>
+          <div className="top-4 right-4">
+            <DialogReport postId={postId} reportedUserId={postOwnerId} />
+          </div>
         </div>
 
         <h1 className="w-[249px] top-[26px] left-[33px] font-bold text-black text-[32px] whitespace-nowrap">
@@ -82,11 +88,11 @@ const ItemBidCard = ({
 
         <div className="top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
 
-        <BidToPost postId={postId} />
+        <BidToPost postId={postId} isDisabled={isBidDisabled} />
 
         <Separator className="top-[553px] w-[428px] bg-[#cccccc] left-0" />
 
-        {isSold === "on_sale" && (
+        {isSold === "on_sale" && isOwner && (
           <div className="flex items-center gap-1.5 justify-end">
             <Edit className="w-5 h-5" />
             <button
@@ -97,8 +103,6 @@ const ItemBidCard = ({
             </button>
           </div>
         )}
-
-        <DialogReport postId={postId} reportedUserId={userId} />
       </CardContent>
     </Card>
   );
