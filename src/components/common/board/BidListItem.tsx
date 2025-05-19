@@ -29,10 +29,6 @@ const BidListItem = ({ bid, postId }: BidListProps) => {
           {new Date(created_at).toLocaleString()}
         </p>
       </div>
-
-      {/* <div className="absolute top-1 right-[2px]"></div> */}
-
-      {/* <Separator className="w-full h-px bg-[#cccccc]" /> */}
     </Card>
   );
 };

@@ -7,7 +7,7 @@ import { fetchPostDetail } from "@/services/postService";
 import { useParams } from "next/navigation";
 import DOMPurify from "dompurify";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { BidMessage } from "@/types/bid";
 import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
@@ -60,11 +60,13 @@ export default function DetailPageUI() {
     setNowPrice(newBid.bid_price);
   });
 
+  const safeHtml = useMemo(
+    () => ({ content: postData ? DOMPurify.sanitize(postData.content) : "" }),
+    [postData]
+  );
+
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
   if (!postData) return <div>로딩 중...</div>;
-
-  const safeHtml = DOMPurify.sanitize(postData.content);
-
   return (
     <div className="relative w-full min-h-screen px-4 bg-[#fefdf6]">
       <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
@@ -83,12 +85,7 @@ export default function DetailPageUI() {
         />
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs
-        postId={postId}
-        userId={postData.user_id}
-        data={{ content: safeHtml }}
-        bids={bids}
-      />
+      <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
       {/* 입찰 댓글.제품설명.QnA */}
     </div>
   );
