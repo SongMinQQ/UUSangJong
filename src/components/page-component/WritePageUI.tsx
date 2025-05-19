@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import "swiper/css";
 import "swiper/css/scrollbar";
-import ImageSlider from "./ImageSlider";
+import ImageSlider from "../../app/write/ImageSlider";
 import TextEditor from "@/components/common/Texteditor";
 import { Slider } from "@/components/ui/slider";
 import { useCallback, useState } from "react";
