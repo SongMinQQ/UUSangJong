@@ -13,6 +13,18 @@ import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
 import { useQuery } from "@tanstack/react-query";
 import { postItem } from "@/types/post";
+import FloatingActionButton from "../common/FloatingActionButton";
+import { TicketPlusIcon } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
+import { DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
 
 export default function DetailPageUI() {
   const params = useParams();
@@ -98,6 +110,22 @@ export default function DetailPageUI() {
           nowPrice={nowPrice}
         />
       </div>
+      <Drawer modal={false}>
+        <DrawerTrigger asChild>
+          <FloatingActionButton>
+            <TicketPlusIcon className="w-6 h-6" />
+          </FloatingActionButton>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader className="text-2xl font-bold text-center">
+            <DrawerTitle>입찰</DrawerTitle>
+          </DrawerHeader>
+
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerContent>
+      </Drawer>
     </Fragment>
   );
 }
