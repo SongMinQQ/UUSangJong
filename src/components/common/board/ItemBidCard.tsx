@@ -34,7 +34,7 @@ const ItemBidCard = ({
   endDate,
   isSold,
   // writerId,
-  userId,
+  userId: postOwnerId,
   nowPrice,
 }: ItemBidCardProps) => {
   const router = useRouter();
@@ -45,7 +45,7 @@ const ItemBidCard = ({
   }, [postId, setCurrentId]);
 
   const onClickEdit = () => {
-    router.push(`/board/${postId}/edit`);
+    router.push(`/board/${postId}/edit?isEdit=true`);
   };
   console.log(instantPrice);
 
@@ -54,7 +54,7 @@ const ItemBidCard = ({
   const userId = userInfo?.user_id;
   const isOwner = userId === postOwnerId; // 로그인한 유저가 게시글 작성자와 같은지 확인하고 답변 권한 부여
 
-  // const isBidDisabled = isSold !== "on_sale";
+  const isBidDisabled = isSold !== "on_sale";
 
   // console.log("postId", postId, "isSold", isSold);
   console.log("userId:", userId);
@@ -111,7 +111,7 @@ const ItemBidCard = ({
         )}
 
         <div className="absolute top-4 right-4">
-          <DialogReport postId={postId} reportedUserId={userId} />
+          <DialogReport postId={postId} reportedUserId={postOwnerId} />
         </div>
       </CardContent>
     </Card>

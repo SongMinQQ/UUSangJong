@@ -13,9 +13,9 @@ import { useState } from "react";
 import { createReport } from "@/services/report";
 import { useRouter } from "next/navigation";
 import { DialogRepoerProps } from "@/types/report";
-import { useUser } from "@/store/store";
+import { useUser } from "@/hooks/useUser";
 
-export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
+export function DialogReport({ postId, reportedUserId }: Partial<DialogRepoerProps>) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
   const router = useRouter();
@@ -26,9 +26,9 @@ export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
 
   console.log("postId:", postId);
 
-  const { user_id } = useUser();
+  const { userInfo } = useUser();
 
-  const reporterId = user_id || null;
+  const reporterId = userInfo?.user_id || null;
 
   const onClickReportSubmit = async () => {
     if (!reporterId) {
@@ -42,8 +42,8 @@ export function DialogReport({ postId, reportedUserId }: DialogRepoerProps) {
     }
 
     const reportData = {
-      post_id: postId, // 게시물 ID
-      reported_user_id: reportedUserId, // 신고된 사용자 ID
+      post_id: postId!, // 게시물 ID
+      reported_user_id: reportedUserId!, // 신고된 사용자 ID
       content: content, // 신고 내용
       // created_at: new Date().toLocaleDateString(), // 신고 날짜
       reporter_id: reporterId,

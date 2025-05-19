@@ -43,6 +43,7 @@ const BidToPost = ({ postId, isDisabled }: BidToPostProps) => {
           <Input
             className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
             placeholder="입찰 가격"
+            disabled={isDisabled}
             ref={priceRef}
           />
         </div>
@@ -51,6 +52,7 @@ const BidToPost = ({ postId, isDisabled }: BidToPostProps) => {
           <Input
             className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
             placeholder="입찰 코멘트"
+            disabled={isDisabled}
             ref={commentRef}
           />
         </div>
