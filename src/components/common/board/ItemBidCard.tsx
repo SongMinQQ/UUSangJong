@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
+// import { useUser } from "@/store/store";
 import React, { memo, useEffect } from "react";
 import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
@@ -19,6 +20,7 @@ interface ItemBidCardProps {
   nowPrice?: number;
   endDate: string;
   isSold: string;
+  writerId: number;
   userId: number;
 }
 
@@ -29,6 +31,7 @@ const ItemBidCard = ({
   instantPrice,
   endDate,
   isSold,
+  // writerId,
   userId,
   nowPrice,
 }: ItemBidCardProps) => {
@@ -44,6 +47,14 @@ const ItemBidCard = ({
   };
   console.log(instantPrice);
 
+  //로그인 유저와 비교
+  // const { email: loginUserId } = useUser();
+  // console.log("로그인 이메일", loginUserId);
+  // const isOwner = loginUserId === writerId;
+
+  // const isBidDisabled = isSold !== "on_sale";
+
+  console.log("postId", postId, "isSold", isSold);
   return (
     <Card className="w-[90vw] max-w-[440px] h-[75vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
       <CardContent className="p-0 relative">
@@ -82,17 +93,19 @@ const ItemBidCard = ({
 
         <Separator className="absolute top-[553px] w-[428px] bg-[#cccccc] left-0" />
 
-        <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
-          <Edit className="w-6 h-6" />
-          <button
-            onClick={onClickEdit}
-            className="relative font-normal text-uusj-theme-schemes-outline text-xl underline"
-          >
-            게시물 수정
-          </button>
+        {isSold === "on_sale" && (
+          <div className="flex items-center gap-1.5 absolute top-[567px] left-[255px]">
+            <Edit className="w-6 h-6" />
+            <button
+              onClick={onClickEdit}
+              className="relative font-normal text-uusj-theme-schemes-outline text-xl underline"
+            >
+              게시물 수정
+            </button>
+          </div>
+        )}
 
-          <DialogReport postId={postId} reportedUserId={userId} />
-        </div>
+        <DialogReport postId={postId} reportedUserId={userId} />
       </CardContent>
     </Card>
   );
