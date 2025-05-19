@@ -29,6 +29,7 @@ interface PostImageType {
   image_id?: number;
 }
 
+// console.log("edit content:", content);
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -140,20 +141,18 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
               console.log("qqq:", imageId);
               return deletePostImage(imageId);
             })
-          ).then(async () => {
-            await updatePost({
-              post_id: createdPostId,
-              title: form.title,
-              content: form.contents,
-              start_price: Number(form.startPrice),
-              instant_price: Number(form.price),
-              end_date: form.endDate,
-              is_sold: "on_sale",
-            });
-          });
+          );
         }
         // 게시글 수정..
-
+        await updatePost({
+          post_id: createdPostId,
+          title: form.title,
+          content: form.contents,
+          start_price: Number(form.startPrice),
+          instant_price: Number(form.price),
+          end_date: form.endDate,
+          is_sold: "on_sale",
+        });
         // 새 이미지 업로드
         if (imageFiles.length > 0) {
           for (const file of imageFiles) {
@@ -188,7 +187,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
         toast.success("등록 완료");
       }
 
-      router.push(`/board/${createdPostId}`);
+      router.push(`/board/${createdPostId}?isPreview=true`);
     } catch (err: unknown) {
       console.error(err);
       toast.error(`오류: ${err as FormError}`);
