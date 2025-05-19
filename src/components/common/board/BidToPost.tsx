@@ -37,31 +37,29 @@ const BidToPost = ({ postId, isDisabled }: BidToPostProps) => {
   };
 
   return (
-    <form onSubmit={register}>
-      <div className="absolute w-[399px] h-[115px] top-[349px] left-[19px]">
-        <div className="absolute w-[395px] h-[50px] bg-[#efefef] rounded-[5px] flex items-center">
-          <Input
-            className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
-            placeholder="입찰 가격"
-            disabled={isDisabled}
-            ref={priceRef}
-          />
-        </div>
-
-        <div className="absolute w-[395px] h-[50px] top-[65px] left-0 bg-[#efefef] rounded-[5px] flex items-center">
-          <Input
-            className="h-[50px] bg-[#efefef] border-none pl-7 text-2xl"
-            placeholder="입찰 코멘트"
-            disabled={isDisabled}
-            ref={commentRef}
-          />
-        </div>
+    <form onSubmit={register} className="w-full max-w-md mx-auto space-y-4">
+      <div className="w-full h-[50px] bg-[#efefef] rounded-[5px] flex items-center">
+        <Input
+          className="h-[50px] bg-[#efefef] border-none pl-4 text-2xl"
+          placeholder="입찰 가격"
+          ref={priceRef}
+          disabled={isDisabled}
+        />
       </div>
 
-      <div className="absolute w-[202px] h-[49px] top-[484px] left-[116px]">
-        <Button
+      <div className="w-full h-[50px] top-[65px] left-0 bg-[#efefef] rounded-[5px] flex items-center">
+        <Input
+          className="h-[50px] bg-[#efefef] border-none pl-4 text-2xl"
+          placeholder="입찰 코멘트"
+          ref={commentRef}
           disabled={isDisabled}
-          className="w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]"
+        />
+      </div>
+
+      <div className="w-full flex justify-center">
+        <Button
+          className="w-full sm:w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]"
+          disabled={isDisabled}
           type="submit"
         >
           입찰하기

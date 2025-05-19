@@ -13,6 +13,18 @@ import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
 import { useQuery } from "@tanstack/react-query";
 import { postItem } from "@/types/post";
+import FloatingActionButton from "../common/FloatingActionButton";
+import { TicketPlusIcon } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
+import { Button } from "../ui/button";
+import BidToPost from "../common/board/BidToPost";
 
 export default function DetailPageUI() {
   const params = useParams();
@@ -71,26 +83,65 @@ export default function DetailPageUI() {
   // console.log("writerEmail", postData.email);
 
   return (
-    <div className="relative w-full min-h-screen px-4 bg-[#fefdf6]">
-      <div className="pt-[5vh] flex flex-col items-center gap-y-10 xl:flex-row justify-evenly ">
-        <ItemInfo images={postData?.images ?? []} />
+    <div className="w-full px-4 bg-[#fefdf6] flex flew-col md:block">
+      <div className="flex flex-col items-center xl:flex-row xl:justify-center xl:items-start xl:gap-40 max-w-screen-xl mx-auto">
+        <div className=" w-auto max-w-lg">
+          <ItemInfo images={postData?.images ?? []} />
+          <div className="xl:hidden mt-[60px]">
+            <ItemBidCard
+              postId={postId}
+              title={postData?.title}
+              content={postData?.content}
+              startPrice={postData?.start_price}
+              instantPrice={postData?.instant_price}
+              endDate={postData?.end_date}
+              isSold={postData?.is_sold}
+              writerId={postData.user_id}
+              userId={postData?.user_id}
+              nowPrice={nowPrice}
+            />
+          </div>
+          <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
+        </div>
         {/* 이미지 썸네일부분 */}
-        <ItemBidCard
-          postId={postId}
-          title={postData?.title}
-          content={postData?.content}
-          startPrice={postData?.start_price}
-          instantPrice={postData?.instant_price}
-          endDate={postData?.end_date}
-          isSold={postData?.is_sold}
-          writerId={postData.user_id}
-          userId={postData?.user_id}
-          nowPrice={nowPrice}
-        />
+        <div className="xl:block w-full max-w-[440px] sticky top-[139px] self-start">
+          <ItemBidCard
+            postId={postId}
+            title={postData?.title}
+            content={postData?.content}
+            startPrice={postData?.start_price}
+            instantPrice={postData?.instant_price}
+            endDate={postData?.end_date}
+            isSold={postData?.is_sold}
+            writerId={postData.user_id}
+            userId={postData?.user_id}
+            nowPrice={nowPrice}
+          />
+        </div>
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
-      {/* 입찰 댓글.제품설명.QnA */}
+      <Drawer modal={false}>
+        <DrawerTrigger asChild>
+          <FloatingActionButton >
+            <TicketPlusIcon className="w-6 h-6" />
+          </FloatingActionButton>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader className="text-2xl font-bold text-center">
+            <DrawerTitle>입찰</DrawerTitle>
+          </DrawerHeader>
+          <BidToPost postId={postId} isDisabled={postData?.is_sold !== "on_sale"} />
+          <DrawerClose asChild className="mt-2 mr-2 ml-2 mb-2">
+            <Button
+              className=" w-full max-w-md mx-auto space-y-4 sm:w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]"
+              disabled={postData?.is_sold !== "on_sale"}
+              type="submit"
+            >
+              닫기
+            </Button>
+          </DrawerClose>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }
