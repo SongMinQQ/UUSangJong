@@ -71,13 +71,14 @@ export default function DetailPageUI() {
   // console.log("writerEmail", postData.email);
 
   return (
-    <div className="w-full min-h-screen px-4 bg-[#fefdf6]">
-      <div className="flex flex-col w-full xl:flex-row gap-10 max-w-screen-xl mx-auto">
-        <div className="flex-1 xl:mr-auto">
+    <div className="w-full px-4 bg-[#fefdf6]">
+      <div className="flex flex-col xl:flex-row items-start gap-10 max-w-screen-xl mx-auto">
+        <div className="xl:mr-auto">
           <ItemInfo images={postData?.images ?? []} />
+          <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
         </div>
         {/* 이미지 썸네일부분 */}
-        <div className="hidden xl:block w-[440px] sticky top-[84px] self-start">
+        <div className="hidden xl:block w-full max-w-[440px] sticky top-[139px] self-start">
           <ItemBidCard
             postId={postId}
             title={postData?.title}
@@ -93,7 +94,7 @@ export default function DetailPageUI() {
         </div>
         {/* 입찰 내용 */}
       </div>
-      <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
+
       {/* 입찰 댓글.제품설명.QnA */}
     </div>
   );
