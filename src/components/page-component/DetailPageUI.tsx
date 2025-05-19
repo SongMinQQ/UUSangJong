@@ -72,8 +72,8 @@ export default function DetailPageUI() {
 
   return (
     <div className="w-full px-4 bg-[#fefdf6]">
-      <div className="flex flex-col items-center justify-center xl:flex-row items-start gap-10 max-w-screen-xl mx-auto">
-        <div className="xl:w-auto xl:mx-0 w-full mx-auto">
+      <div className="flex flex-col items-center xl:flex-row xl:justify-center xl:items-start xl:gap-40 max-w-screen-xl mx-auto">
+        <div className=" w-auto max-w-lg">
           <ItemInfo images={postData?.images ?? []} />
           <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
         </div>
