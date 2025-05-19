@@ -10,10 +10,12 @@ import { useCallback, useState } from "react";
 import { addDays, format } from "date-fns";
 
 export default function WritePageUI(props) {
-  const [dueDate, setDueDate] = useState(1);
+  const [dueDate, setDueDate] = useState(props.form.endDate);
   const handleDueDateChange = useCallback((value: number[]) => {
     setDueDate(value[0]);
   }, []);
+
+  console.log("gdgd:", props.form.endDate);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">
@@ -135,7 +137,7 @@ export default function WritePageUI(props) {
                 "
               />
               <div className="text-sm text-gray-500 mt-2">
-                {props.form.endDate ? props.form.endDate.replace("T", " ") : ""}
+                {props.form.endDate ? props.form.endDate : ""}
               </div>
             </div>
           </div>
