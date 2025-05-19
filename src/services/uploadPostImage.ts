@@ -25,8 +25,9 @@ export const getBoardList = async (): Promise<BoardType[]> => {
 };
 
 //이미지 삭제
-export const deletePostImage = async (image_id: number): Promise<void> => {
-  await axios.delete(`/post/image/delete/${image_id}`);
+export const deletePostImage = async (image_id: number): Promise<string> => {
+  const { data } = await axios.delete(`/post/image/delete/${image_id}`);
+  return data;
 };
 
 //이미지 조회

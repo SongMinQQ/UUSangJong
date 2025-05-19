@@ -113,23 +113,30 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
         //삭제 먼저..
         if (isEdit && deletedImage.length > 0) {
           console.log("삭제목록:", deletedImage);
-          for (const imageId of deletedImage) {
-            console.log("qqq:", imageId);
-            await deletePostImage(imageId);
-          }
+          Promise.all(
+            deletedImage.map((imageId) => {
+              console.log("qqq:", imageId);
+              return deletePostImage(imageId);
+            })
+          ).then(async () => {
+            await updatePost({
+              post_id: createdPostId,
+              title: form.title,
+              content: form.contents,
+              start_price: Number(form.startPrice),
+              instant_price: Number(form.price),
+              end_date: form.endDate,
+              is_sold: "on_sale",
+            });
+          });
+          // for (const imageId of deletedImage) {
+          //   console.log("qqq:", imageId);
+          //   await deletePostImage(imageId);
+          // }
         }
         // 게시글 수정..
-        await updatePost({
-          post_id: createdPostId,
-          title: form.title,
-          content: form.contents,
-          start_price: Number(form.startPrice),
-          instant_price: Number(form.price),
-          end_date: form.endDate,
-          is_sold: "on_sale",
-        });
 
-        // 새 이미지 업로드드
+        // 새 이미지 업로드
         if (imageFiles.length > 0) {
           for (const file of imageFiles) {
             await uploadPostImage({ postId: createdPostId, image: file });
