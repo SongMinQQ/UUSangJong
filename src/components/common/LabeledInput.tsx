@@ -42,7 +42,12 @@ export default function LabeledInput({
     <div className={boxStyle}>
       <Label className={`text-white font-bold ${title ? "mb-2" : ""} ${titleSize}`}>
         {title}
-        {!disableToggle && <Switch onClick={toggleSwitch}></Switch>}
+        {!disableToggle && (
+          <Switch
+            onClick={toggleSwitch}
+            className="bg-gray-300 data-[state=checked]:bg-black"
+          ></Switch>
+        )}
       </Label>
       {isView && (
         <Input
