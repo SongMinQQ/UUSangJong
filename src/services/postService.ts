@@ -53,7 +53,7 @@ export const getBoardList = async ({
       delivery: deliveryEnabled ? delivery : undefined,
       due_date: dueDateEnabled ? due_date : undefined,
       high_price: priceEnabled ? Number(high_price) : undefined,
-      is_sold: is_sold ? "on_sale" : "on_sale,sold_out,closed",
+      is_sold: is_sold ? "on_sale" : undefined,
       low_price: priceEnabled ? Number(low_price) : undefined,
       orderBy,
       sortBy,
