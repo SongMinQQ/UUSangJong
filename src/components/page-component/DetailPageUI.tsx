@@ -7,7 +7,7 @@ import { fetchPostDetail } from "@/services/postService";
 import { useParams } from "next/navigation";
 import DOMPurify from "dompurify";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { BidMessage } from "@/types/bid";
 import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
