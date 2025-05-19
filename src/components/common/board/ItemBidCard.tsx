@@ -59,8 +59,8 @@ const ItemBidCard = ({
   console.log("postOwnerId:", postOwnerId);
   console.log("isOwner:", isOwner);
   return (
-    <Card className="w-[90vw] max-w-[440px] h-auto mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
-      <CardContent className="p-4 space-y-4">
+    <Card className="w-[90vw] max-w-[440px] sticky t-[100px] h-[100vh] mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
+      <CardContent className="p-4 space-y-4 h-full">
         <div className=" flex flex-row align-middle justify-between top-0 left-[33px] font-light text-black text-base whitespace-nowrap">
           <p className="mt-2 mb-2">종료일: {format(addHours(endDate, 12), "yyyy.MM.dd HH:mm")}</p>
           <div className="top-4 right-4">
