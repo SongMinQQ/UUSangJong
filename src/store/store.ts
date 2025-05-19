@@ -163,12 +163,7 @@ interface Progressing {
   setIsLoading: (isLoading: boolean) => void;
 }
 
-export const useProgressing = create<Progressing>()(
-  persist(
-    (set) => ({
-      isLoading: false,
-      setIsLoading: (isLoading) => set(() => ({ isLoading })),
-    }),
-    { name: "progressing-storage" }
-  )
-);
+export const useProgressing = create<Progressing>()((set) => ({
+  isLoading: false,
+  setIsLoading: (isLoading) => set(() => ({ isLoading })),
+}));

@@ -1,10 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { DialogReport } from "@/components/ui/dialogReport";
 // import { Separator } from "@/components/ui/separator";
-import { Bid } from "@/types/bid";
+import { BidMessage } from "@/types/bid";
 import React, { memo } from "react";
 interface BidListProps {
-  bid: Bid;
+  bid: BidMessage;
   postId: number;
   userId: number;
 }
@@ -29,10 +29,6 @@ const BidListItem = ({ bid, postId }: BidListProps) => {
           {new Date(created_at).toLocaleString()}
         </p>
       </div>
-
-      {/* <div className="absolute top-1 right-[2px]"></div> */}
-
-      {/* <Separator className="w-full h-px bg-[#cccccc]" /> */}
     </Card>
   );
 };

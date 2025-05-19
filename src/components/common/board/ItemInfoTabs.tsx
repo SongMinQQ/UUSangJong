@@ -1,6 +1,6 @@
 import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bid } from "@/types/bid";
+import { BidMessage } from "@/types/bid";
 import BidListItem from "./BidListItem";
 import QnaList from "@/components/common/board/Qna/QnaList";
 
@@ -9,17 +9,12 @@ interface ItemInfoTabsProps {
   userId: number;
   data: {
     content: string;
-    bidHistory: Array<{
-      id: number;
-      price: string;
-      comment: string;
-    }>;
   };
-  bids: Bid[];
+  bids: BidMessage[];
 }
 
 const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {
-  console.log("lololololo", data.content);
+  console.log("lololololo", data.content, bids);
   return (
     <div className="mt-[15vh] w-[90vw] max-w-[600px] mx-auto xl:ml-[9vw] xl:mx-0">
       <Tabs defaultValue="bidHistory">
@@ -37,19 +32,19 @@ const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.El
 
         <TabsContent value="productDescription" className="mt-0">
           <div
-            className="[&>h1]:text-3xl [&>h2]:text-2xl [&>h3]:text-xl"
+            className="[&>h1]:text-3xl [&>h2]:text-2xl [&>h3]:text-xl min-h-50 p-2 pt-10"
             dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }}
           />
         </TabsContent>
 
         <TabsContent value="bidHistory" className="mt-0">
           <div className="w-full">
-            {bids ? (
+            {bids.length ? (
               bids.map((bid, index) => (
                 <BidListItem bid={bid} key={index} postId={postId} userId={userId} />
               ))
             ) : (
-              <div>입찰 내역이 없습니다.</div>
+              <div className="min-h-50 text-center content-center">입찰 내역이 없습니다.</div>
             )}
           </div>
         </TabsContent>
