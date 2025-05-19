@@ -24,6 +24,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Button } from "../ui/button";
+import BidToPost from "../common/board/BidToPost";
 
 export default function DetailPageUI() {
   const params = useParams();
@@ -82,7 +83,7 @@ export default function DetailPageUI() {
   // console.log("writerEmail", postData.email);
 
   return (
-    <div className="w-full px-4 bg-[#fefdf6]">
+    <div className="w-full px-4 bg-[#fefdf6] flex flew-col md:block">
       <div className="flex flex-col items-center xl:flex-row xl:justify-center xl:items-start xl:gap-40 max-w-screen-xl mx-auto">
         <div className=" w-auto max-w-lg">
           <ItemInfo images={postData?.images ?? []} />
@@ -103,7 +104,7 @@ export default function DetailPageUI() {
           <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
         </div>
         {/* 이미지 썸네일부분 */}
-        <div className="hidden xl:block w-full max-w-[440px] sticky top-[139px] self-start">
+        <div className="xl:block w-full max-w-[440px] sticky top-[139px] self-start">
           <ItemBidCard
             postId={postId}
             title={postData?.title}
@@ -121,7 +122,7 @@ export default function DetailPageUI() {
       </div>
       <Drawer modal={false}>
         <DrawerTrigger asChild>
-          <FloatingActionButton>
+          <FloatingActionButton >
             <TicketPlusIcon className="w-6 h-6" />
           </FloatingActionButton>
         </DrawerTrigger>
@@ -129,9 +130,15 @@ export default function DetailPageUI() {
           <DrawerHeader className="text-2xl font-bold text-center">
             <DrawerTitle>입찰</DrawerTitle>
           </DrawerHeader>
-
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+          <BidToPost postId={postId} isDisabled={postData?.is_sold !== "on_sale"} />
+          <DrawerClose asChild className="mt-2 mr-2 ml-2 mb-2">
+            <Button
+              className=" w-full max-w-md mx-auto space-y-4 sm:w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]"
+              disabled={postData?.is_sold !== "on_sale"}
+              type="submit"
+            >
+              닫기
+            </Button>
           </DrawerClose>
         </DrawerContent>
       </Drawer>
