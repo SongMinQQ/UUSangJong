@@ -29,7 +29,7 @@ const bannerContents = [
 ];
 
 function BannerCarousel() {
-  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true }));
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false);
 
   // ✅ 브라우저 너비 감지
@@ -48,17 +48,15 @@ function BannerCarousel() {
     if (isLargeScreen) plugin.current?.reset();
   }, [isLargeScreen]);
   return (
-    <section className="w-full max-w-[1440px] h-[391px] relative overflow-hidden sm:block">
+    <section className="w-full max-w-[1440px] h-full min-h-[300px] relative sm:block">
       {isLargeScreen && (
         <Carousel
-          className="w-full h-full"
+          className="w-full h-full min-h-[300px]"
           plugins={[plugin.current]}
-          onMouseEnter={plugin.current.stop}
-          onMouseLeave={plugin.current.reset}
         >
-          <CarouselContent className="w-full h-full">
+          <CarouselContent className="w-full h-full min-h-[300px]">
             {bannerContents.map((item) => (
-              <CarouselItem key={`banner_Content_${item.id}`} className="w-full min-w-full h-full relative aspect-video">
+              <CarouselItem key={`banner_Content_${item.id}`}>
                 <img
                   className="object-cover w- full h-full"
                   alt={item.alt}
