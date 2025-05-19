@@ -165,7 +165,7 @@ function SearchModal() {
             <SelectContent className="bg-[white]">
               <SelectItem value="title">제목 순</SelectItem>
               <SelectItem value="now_price">가격 순</SelectItem>
-              <SelectItem value="end_date">시간 순</SelectItem>
+              <SelectItem value="post_id">시간 순</SelectItem>
             </SelectContent>
           </Select>
           <RadioGroup value={sortByValue} onValueChange={handleSortChange}>
@@ -194,7 +194,10 @@ function SearchModal() {
       <div>
         <Label htmlFor="delivery" className="text-white font-bold text-lg mb-5">
           배송형태
-          <Switch onClick={handleToggleDelivery} />
+          <Switch
+            onClick={handleToggleDelivery}
+            className="bg-gray-300 data-[state=checked]:bg-black"
+          />
         </Label>
         {deliveryEnabled && (
           <RadioGroup
@@ -224,7 +227,10 @@ function SearchModal() {
       <div>
         <Label htmlFor="priceRange" className="text-white font-bold text-lg mb-5">
           가격 범위
-          <Switch onClick={handleTogglePrice} />
+          <Switch
+            onClick={handleTogglePrice}
+            className="bg-gray-300 data-[state=checked]:bg-black"
+          />
         </Label>
         {priceEnabled && (
           <Slider

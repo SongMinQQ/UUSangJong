@@ -23,9 +23,9 @@ export const updatePost = async (params: updatePost): Promise<string> => {
   return data;
 };
 
-export const fetchPostDetail = async (postId: string | number): Promise<string> => {
+export const fetchPostDetail = async <T = object>(postId: string | number): Promise<T> => {
   // const { data } = await axios.get(`/post/${postId}`);
-  const data = await proxyRequestSelector({
+  const data: T = await proxyRequestSelector({
     queryKey: { queryKey: ["post", postId] },
     method: "GET",
   });
@@ -41,7 +41,6 @@ export const getBoardList = async ({
   low_price,
   orderBy,
   sortBy,
-  isSoldEnabled,
   dueDateEnabled,
   titleEnabled,
   priceEnabled,
@@ -54,7 +53,7 @@ export const getBoardList = async ({
       delivery: deliveryEnabled ? delivery : undefined,
       due_date: dueDateEnabled ? due_date : undefined,
       high_price: priceEnabled ? Number(high_price) : undefined,
-      is_sold: isSoldEnabled ? (is_sold ? "on_sale" : "on_sale,sold_out,closed") : undefined,
+      is_sold: is_sold ? "on_sale" : "on_sale,sold_out,closed",
       low_price: priceEnabled ? Number(low_price) : undefined,
       orderBy,
       sortBy,

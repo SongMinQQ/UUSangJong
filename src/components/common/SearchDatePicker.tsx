@@ -10,7 +10,7 @@ import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 
 export default function SearchDatePicker() {
-  const { setDueDate, due_date, dueDateEnabled, setDueDateEnabled } = useSearch();
+  const { due_date, setDueDate, dueDateEnabled, setDueDateEnabled } = useSearch();
   const [date, setDate] = useState<Date>(new Date(due_date || addMonths(Date.now(), 1)));
 
   const handleDate = useCallback(
@@ -33,7 +33,10 @@ export default function SearchDatePicker() {
         <div className="block">
           <Label className="text-white font-bold text-lg mb-2" htmlFor="date_from">
             경매 기한
-            <Switch onClick={handleToggleDueDate} />
+            <Switch
+              onClick={handleToggleDueDate}
+              className="bg-gray-300 data-[state=checked]:bg-black"
+            />
           </Label>
 
           {dueDateEnabled && (

@@ -1,6 +1,6 @@
 import React, { JSX } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bid } from "@/types/bid";
+import { BidMessage } from "@/types/bid";
 import BidListItem from "./BidListItem";
 import QnaList from "@/components/common/board/Qna/QnaList";
 
@@ -9,13 +9,8 @@ interface ItemInfoTabsProps {
   userId: number;
   data: {
     content: string;
-    bidHistory: Array<{
-      id: number;
-      price: string;
-      comment: string;
-    }>;
   };
-  bids: Bid[];
+  bids: BidMessage[];
 }
 
 const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {

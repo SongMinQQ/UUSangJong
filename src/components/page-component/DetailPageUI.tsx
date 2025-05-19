@@ -8,38 +8,52 @@ import { useParams } from "next/navigation";
 import DOMPurify from "dompurify";
 
 import React, { useEffect, useState } from "react";
-import { handleApi } from "@/utils/handleApi";
 import { BidMessage } from "@/types/bid";
 import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
+import { useQuery } from "@tanstack/react-query";
+import { postItem } from "@/types/post";
 
 export default function DetailPageUI() {
   const params = useParams();
   const postId = Number(params?.postId);
-  const [postData, setPostData] = useState<any>(null);
   const [bids, setBids] = useState<BidMessage[]>([]);
+  const { data: postData, refetch: refetchPostData } = useQuery<postItem>({
+    queryKey: ["post", { postId }],
+    queryFn: () => fetchPostDetail<postItem>(postId),
+  });
+  const { data: bidData, refetch: refetchBidData } = useQuery<BidMessage[]>({
+    queryKey: ["bid", { postId }],
+    queryFn: () => getBidList(postId),
+    enabled: !!postId,
+  });
+  const [nowPrice, setNowPrice] = useState<number>(
+    postData?.now_price || postData?.start_price || 0
+  );
 
-  const fetchPostData = async () => {
-    const { data } = await handleApi(() => fetchPostDetail(postId));
-    if (data) setPostData(data);
-  };
-  const fetchBids = async () => {
-    const { data } = await handleApi(() => getBidList(postId));
-    setBids(Array.isArray(data) ? data : []);
-  };
+  useEffect(() => {
+    if (bidData && Array.isArray(bidData)) {
+      setBids(bidData);
+      if (bidData.at(0)?.bid_price)
+        setNowPrice(bidData.at(0)?.bid_price || postData?.start_price || 0);
+    }
+  }, [bidData, postData?.start_price]);
+
   useEffect(() => {
     if (!postId) {
       console.error("postId가 없습니다. URL을 확인하세요.");
       return;
     }
-    fetchPostData();
-    fetchBids();
-  }, [postId]);
+    refetchPostData();
+    refetchBidData();
+  }, [postId, refetchBidData, refetchPostData]);
+
   useEffect(() => {
     console.log(bids);
   }, [bids]);
   useBidSocket(postId, (newBid) => {
     setBids((prev) => [newBid, ...prev]);
+    setNowPrice(newBid.bid_price);
   });
 
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
@@ -54,7 +68,6 @@ export default function DetailPageUI() {
         {/* 이미지 썸네일부분 */}
         <ItemBidCard
           postId={postId}
-          imageUrls={postData?.image_urls}
           title={postData?.title}
           content={postData?.content}
           startPrice={postData?.start_price}
@@ -62,13 +75,14 @@ export default function DetailPageUI() {
           endDate={postData?.end_date}
           isSold={postData?.is_sold}
           userId={postData?.user_id}
+          nowPrice={nowPrice}
         />
         {/* 입찰 내용 */}
       </div>
       <ItemInfoTabs
         postId={postId}
         userId={postData.user_id}
-        data={{ content: safeHtml, bidHistory: postData.bidHistory }}
+        data={{ content: safeHtml }}
         bids={bids}
       />
       {/* 입찰 댓글.제품설명.QnA */}
