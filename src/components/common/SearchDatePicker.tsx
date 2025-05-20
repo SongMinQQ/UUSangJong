@@ -36,7 +36,7 @@ export default function SearchDatePicker() {
             <Switch
               onClick={handleToggleDueDate}
               className="bg-gray-300 data-[state=checked]:bg-black"
-              value={dueDateEnabled ? "on" : "off"}
+              checked={dueDateEnabled}
             />
           </Label>
 

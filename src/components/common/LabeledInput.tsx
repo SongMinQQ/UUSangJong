@@ -47,7 +47,7 @@ export default function LabeledInput({
           <Switch
             onClick={toggleSwitch}
             className="bg-gray-300 data-[state=checked]:bg-black"
-            value={isView ? "on" : "off"}
+            checked={isView}
           ></Switch>
         )}
       </Label>
