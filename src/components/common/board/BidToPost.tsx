@@ -60,7 +60,7 @@ const BidToPost = ({ postId, isDisabled, instantPrice }: BidToPostProps) => {
 
       <div className="w-full flex justify-center">
         <Button
-          className="w-full sm:w-[200px] font-bold h-[49px] bg-[#222222] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#55d57e]  cursor-pointer"
+          className=" w-[200px] md:w-full font-bold h-[60px] bg-[#222222] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#55d57e]  cursor-pointer"
           disabled={isDisabled || parseInt(priceRef.current?.value || "0") > instantPrice}
           type="submit"
         >
