@@ -91,8 +91,7 @@ const ItemBidCard = ({
 
           <BidToPost postId={postId} isDisabled={isBidDisabled} />
 
-          <Separator className="top-[553px] w-[428px] bg-[#cccccc] left-0" />
-
+          <Separator className=" mt-1 top-[553px] w-[428px] bg-[#cccccc] left-0" />
         </div>
         {isSold === "on_sale" && isOwner && (
           <div className="flex items-center gap-1.5 justify-end">
