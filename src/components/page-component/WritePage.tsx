@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 import { addDays, format } from "date-fns";
 import { toast } from "sonner";
 import { postItem } from "@/types/post";
+import { validateImageFile } from "@/utils/validateImage";
 
 export interface FormError {
   title: string;
@@ -91,12 +92,14 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
 
   //로컬 이미지 삭제
   const onClickDeleteImage = (index: number, type: "server" | "local", image_id?: number) => {
+    console.log("sdaff", index, type, image_id, previewUrls, imageFiles);
     if (type === "server" && image_id && typeof image_id === "number") {
       console.log("aaa:", image_id);
       setImages((prev) => prev.filter((img) => img.image_id !== image_id && image_id > 0));
       setDeletedImage((prev) => [...prev, image_id]);
     }
     if (type === "local") {
+      console.log("qq", index);
       setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
       setImageFiles((prev) => prev.filter((_, i) => i !== index));
     }
@@ -104,12 +107,25 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
 
   const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
+
     if (!files) return;
     const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
+    const { validFiles, errors } = validateImageFile(selectedFiles, imageFiles);
+
+    console.log("ERR", errors, validFiles);
+    if (errors.length > 0) {
+      toast.error(errors.join(", "));
+      return;
+    }
+    if (errors.length > 0) {
+      // setImageFiles((prev) => [...prev, ...validFiles]);
+      setFormError((prev) => ({ ...prev, images: "" })); // 이미지 에러 즉시 제거
+      return;
+    }
+
     const newPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
     setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
     setImageFiles((prev) => [...prev, ...selectedFiles]);
-    setFormError((prev) => ({ ...prev, images: "" })); // 이미지 에러 즉시 제거
   };
 
   const onClickButton = async () => {

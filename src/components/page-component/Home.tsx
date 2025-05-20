@@ -46,7 +46,7 @@ function Home() {
           <section>
             <div className="mb-6">
               <Link href={"/board"}>
-                <h3 className="font-['Inter',Helvetica] text-2xl mb-4 ml-6">SHOW MORE</h3>
+                <h3 className="font-['Inter',Helvetica] text-2xl ml-2">SHOW MORE</h3>
                 <div className="relative h-[21px] w-[312px]">
                   <img
                     className="w-4 h-[21px] absolute right-0"
