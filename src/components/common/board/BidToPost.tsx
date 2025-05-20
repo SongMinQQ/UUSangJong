@@ -9,9 +9,11 @@ import { toast } from "sonner";
 interface BidToPostProps {
   postId: number;
   isDisabled: boolean;
+
+  instantPrice: number;
 }
 
-const BidToPost = ({ postId, isDisabled }: BidToPostProps) => {
+const BidToPost = ({ postId, isDisabled, instantPrice }: BidToPostProps) => {
   const priceRef = useRef<HTMLInputElement>(null);
   const commentRef = useRef<HTMLInputElement>(null);
 
@@ -58,8 +60,8 @@ const BidToPost = ({ postId, isDisabled }: BidToPostProps) => {
 
       <div className="w-full flex justify-center">
         <Button
-          className="w-full sm:w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]"
-          disabled={isDisabled}
+          className=" w-[200px] md:w-full font-bold h-[60px] bg-[#222222] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#55d57e]  cursor-pointer"
+          disabled={isDisabled || parseInt(priceRef.current?.value || "0") > instantPrice}
           type="submit"
         >
           입찰하기
