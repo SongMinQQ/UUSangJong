@@ -30,6 +30,7 @@ export default function DetailPageUI() {
   const params = useParams();
   const postId = Number(params?.postId);
   const [bids, setBids] = useState<BidMessage[]>([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { data: postData, refetch: refetchPostData } = useQuery<postItem>({
     queryKey: ["post", { postId }],
     queryFn: () => fetchPostDetail<postItem>(postId),
@@ -69,6 +70,7 @@ export default function DetailPageUI() {
     if (newBid.message) {
       if (postData) {
         postData.is_sold = "sold_out";
+        setIsDisabled(true);
       }
       toast.info("판매 완료되었습니다.");
     } else {
@@ -104,6 +106,7 @@ export default function DetailPageUI() {
               writerId={postData.user_id}
               userId={postData?.user_id}
               nowPrice={nowPrice}
+              isDisabled={isDisabled}
             />
           </div>
           <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
@@ -121,6 +124,7 @@ export default function DetailPageUI() {
             writerId={postData.user_id}
             userId={postData?.user_id}
             nowPrice={nowPrice}
+            isDisabled={isDisabled}
           />
         </div>
         {/* 입찰 내용 */}

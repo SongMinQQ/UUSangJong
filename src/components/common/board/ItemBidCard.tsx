@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useBoardItemList } from "@/store/store";
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useMemo } from "react";
 import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
 import { addHours, format } from "date-fns";
@@ -22,6 +22,7 @@ interface ItemBidCardProps {
   isSold: string;
   writerId: number;
   userId: number;
+  isDisabled: boolean;
 }
 
 const ItemBidCard = ({
@@ -33,6 +34,7 @@ const ItemBidCard = ({
   isSold,
   userId: postOwnerId,
   nowPrice,
+  isDisabled,
 }: ItemBidCardProps) => {
   const router = useRouter();
   const { setCurrentId } = useBoardItemList();
@@ -49,7 +51,14 @@ const ItemBidCard = ({
   const userId = userInfo?.user_id;
   const isOwner = userId === postOwnerId;
 
-  console.log("isSold", isSold);
+  const nowState = useMemo(() => {
+    console.debug(isDisabled);
+    return isSold === "on_sale" ? "판매중" : isSold === "sold_out" ? "판매 완료" : "판매 취소";
+  }, [isSold, isDisabled]);
+
+  const disabled = useMemo(() => {
+    return isDisabled || isSold !== "on_sale";
+  }, [isDisabled, isSold]);
 
   return (
     <Card className="z-20 w-[90vw] max-w-[440px] border-none shadow-none ">
@@ -73,7 +82,7 @@ const ItemBidCard = ({
           <div>현재 가격 :&nbsp;&nbsp;{nowPrice ? nowPrice : startPrice} 원</div>
           <div>
             현재 상태 :&nbsp;&nbsp;
-            {isSold === "on_sale" ? "판매중" : isSold === "sold_out" ? "판매 완료" : "판매 취소"}
+            {nowState}
           </div>
         </div>
 
@@ -82,14 +91,10 @@ const ItemBidCard = ({
         <div className="hidden xl:block">
           <div className="top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
 
-          <BidToPost
-            postId={postId}
-            isDisabled={isSold !== "on_sale"}
-            instantPrice={instantPrice}
-          />
+          <BidToPost postId={postId} isDisabled={disabled} instantPrice={instantPrice} />
         </div>
         <div className="text-2xl font-bold mt-[30px]">즉시 구매</div>
-        <InstantOrder postId={postId} isDisabled={isSold !== "on_sale"} />
+        <InstantOrder postId={postId} isDisabled={disabled} />
         {isSold === "on_sale" && isOwner && (
           <div className="flex items-center gap-1.5 justify-end">
             <Edit className="w-5 h-5" />
