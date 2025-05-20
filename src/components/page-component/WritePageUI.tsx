@@ -114,6 +114,7 @@ export default function WritePageUI(props: WritePageUIProps) {
               min={0}
               step={100}
               className="border-b p-2 text-sm w-full mb-1"
+              type="number"
               onChange={props.onChangeForm}
             />
             {props.formError.startPrice && (
