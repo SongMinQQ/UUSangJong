@@ -110,13 +110,13 @@ function SignupModal({ handleChangeModal }: ModalProps) {
           Register
         </h1>
 
-        <div className="flex flex-col space-y-2 lg:space-y-7 w-fit lg:w-[340px] mx-auto">
+        <div className="flex flex-col justify-center space-y-2 lg:space-y-7 w-fit lg:w-[340px] mx-auto">
           {/* Main form fields */}
           {formFields.map((field) => (
             <div key={field.id} className="space-y-1">
               <Label
                 htmlFor={field.id}
-                className="w-fit text-color-text-neutral-tertiary text-xs tracking-[0.15px] font-normal"
+                className="w-fit lg:w-full text-color-text-neutral-tertiary text-xs tracking-[0.15px] font-normal"
               >
                 {field.label}
               </Label>
@@ -124,7 +124,7 @@ function SignupModal({ handleChangeModal }: ModalProps) {
                 id={field.id}
                 type={field.type}
                 placeholder={field.id}
-                className="w-fit border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
+                className="w-fit lg:w-full border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
                 ref={refMatcher[field.id]}
               />
               {field.id === "email" && <Button onClick={emailDuplicateCheck}>중복 확인</Button>}
@@ -136,7 +136,7 @@ function SignupModal({ handleChangeModal }: ModalProps) {
             <div key={field.id} className="space-y-1">
               <Label
                 htmlFor={field.id}
-                className="w-fit  text-color-text-neutral-tertiary text-xs tracking-[0.15px] font-normal"
+                className="w-fit lg:w-full text-color-text-neutral-tertiary text-xs tracking-[0.15px] font-normal"
               >
                 {field.label}
               </Label>
@@ -144,7 +144,7 @@ function SignupModal({ handleChangeModal }: ModalProps) {
                 id={field.id}
                 type={field.type}
                 placeholder={field.id}
-                className="w-fit border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
+                className="w-fit lg:w-full border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
                 ref={refMatcher[field.id]}
               />
             </div>
