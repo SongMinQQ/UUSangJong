@@ -89,7 +89,7 @@ const ItemBidCard = ({
         <Separator className="top-[277px] w-[428px] bg-[#cccccc] left-0" />
 
         <div className="hidden xl:block">
-          <div className="top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
+          <div className="top-[295px] left-[33px] font-bold text-black text-2xl">입찰</div>
 
           <BidToPost postId={postId} isDisabled={disabled} instantPrice={instantPrice} />
         </div>
