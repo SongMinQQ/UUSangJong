@@ -13,6 +13,7 @@ import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
 import { useQuery } from "@tanstack/react-query";
 import { postItem } from "@/types/post";
+import { toast } from "sonner";
 
 export default function DetailPageUI() {
   const params = useParams();
@@ -56,6 +57,10 @@ export default function DetailPageUI() {
     console.log("postData:", postData);
   }, [postData]);
   useBidSocket(postId, (newBid) => {
+    console.log(newBid);
+    if (newBid.message) {
+      toast.info("판매 완료되었습니다.");
+    }
     setBids((prev) => [newBid, ...prev]);
     setNowPrice(newBid.bid_price);
   });

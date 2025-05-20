@@ -5,7 +5,6 @@ import { Client, IMessage } from "@stomp/stompjs";
 import { BidMessage } from "@/types/bid";
 
 export function useBidSocket(postId: number, onNewBid: (bid: BidMessage) => void) {
-
   useEffect(() => {
     if (!postId) return;
 
@@ -19,9 +18,10 @@ export function useBidSocket(postId: number, onNewBid: (bid: BidMessage) => void
         console.log("✅ STOMP connected");
 
         client.subscribe(`/topic/bids/${postId}`, (message: IMessage) => {
+          console.log("Received message: ", message);
           if (message.body) {
             try {
-              console.log("BODY: ", message.body)
+              console.log("BODY: ", message);
               const bid: BidMessage = JSON.parse(message.body);
               onNewBid(bid);
             } catch (err) {

@@ -9,7 +9,7 @@ import { DialogReport } from "@/components/ui/dialogReport";
 import BidToPost from "./BidToPost";
 import { addHours, format } from "date-fns";
 import { useUser } from "@/hooks/useUser";
-import { Button } from "@/components/ui/button";
+import InstantOrder from "./InstantOrder";
 
 interface ItemBidCardProps {
   postId: number;
@@ -78,14 +78,7 @@ const ItemBidCard = ({
         </div>
 
         <div className="text-2xl font-bold mt-[30px]">즉시 구매</div>
-        <Button
-          className="w-full h-[60px] rounded-[16.47px] font-bold text-white flex items-center justify-center
-                    bg-[#EF6253] hover:bg-[#111111] cursor-pointer"
-          type="submit"
-          // disabled={isDisabled || parseInt(priceRef.current?.value || "0") > instantPrice}
-        >
-          즉시 구매
-        </Button>
+        <InstantOrder postId={postId} />
         {/* 
         입찰 아래 separator (마진 효과)
         <Separator className="mt-6 bg-[#cccccc]" /> */}
