@@ -6,13 +6,13 @@ import ItemInfoTabs from "@/components/common/board/ItemInfoTabs";
 import { fetchPostDetail } from "@/services/postService";
 import { useParams } from "next/navigation";
 import DOMPurify from "dompurify";
-
 import React, { useEffect, useMemo, useState } from "react";
 import { BidMessage } from "@/types/bid";
 import { useBidSocket } from "@/hooks/useBidSocket";
 import { getBidList } from "@/services/bid";
 import { useQuery } from "@tanstack/react-query";
 import { postItem } from "@/types/post";
+import { toast } from "sonner";
 import FloatingActionButton from "../common/FloatingActionButton";
 import { TicketPlusIcon } from "lucide-react";
 import {
@@ -30,6 +30,7 @@ export default function DetailPageUI() {
   const params = useParams();
   const postId = Number(params?.postId);
   const [bids, setBids] = useState<BidMessage[]>([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { data: postData, refetch: refetchPostData } = useQuery<postItem>({
     queryKey: ["post", { postId }],
     queryFn: () => fetchPostDetail<postItem>(postId),
@@ -64,12 +65,18 @@ export default function DetailPageUI() {
     console.log(bids);
   }, [bids]);
 
-  useEffect(() => {
-    console.log("postData:", postData);
-  }, [postData]);
   useBidSocket(postId, (newBid) => {
-    setBids((prev) => [newBid, ...prev]);
-    setNowPrice(newBid.bid_price);
+    console.log(newBid);
+    if (newBid.message) {
+      if (postData) {
+        postData.is_sold = "sold_out";
+        setIsDisabled(true);
+      }
+      toast.info("판매 완료되었습니다.");
+    } else {
+      setBids((prev) => [newBid, ...prev]);
+      setNowPrice(newBid.bid_price);
+    }
   });
 
   const safeHtml = useMemo(
@@ -99,6 +106,7 @@ export default function DetailPageUI() {
               writerId={postData.user_id}
               userId={postData?.user_id}
               nowPrice={nowPrice}
+              isDisabled={isDisabled}
             />
           </div>
           <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
@@ -116,6 +124,7 @@ export default function DetailPageUI() {
             writerId={postData.user_id}
             userId={postData?.user_id}
             nowPrice={nowPrice}
+            isDisabled={isDisabled}
           />
         </div>
         {/* 입찰 내용 */}
@@ -130,7 +139,11 @@ export default function DetailPageUI() {
           <DrawerHeader className="text-2xl font-bold text-center">
             <DrawerTitle>입찰</DrawerTitle>
           </DrawerHeader>
-          <BidToPost postId={postId} isDisabled={postData?.is_sold !== "on_sale"} />
+          <BidToPost
+            postId={postId}
+            isDisabled={postData?.is_sold !== "on_sale"}
+            instantPrice={postData?.instant_price}
+          />
           <DrawerClose asChild className="mt-2 mr-2 ml-2 mb-2">
             <Button
               className=" w-full max-w-md mx-auto space-y-4 sm:w-[200px] h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#252323]"
