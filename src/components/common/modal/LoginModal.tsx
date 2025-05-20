@@ -67,7 +67,7 @@ function LoginModal({ handleChangeModal }: ModalProps) {
           Log In
         </h1>
 
-        <div className="flex flex-col space-y-8 w-fit mx-auto">
+        <div className="flex flex-col space-y-8 w-fit md:w-full mx-auto">
           <div className="space-y-1.5">
             <Label
               htmlFor="id"
