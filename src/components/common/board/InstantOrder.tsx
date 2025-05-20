@@ -1,9 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import axios from "@/utils/http-commons";
 import AlertDialogComponent from "@/components/common/AlertDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useProgressing } from "@/store/store";
+import { useMutation } from "@tanstack/react-query";
+import { instantBid } from "@/services/postService";
 
 interface InstantOrderProps {
   postId: number;
@@ -11,32 +13,26 @@ interface InstantOrderProps {
 }
 
 export default function InstantOrder({ postId, isDisabled }: InstantOrderProps) {
+  const { setIsLoading } = useProgressing();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const handleInstatnOrder = async () => {
-    try {
-      console.log("즉시 구매 요청 데이터:", {
-        post_id: postId,
-      });
-
-      const res = await axios.patch(
-        "/post",
-        {
-          post_id: postId,
-          uid: null,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      //   <AlertDialogComponent/>("즉시 구매 성공");
-    } catch (error) {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: instantBid,
+    onError: (error) => {
       console.error("즉시 구매 실패:", error);
       alert("즉시 구매에 실패했습니다. 다시 시도해주세요.");
-    }
+    },
+  });
+
+  const handleInstatnOrder = async () => {
+    mutateAsync({
+      post_id: postId,
+      uid: null,
+    });
   };
+
+  useEffect(() => {
+    setIsLoading(isPending);
+  }, [isPending, setIsLoading]);
 
   return (
     <div>

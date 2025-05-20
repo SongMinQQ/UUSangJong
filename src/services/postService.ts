@@ -89,8 +89,6 @@ export const getPreview = async (): Promise<BoardType[]> => {
 export const cancelPost = async (postId: number): Promise<string> => {
   const postData = await fetchPostDetail<postItem>(postId);
 
-  console.log("cancle:", postData);
-
   if (!postData) {
     throw new Error("Post not found");
   }
@@ -112,4 +110,15 @@ export const cancelPost = async (postId: number): Promise<string> => {
 
   console.log("cancleParams:", cancelParams);
   return await updatePost(cancelParams);
+};
+
+interface InstantBidProps {
+  post_id: number;
+  uid: null;
+}
+
+export const instantBid = async (params: InstantBidProps): Promise<string> => {
+  const { data } = await axios.patch("/post", params);
+
+  return data;
 };
