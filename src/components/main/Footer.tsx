@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { JSX, memo } from "react";
 
 const Footer = (): JSX.Element => {
@@ -6,21 +7,21 @@ const Footer = (): JSX.Element => {
   const contactNameAndLinks = [
     {
       name: "Github",
-      link: "",
+      link: "https://github.com/UUSangJong/UUSangJong",
     },
-    {
-      name: "Instagram",
-      link: "",
-    },
-    {
-      name: "Linkedin",
-      link: "",
-    },
+    // {
+    //   name: "Instagram",
+    //   link: "",
+    // },
+    // {
+    //   name: "Linkedin",
+    //   link: "",
+    // },
   ];
   // Team members
   const teamInfo = `Our team : ${members.join(", ")}`;
   const contactInfo = "Contact : wwww123410@gmail.com";
-  const socialLinks = `${contactNameAndLinks.map((item) => item.name).join(", ")}`;
+  // const socialLinks = `${contactNameAndLinks.map((item) => item.name).join(", ")}`;
 
   return (
     <div>
@@ -37,9 +38,15 @@ const Footer = (): JSX.Element => {
           <div>
             <p className="font-['Klee_One',Helvetica] text-sm sm:text-base md:text-lg">
               <span>Connect : </span>
-              <span className="font-semibold">
-                {socialLinks}
-              </span>
+
+              {contactNameAndLinks.map((item, index) => (
+                <Link href={item.link} key={index}>
+                  <span className="font-semibold">
+                    {`${item.name} `}
+                  </span>
+                </Link>
+              ))}
+
             </p>
           </div>
         </div>
