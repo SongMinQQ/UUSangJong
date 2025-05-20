@@ -100,12 +100,12 @@ function LoginModal({ handleChangeModal }: ModalProps) {
           </div>
 
           <Button
-            className="w-full h-[66px] mt-6 bg-[#222222] hover:bg-black rounded-[10px] text-white text-2xl font-semibold"
+            className="w-full h-[66px] mt-6 bg-[#222222] hover:bg-black rounded-[10px] text-white text-2xl font-semibold cursor-pointer"
             onClick={tryLogin}
           >
             CONTINUE
           </Button>
-          <div className="absolute flex items-center gap-2 bottom-[10px] right-[0px]">
+          <div className="absolute md:hidden flex items-center gap-2 bottom-[10px] right-[0px]">
             <button className="text-black underline" onClick={handleChangeModal}>
               Sign up now!
             </button>

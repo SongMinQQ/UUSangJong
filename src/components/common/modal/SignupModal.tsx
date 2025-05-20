@@ -127,7 +127,15 @@ function SignupModal({ handleChangeModal }: ModalProps) {
                 className="w-fit lg:w-full border-0 border-b border-gray-300 rounded-none px-0 h-6 focus-visible:ring-0 focus-visible:border-black"
                 ref={refMatcher[field.id]}
               />
-              {field.id === "email" && <Button onClick={emailDuplicateCheck}>중복 확인</Button>}
+              {field.id === "email" && (
+                <Button
+                  onClick={emailDuplicateCheck}
+                  variant={"outline"}
+                  className="cursor-pointer hover:bg-gray-200 border-gray-200"
+                >
+                  중복 확인
+                </Button>
+              )}
             </div>
           ))}
 
@@ -152,14 +160,14 @@ function SignupModal({ handleChangeModal }: ModalProps) {
 
           {/* Submit button */}
           <Button
-            className="w-full h-[66px] bg-[#222222] hover:bg-[#333333] rounded-[10px] text-white text-2xl font-semibold"
+            className="w-full h-[66px] bg-[#222222] hover:bg-[#333333] rounded-[10px] text-white text-2xl font-semibold cursor-pointer"
             onClick={join}
           >
             Create Account
           </Button>
         </div>
       </div>
-      <div className="absolute flex items-center gap-2 bottom-[1px] right-[10px]">
+      <div className="absolute md:hidden flex items-center gap-2 bottom-[1px] right-[10px]">
         <button className="text-black underline" onClick={handleChangeModal}>
           Log in now
         </button>

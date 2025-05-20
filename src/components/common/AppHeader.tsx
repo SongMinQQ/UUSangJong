@@ -88,7 +88,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                       <DialogTrigger asChild>
                         <NavigationMenuItem>
                           <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-1xl  sm:text-2xl text-black hover:text-gray-600 transition-colors">
-                            {item.title}
+                            {item.title.toUpperCase()}
                           </div>
                         </NavigationMenuItem>
                       </DialogTrigger>
@@ -105,7 +105,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                       className="font-['Julius_Sans_One',Helvetica] text-1xl sm:text-2xl text-black hover:text-gray-600 transition-colors"
                       href={item.route}
                     >
-                      {item.title}
+                      {item.title.toUpperCase()}
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 );
@@ -157,6 +157,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
             )}
           </div>
         </div>
+        <LinearProgress colorClassName="bg-[black]" />
       </header>
       <AlertDialogComponent
         title="정말 로그아웃 하시겠어요?"
@@ -165,8 +166,6 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
         onOpenChange={setShowLogoutDialog}
         onConfirm={executeLogout}
       />
-
-      <LinearProgress colorClassName="bg-[black]" />
     </Fragment>
   );
 }
