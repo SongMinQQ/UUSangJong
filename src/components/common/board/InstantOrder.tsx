@@ -7,9 +7,10 @@ import { useState } from "react";
 
 interface InstantOrderProps {
   postId: number;
+  isDisabled: boolean;
 }
 
-export default function InstantOrder({ postId }: InstantOrderProps) {
+export default function InstantOrder({ postId, isDisabled }: InstantOrderProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const handleInstatnOrder = async () => {
     try {
@@ -36,7 +37,6 @@ export default function InstantOrder({ postId }: InstantOrderProps) {
       alert("즉시 구매에 실패했습니다. 다시 시도해주세요.");
     }
   };
-  ("");
 
   return (
     <div>
@@ -47,6 +47,7 @@ export default function InstantOrder({ postId }: InstantOrderProps) {
         className="w-full h-[60px] rounded-[16.47px] font-bold text-white text-[20px] flex items-center justify-center
                   bg-[#f6a096] hover:bg-[#EF6253] cursor-pointer"
         type="submit"
+        disabled={isDisabled}
       >
         즉시 구매
       </Button>

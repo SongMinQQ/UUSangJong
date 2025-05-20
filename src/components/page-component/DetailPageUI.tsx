@@ -64,16 +64,17 @@ export default function DetailPageUI() {
     console.log(bids);
   }, [bids]);
 
-  useEffect(() => {
-    console.log("postData:", postData);
-  }, [postData]);
   useBidSocket(postId, (newBid) => {
     console.log(newBid);
     if (newBid.message) {
+      if (postData) {
+        postData.is_sold = "sold_out";
+      }
       toast.info("판매 완료되었습니다.");
+    } else {
+      setBids((prev) => [newBid, ...prev]);
+      setNowPrice(newBid.bid_price);
     }
-    setBids((prev) => [newBid, ...prev]);
-    setNowPrice(newBid.bid_price);
   });
 
   const safeHtml = useMemo(

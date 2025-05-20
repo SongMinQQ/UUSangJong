@@ -50,6 +50,8 @@ const ItemBidCard = ({
   const isOwner = userId === postOwnerId;
   const isBidDisabled = isSold !== "on_sale";
 
+  console.log("isSold", isSold);
+
   return (
     <Card className="z-20 w-[90vw] max-w-[440px] border-none shadow-none ">
       <CardContent className="p-4 space-y-4">
@@ -84,7 +86,7 @@ const ItemBidCard = ({
           <BidToPost postId={postId} isDisabled={isBidDisabled} instantPrice={instantPrice} />
         </div>
         <div className="text-2xl font-bold mt-[30px]">즉시 구매</div>
-        <InstantOrder postId={postId} />
+        <InstantOrder postId={postId} isDisabled={isBidDisabled} />
         {isSold === "on_sale" && isOwner && (
           <div className="flex items-center gap-1.5 justify-end">
             <Edit className="w-5 h-5" />
