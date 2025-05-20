@@ -100,8 +100,10 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     }
     if (type === "local") {
       console.log("qq", index);
-      setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
-      setImageFiles((prev) => prev.filter((_, i) => i !== index));
+      const localIndex = index - images.length;
+      if (localIndex >= 0) {
+        setImageFiles((prev) => prev.filter((_, i) => i !== localIndex));
+      }
     }
   };
 

@@ -11,7 +11,6 @@ export function validateImageFile(
   const validFiles: File[] = [];
 
   let totalSize = exFiles.reduce((acc, file) => acc + file.size, 0);
-  const totalNewSize = newFiles.reduce((acc, file) => acc + file.size, 0);
 
   for (const file of newFiles) {
     if (file.size > maxFile) {
