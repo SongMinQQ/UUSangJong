@@ -197,7 +197,7 @@ function SearchModal() {
           <Switch
             onClick={handleToggleDelivery}
             className="bg-gray-300 data-[state=checked]:bg-black"
-            value={deliveryEnabled ? "on" : "off"}
+            checked={deliveryEnabled}
           />
         </Label>
         {deliveryEnabled && (
@@ -231,7 +231,7 @@ function SearchModal() {
           <Switch
             onClick={handleTogglePrice}
             className="bg-gray-300 data-[state=checked]:bg-black"
-            value={priceEnabled ? "on" : "off"}
+            checked={priceEnabled}
           />
         </Label>
         {priceEnabled && (

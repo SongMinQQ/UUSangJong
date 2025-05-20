@@ -23,19 +23,19 @@ import AlertDialogComponent from "@/components/common/AlertDialog";
 
 const navItems = [
   {
-    title: "Home",
+    title: "HOME",
     route: "/",
   },
   {
-    title: "New",
+    title: "NEW",
     route: "/new",
   },
   {
-    title: "Ranking",
+    title: "RANKING",
     route: "/ranking",
   },
   {
-    title: "Write",
+    title: "WRITE",
     route: "/write",
   },
 ];
@@ -82,13 +82,13 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           <NavigationMenu className="mx-auto">
             <NavigationMenuList className="flex flex-wrap justify-center gap-4 sm:gap-8 max-w-full overflow-hidden">
               {navItems.map((item) => {
-                if (item.title === "Ranking") {
+                if (item.title === "RANKING") {
                   return (
-                    <Dialog key="Ranking" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
+                    <Dialog key="RANKING" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
                       <DialogTrigger asChild>
                         <NavigationMenuItem>
                           <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-1xl  sm:text-2xl text-black hover:text-gray-600 transition-colors">
-                            {item.title.toUpperCase()}
+                            {item.title}
                           </div>
                         </NavigationMenuItem>
                       </DialogTrigger>
@@ -105,7 +105,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                       className="font-['Julius_Sans_One',Helvetica] text-1xl sm:text-2xl text-black hover:text-gray-600 transition-colors"
                       href={item.route}
                     >
-                      {item.title.toUpperCase()}
+                      {item.title}
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 );

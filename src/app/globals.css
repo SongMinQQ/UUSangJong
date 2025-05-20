@@ -33,14 +33,16 @@ body {
   height: 100vh;
 }
 
-.ProseMirror h1 {
-  @apply text-3xl font-bold;
-}
-.ProseMirror h2 {
-  @apply text-2xl font-semibold;
-}
-.ProseMirror h3 {
-  @apply text-xl font-semibold;
+@layer components {
+  .ProseMirror h1 {
+    @apply text-3xl font-bold;
+  }
+  .ProseMirror h2 {
+    @apply text-2xl font-semibold;
+  }
+  .ProseMirror h3 {
+    @apply text-xl font-semibold;
+  }
 }
 
 @media (max-width: 1050px) {
