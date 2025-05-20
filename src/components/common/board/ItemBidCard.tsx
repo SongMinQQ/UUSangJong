@@ -48,7 +48,6 @@ const ItemBidCard = ({
   const { userInfo } = useUser();
   const userId = userInfo?.user_id;
   const isOwner = userId === postOwnerId;
-  const isBidDisabled = isSold !== "on_sale";
 
   console.log("isSold", isSold);
 
@@ -83,10 +82,14 @@ const ItemBidCard = ({
         <div className="hidden xl:block">
           <div className="top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
 
-          <BidToPost postId={postId} isDisabled={isBidDisabled} instantPrice={instantPrice} />
+          <BidToPost
+            postId={postId}
+            isDisabled={isSold !== "on_sale"}
+            instantPrice={instantPrice}
+          />
         </div>
         <div className="text-2xl font-bold mt-[30px]">즉시 구매</div>
-        <InstantOrder postId={postId} isDisabled={isBidDisabled} />
+        <InstantOrder postId={postId} isDisabled={isSold !== "on_sale"} />
         {isSold === "on_sale" && isOwner && (
           <div className="flex items-center gap-1.5 justify-end">
             <Edit className="w-5 h-5" />
