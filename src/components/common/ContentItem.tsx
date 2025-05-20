@@ -28,6 +28,8 @@ function ContentItem({ itemData, isPreview = false }: ContentItemProp) {
         className="aspect-square relative cursor-pointer  overflow-hidden"
         onHoverStart={handleMouseHover}
         onHoverEnd={handleMouseLeave}
+        onTouchStart={handleMouseHover}
+        onTouchEnd={handleMouseLeave}
       >
         {itemData.sample_image !== null ? (
           <motion.img

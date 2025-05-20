@@ -39,37 +39,34 @@ const BidToPost = ({ postId, isDisabled, instantPrice }: BidToPostProps) => {
   };
 
   return (
-    <form onSubmit={register} className="flex flex-col gap-4">
-      <Input
-        className="h-[50px] bg-[#efefef] border-none pl-4 text-2xl"
-        placeholder="입찰 가격"
-        disabled={isDisabled}
-        type="number"
-        max={instantPrice}
-        ref={priceRef}
-      />
-      <Input
-        className="h-[50px] bg-[#efefef] border-none pl-4 text-2xl"
-        placeholder="입찰 코멘트"
-        disabled={isDisabled}
-        ref={commentRef}
-      />
-      {/* <Button
-        disabled={isDisabled}
-        className="w-full h-[49px] bg-[#353333] rounded-[16.47px] text-white text-[23px] hover:bg-[#252323] cursor-pointer"
-        type="submit"
-      >
-        입찰하기
-      </Button> */}
+    <form onSubmit={register} className="w-full max-w-md mx-auto space-y-4">
+      <div className="w-full h-[50px] bg-[#efefef] rounded-[5px] flex items-center">
+        <Input
+          className="h-[50px] bg-[#efefef] border-none pl-4 text-2xl"
+          placeholder="입찰 가격"
+          ref={priceRef}
+          disabled={isDisabled}
+        />
+      </div>
 
-      <Button
-        className="w-full h-[60px] rounded-[16.47px] font-bold text-[20px] text-white flex items-center justify-center
-             bg-[#222222] hover:bg-[#111111] hover:bg-[#55d57e]  cursor-pointer"
-        type="submit"
-        disabled={isDisabled || parseInt(priceRef.current?.value || "0") > instantPrice}
-      >
-        입찰하기
-      </Button>
+      <div className="w-full h-[50px] top-[65px] left-0 bg-[#efefef] rounded-[5px] flex items-center">
+        <Input
+          className="h-[50px] bg-[#efefef] border-none pl-4 text-2xl"
+          placeholder="입찰 코멘트"
+          ref={commentRef}
+          disabled={isDisabled}
+        />
+      </div>
+
+      <div className="w-full flex justify-center">
+        <Button
+          className="w-full sm:w-[200px] font-bold h-[49px] bg-[#222222] rounded-[16.47px] text-white text-[23.1px] hover:bg-[#55d57e]  cursor-pointer"
+          disabled={isDisabled || parseInt(priceRef.current?.value || "0") > instantPrice}
+          type="submit"
+        >
+          입찰하기
+        </Button>
+      </div>
     </form>
   );
 };

@@ -7,6 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { checkPassword } from "@/services/userInfo";
 import { handleApi } from "@/utils/handleApi";
 import React, { useState } from "react";
+import AlertDialogComponent from "../AlertDialog";
+import { AlertTriangle } from "lucide-react";
 
 export default function ModalUserPwCheck({
   onClose,
@@ -17,6 +19,8 @@ export default function ModalUserPwCheck({
 }) {
   const [password, setPassword] = useState("");
 
+  const [showErrorDialog, setShowErrorDialog] = useState(false);
+
   const handleSubmit = async () => {
     const { data } = await handleApi(() => checkPassword(password));
     console.log("비밀번호 체크 요청 결과 : ", data);
@@ -24,7 +28,7 @@ export default function ModalUserPwCheck({
       onSuccess();
       onClose();
     } else {
-      alert("비밀번호가 틀렸습니다.");
+      setShowErrorDialog(true); // 다이얼로그 열기
     }
   };
 
@@ -74,6 +78,16 @@ export default function ModalUserPwCheck({
           </div>
         </CardContent>
       </Card>
+      <AlertDialogComponent
+        open={showErrorDialog}
+        onOpenChange={setShowErrorDialog}
+        title="비밀번호 오류"
+        description="비밀번호가 틀렸습니다. 다시 입력해주세요."
+        icon={<AlertTriangle className="text-red-500" />}
+        confirmLabel="retry"
+        onConfirm={() => setShowErrorDialog(false)}
+        showCancel={false}
+      />
     </div>
   );
 }

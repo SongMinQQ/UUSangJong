@@ -21,12 +21,12 @@ function DialogWrapper() {
   return (
     <div className="bg-transparent flex flex-row justify-center w-full">
       <DialogContent
-        className="overflow-hidden w-[1012px] h-[654px] border-0 shadow-lg"
+        className="overflow-hidden p-3 h-[70vh] lg:w-[1012px] lg:h-[654px] border-0 shadow-lg"
         style={{
           maxWidth: "unset",
           maxHeight: "unset",
-          width: "1012px",
-          height: "654px",
+          // width: "1012px",
+          // height: "654px",
         }}
       >
         {modalContent}

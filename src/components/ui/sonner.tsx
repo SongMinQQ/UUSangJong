@@ -9,6 +9,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
     <Sonner
       theme={"light" as ToasterProps["theme"]}
       className="toaster group"
+      position="bottom-right" // 기본 위치
       icons={{
         success: <CheckCircle className="h-4 w-4 text-green-500" />,
         info: <Info className="h-4 w-4 text-blue-500" />,

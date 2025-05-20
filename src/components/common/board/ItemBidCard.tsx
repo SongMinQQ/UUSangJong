@@ -51,54 +51,49 @@ const ItemBidCard = ({
   const isBidDisabled = isSold !== "on_sale";
 
   return (
-    <Card className="w-[90vw] max-w-[440px] h-auto mt-[6vh] lg:mt-[84px] lg:mr-[39px] border-none shadow-none">
-      <CardContent className="p-6 flex flex-col gap-4 text-black">
-        {/* 종료일 */}
-        <div className="text-base font-light">
-          종료일: {format(addHours(endDate, 12), "yyyy.MM.dd HH:mm")}
+    <Card className="z-20 w-[90vw] max-w-[440px] border-none shadow-none ">
+      <CardContent className="p-4 space-y-4">
+        <div className=" flex flex-row align-middle justify-between top-0 left-[33px] font-light text-black text-base whitespace-nowrap">
+          <p className="mt-2 mb-2">종료일: {format(addHours(endDate, 12), "yyyy.MM.dd HH:mm")}</p>
+          <div className="top-4 right-4">
+            {!isOwner && <DialogReport postId={postId} reportedUserId={postOwnerId} />}
+          </div>
         </div>
-        {/* 제목 */}
-        <h1 className="text-[32px] font-bold">{title}</h1>
-        <Separator className="bg-[#cccccc]" />
-        {/* 가격 정보들 */}
-        <div className="space-y-2 text-2xl font-light">
-          <div> 즉시구매가: {instantPrice}</div>
-          <div>시작가 : {startPrice} 원</div>
-          <div>현재 가격 : {nowPrice ?? startPrice} 원</div>
+
+        <h1 className="w-[249px] top-[26px] left-[33px] font-bold text-black text-[32px] whitespace-nowrap">
+          {title}
+        </h1>
+
+        <Separator className="top-24 w-[428px] bg-[#cccccc] left-0" />
+
+        <div className="space-y-2 text-black text-lg sm:text-2xl font-light">
+          <div>즉시 구매가 :&nbsp;&nbsp; {instantPrice} 원</div>
+          <div>시작가 :&nbsp;&nbsp;{startPrice} 원</div>
+          <div>현재 가격 :&nbsp;&nbsp;{nowPrice ? nowPrice : startPrice} 원</div>
           <div>
-            현재 상태 :{" "}
+            현재 상태 :&nbsp;&nbsp;
             {isSold === "on_sale" ? "판매중" : isSold === "sold_out" ? "판매 완료" : "판매 취소"}
           </div>
         </div>
-        <Separator className="bg-[#cccccc]" />
-        {/* 입찰 */}
-        <div className="flex flex-col gap-4">
-          <div className="flex text-2xl font-bold">입찰</div>
+
+        <Separator className="top-[277px] w-[428px] bg-[#cccccc] left-0" />
+
+        <div className="hidden xl:block">
+          <div className="top-[295px] left-[33px] font-normal text-black text-2xl">입찰</div>
+
           <BidToPost postId={postId} isDisabled={isBidDisabled} instantPrice={instantPrice} />
         </div>
-
         <div className="text-2xl font-bold mt-[30px]">즉시 구매</div>
         <InstantOrder postId={postId} />
-        {/* 
-        입찰 아래 separator (마진 효과)
-        <Separator className="mt-6 bg-[#cccccc]" /> */}
-        <Separator className="bg-[#cccccc]" />
-        {/* 게시물 수정 버튼 */}
         {isSold === "on_sale" && isOwner && (
-          <div className="flex justify-end items-center gap-2">
-            <Edit className="w-6 h-6" />
+          <div className="flex items-center gap-1.5 justify-end">
+            <Edit className="w-5 h-5" />
             <button
               onClick={onClickEdit}
-              className="font-normal text-uusj-theme-schemes-outline text-xl underline cursor-pointer"
+              className="text-uusj-theme-schemes-outline text-base sm:text-xl underline"
             >
               게시물 수정
             </button>
-          </div>
-        )}
-        {/* 신고 버튼 (작성자 제외) */}
-        {!isOwner && (
-          <div className="flex justify-end">
-            <DialogReport postId={postId} reportedUserId={postOwnerId} />
           </div>
         )}
       </CardContent>
