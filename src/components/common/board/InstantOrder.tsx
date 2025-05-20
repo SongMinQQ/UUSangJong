@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useProgressing } from "@/store/store";
 import { useMutation } from "@tanstack/react-query";
 import { instantBid } from "@/services/postService";
+import { toast } from "sonner";
 
 interface InstantOrderProps {
   postId: number;
@@ -19,7 +20,9 @@ export default function InstantOrder({ postId, isDisabled }: InstantOrderProps) 
     mutationFn: instantBid,
     onError: (error) => {
       console.error("즉시 구매 실패:", error);
-      alert("즉시 구매에 실패했습니다. 다시 시도해주세요.");
+      toast.error("즉시 구매에 실패했습니다. 다시 시도해주세요.", {
+        position: "top-center",
+      });
     },
   });
 
