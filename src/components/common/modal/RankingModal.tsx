@@ -26,7 +26,7 @@ const ModalRanking = ({ open }: ModalRankingProps) => {
   });
 
   return (
-    <DialogContent className="border-none h-[75vh] bg-[#fefdf6] max-w-3xl w-full p-8 rounded-lg shadow-xl overflow-y-auto [&>button.absolute]:hidden">
+    <DialogContent className="border-none bg-[#fefdf6] max-w-3xl w-full p-8 rounded-lg shadow-xl overflow-y-auto [&>button.absolute]:hidden">
       {/* DialogContent에는 시각 장애인을 위한 screen reader가 내용을 이해할 수 있도록 DialogTitle과 DialogDescription이 필수. */}
       <DialogTitle>
         <VisuallyHidden>Ranking Modal</VisuallyHidden>
