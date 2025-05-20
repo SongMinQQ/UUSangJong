@@ -87,7 +87,7 @@ export default function DetailPageUI() {
       <div className="flex flex-col items-center xl:flex-row xl:justify-center xl:items-start xl:gap-40 max-w-screen-xl mx-auto">
         <div className=" w-auto max-w-lg">
           <ItemInfo images={postData?.images ?? []} />
-          <div className="xl:hidden mt-[60px]">
+          <div className="lg:hidden mt-[60px]">
             <ItemBidCard
               postId={postId}
               title={postData?.title}
@@ -104,7 +104,7 @@ export default function DetailPageUI() {
           <ItemInfoTabs postId={postId} userId={postData.user_id} data={safeHtml} bids={bids} />
         </div>
         {/* 이미지 썸네일부분 */}
-        <div className="xl:block w-full max-w-[440px] sticky top-[139px] self-start">
+        <div className="hidden xl:block w-full max-w-[440px] sticky top-[139px] self-start">
           <ItemBidCard
             postId={postId}
             title={postData?.title}
@@ -122,7 +122,7 @@ export default function DetailPageUI() {
       </div>
       <Drawer modal={false}>
         <DrawerTrigger asChild>
-          <FloatingActionButton >
+          <FloatingActionButton>
             <TicketPlusIcon className="w-6 h-6" />
           </FloatingActionButton>
         </DrawerTrigger>
