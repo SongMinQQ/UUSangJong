@@ -33,7 +33,7 @@ const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.El
         <Separator className="bg-gray-300" />
         <TabsContent value="productDescription" className="mt-0">
           <div
-            className="p-3 bg-[#faf8ef] rounded-lg shadow-sm min-h-[200px] mt-2 mb-8"
+            className="p-3 bg-[#faf8ef] rounded-lg shadow-sm min-h-[200px] mt-2 mb-8 [&>h1]:text-3xl [&>h2]:text-2xl [&>h3]:text-xl"
             dangerouslySetInnerHTML={{ __html: data.content ?? "<p>등록 내용 없음</p>" }}
           />
         </TabsContent>

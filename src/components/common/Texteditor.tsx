@@ -40,6 +40,8 @@ export default function TextEditor({
     }
   }, [editor, value]);
 
+  console.log("에디터:", editor);
+
   if (!editor) return null;
 
   return (
@@ -99,7 +101,14 @@ export default function TextEditor({
           H3
         </Button>
         <Button
-          onClick={() => editor.chain().focus().setColor("#ff0000").run()}
+          onClick={() => {
+            const isRed = editor.isActive("textStyle", { color: "#ff0000" });
+            editor
+              .chain()
+              .focus()
+              .setColor(isRed ? "#000000" : "#ff0000")
+              .run();
+          }}
           className={editor.isActive("textStyle", { color: "#ff0000" }) ? "bg-gray-200" : ""}
         >
           Red
