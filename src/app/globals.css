@@ -22,10 +22,15 @@
   }
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
 }
 
 .ProseMirror h1 {
@@ -36,4 +41,10 @@ body {
 }
 .ProseMirror h3 {
   @apply text-xl font-semibold;
+}
+
+@media (max-width: 1050px) {
+  .footer-flex {
+    flex-direction: column !important;
+  }
 }

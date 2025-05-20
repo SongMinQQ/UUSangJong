@@ -4,6 +4,7 @@ export interface BidMessage {
   user_id: number;
   created_at: string;
   content: string;
+  message?: string;
 }
 
 export interface Bid {

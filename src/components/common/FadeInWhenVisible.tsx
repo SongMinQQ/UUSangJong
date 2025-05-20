@@ -37,7 +37,7 @@ export function FadeInWhenVisible({ children, direction = "left" }: Props) {
   };
 
   return (
-    <motion.div ref={ref} initial="hidden" animate={controls} variants={variants}>
+    <motion.div ref={ref} initial="hidden" animate={controls} variants={variants} className="overflow-x-hidden max-w-full">
       {children}
     </motion.div>
   );

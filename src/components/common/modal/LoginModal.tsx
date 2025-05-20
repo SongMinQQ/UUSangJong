@@ -38,7 +38,7 @@ function LoginModal({ handleChangeModal }: ModalProps) {
   return (
     <div className="flex h-full">
       {/* Left side - Welcome section */}
-      <div className="relative w-[506px] h-full bg-[#f8f8f8] rounded-l-[15px]">
+      <div className="hidden lg:block relative w-[506px] h-full bg-[#f8f8f8] rounded-l-[15px]">
         <DialogTitle className="absolute h-[29px] top-5 left-5 font-medium text-black text-2xl tracking-[0]">
           Welcome!
         </DialogTitle>
@@ -62,12 +62,12 @@ function LoginModal({ handleChangeModal }: ModalProps) {
       </div>
 
       {/* Right side - Login form */}
-      <div className="relative flex-1 bg-white rounded-r-[15px] p-8">
+      <div className="relative flex-1 bg-white rounded-r-[15px] md:p-8">
         <h1 className="font-['Rubik',Helvetica] font-normal text-black text-2xl tracking-[0.15px] mb-[130px]">
           Log In
         </h1>
 
-        <div className="flex flex-col space-y-8 w-[340px] mx-auto">
+        <div className="flex flex-col space-y-8 w-fit md:w-full mx-auto">
           <div className="space-y-1.5">
             <Label
               htmlFor="id"
@@ -105,6 +105,11 @@ function LoginModal({ handleChangeModal }: ModalProps) {
           >
             CONTINUE
           </Button>
+          <div className="absolute flex items-center gap-2 bottom-[10px] right-[0px]">
+            <button className="text-black underline" onClick={handleChangeModal}>
+              Sign up now!
+            </button>
+          </div>
         </div>
       </div>
       <AlertDialogComponent

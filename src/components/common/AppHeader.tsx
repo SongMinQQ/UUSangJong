@@ -7,7 +7,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "../ui/navigation-menu";
-import { CircleUserRound, SearchIcon } from "lucide-react";
+import { CircleUserRound, LogOut, SearchIcon } from "lucide-react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import DialogWrapper from "./modal/DialogWrapper";
 import SearchModal from "./modal/SearchModal";
@@ -19,8 +19,8 @@ import { useRouter } from "next/navigation";
 import LinearProgress from "./LinearProgress";
 import { toast } from "sonner";
 import AlertDialogComponent from "@/components/common/AlertDialog";
-
 // Navigation menu items
+
 const navItems = [
   {
     title: "Home",
@@ -72,20 +72,22 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
     <Fragment>
       {/* Header with navigation */}
       <header className={`${isSticky && "sticky"} top-0 z-10 w-full bg-[#fefdf6] shadow-md`}>
-        <div className="container mx-auto px-4 py-6 flex flex-col items-center">
+        <div className="container mx-auto py-6 flex flex-col items-center relative">
           {/* Logo */}
-          <h1 className="font-['Julius_Sans_One',Helvetica] text-5xl text-black mb-6">UUSJ</h1>
+          <h1 className="font-['Julius_Sans_One',Helvetica] text-4xl sm:text-5xl text-black mb-6">
+            UUSJ
+          </h1>
 
           {/* Navigation */}
           <NavigationMenu className="mx-auto">
-            <NavigationMenuList className="flex gap-8">
+            <NavigationMenuList className="flex flex-wrap justify-center gap-4 sm:gap-8 max-w-full overflow-hidden">
               {navItems.map((item) => {
                 if (item.title === "Ranking") {
                   return (
                     <Dialog key="Ranking" open={isRankingOpen} onOpenChange={setIsRankingOpen}>
                       <DialogTrigger asChild>
                         <NavigationMenuItem>
-                          <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors">
+                          <div className="cursor-pointer font-['Julius_Sans_One',Helvetica] text-1xl  sm:text-2xl text-black hover:text-gray-600 transition-colors">
                             {item.title}
                           </div>
                         </NavigationMenuItem>
@@ -100,7 +102,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                 return (
                   <NavigationMenuItem key={item.title}>
                     <NavigationMenuLink
-                      className="font-['Julius_Sans_One',Helvetica] text-2xl text-black hover:text-gray-600 transition-colors"
+                      className="font-['Julius_Sans_One',Helvetica] text-1xl sm:text-2xl text-black hover:text-gray-600 transition-colors"
                       href={item.route}
                     >
                       {item.title}
@@ -112,7 +114,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
           </NavigationMenu>
 
           {/* Login button and search icon */}
-          <div className="absolute right-8 top-6 flex items-center gap-4">
+          <div className="absolute right-2 sm:right-8 sm:top-6 flex items-center gap-4">
             {isLogin ? (
               <>
                 <Button
@@ -120,7 +122,8 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
                   className="font-['Julius_Sans_One',Helvetica] text-1xl text-black p-0 cursor-pointer"
                   onClick={() => setShowLogoutDialog(true)}
                 >
-                  Logout
+                  <LogOut />
+                  <span className="hidden sm:inline">Logout</span>
                 </Button>
                 <Button
                   variant="link"
@@ -147,7 +150,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
             {isSticky && (
               <Dialog modal={false}>
                 <DialogTrigger>
-                  <SearchIcon className="w-10 h-10 cursor-pointer" />
+                  <SearchIcon className="w-7 h-7 cursor-pointer hidden md:block" />
                 </DialogTrigger>
                 <SearchModal />
               </Dialog>

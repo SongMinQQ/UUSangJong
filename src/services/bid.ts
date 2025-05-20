@@ -10,4 +10,3 @@ export const registerBid = async (params: bidToPost): Promise<boolean> => {
   const { data } = await axios.post("/bid", params);
   return data;
 }
-

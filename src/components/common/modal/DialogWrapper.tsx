@@ -6,13 +6,10 @@ import SignupModal from "./SignupModal";
 
 function DialogWrapper() {
   const [isFirst, setIsFirst] = useState<boolean>(false);
-  const handleChangeModal = useCallback(
-    (e: MouseEvent<HTMLButtonElement>) => {
-      setIsFirst((prev) => !prev);
-      console.log("QRQ", isFirst);
-    },
-    [isFirst]
-  );
+  const handleChangeModal = useCallback((e?: MouseEvent<HTMLButtonElement>) => {
+    setIsFirst((prev) => !prev);
+    console.log(e);
+  }, []);
   const modalContent = useMemo(() => {
     return isFirst ? (
       <SignupModal handleChangeModal={handleChangeModal} />
@@ -24,12 +21,12 @@ function DialogWrapper() {
   return (
     <div className="bg-transparent flex flex-row justify-center w-full">
       <DialogContent
-        className="overflow-hidden w-[1012px] h-[654px] border-0 shadow-lg"
+        className="overflow-hidden p-3 h-[70vh] lg:w-[1012px] lg:h-[654px] border-0 shadow-lg"
         style={{
           maxWidth: "unset",
           maxHeight: "unset",
-          width: "1012px",
-          height: "654px",
+          // width: "1012px",
+          // height: "654px",
         }}
       >
         {modalContent}
