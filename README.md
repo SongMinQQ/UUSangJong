@@ -4,7 +4,6 @@
   <img src="https://github.com/user-attachments/assets/aaa0f719-5d16-43d5-b685-bcbc4d3cd145" width="300" height="300" alt="logo_default_bg_white"/>
   <br>
 
-
 <b>유유상종</b>
 <br>
 <b>유</b>레카의 <b>유</b>용한 <b>상</b>품 <b>종</b>합서비스
@@ -64,9 +63,9 @@
 <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
 <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
 <img src="https://img.shields.io/badge/shadcnui-000000?style=for-the-badge&logo=shadcnui&logoColor=white">
-<img src="https://img.shields.io/badge/axios-#5A29E4?style=for-the-badge&logo=axios&logoColor=white">
-<img src="https://img.shields.io/badge/tailwindcss-#06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
-<img src="https://img.shields.io/badge/radixui-#161618?style=for-the-badge&logo=radixui&logoColor=white">
+<img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
+<img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/radixui-161618?style=for-the-badge&logo=radixui&logoColor=white">
 <br/><h3>[ Backend ]</h3>
 <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springSecurity&logoColor=white">
