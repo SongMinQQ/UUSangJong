@@ -82,31 +82,31 @@
     <td align="center"><strong>Login & Logout</strong></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/3ed87175-5f6e-444d-9e26-0d51a989d865" width="300"/></td>
-    <td><img src="https://github.com/user-attachments/assets/cc1cbe70-f7d2-48ed-b9df-c2386046533c" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/3ed87175-5f6e-444d-9e26-0d51a989d865" width="400" style="display: block; margin: auto;"/></td>
+    <td><img src="https://github.com/user-attachments/assets/cc1cbe70-f7d2-48ed-b9df-c2386046533c" width="400" style="display: block; margin: auto;"/></td>
   </tr>
   <tr>
     <td align="center"><strong>Board</strong></td>
     <td align="center"><strong>Ranking</strong></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/f118d1d8-0e11-42c8-855e-b373bcf4000a" width="400"/></td>
-    <td><img src="https://github.com/user-attachments/assets/fbe597f5-e563-4d80-a815-96b78eb387bd" width="400"/></td>
+    <td><img src="https://github.com/user-attachments/assets/f118d1d8-0e11-42c8-855e-b373bcf4000a" width="400" style="display: block; margin: auto;"/></td>
+    <td><img src="https://github.com/user-attachments/assets/fbe597f5-e563-4d80-a815-96b78eb387bd" width="400" style="display: block; margin: auto;"/></td>
   </tr>
   <tr>
     <td align="center"><strong>Bid</strong></td>
     <td align="center"><strong>Detail (Explain)</strong></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/cf6d2385-79d8-41a0-a12a-fb880b512dda" width="400"/></td>
-    <td><img src="https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e" width="400"/></td>
+    <td><img src="https://github.com/user-attachments/assets/cf6d2385-79d8-41a0-a12a-fb880b512dda" width="400" style="display: block; margin: auto;"/></td>
+    <td><img src="https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e" width="400" style="display: block; margin: auto;"/></td>
   </tr>
   <tr>
     <td align="center"><strong>Detail (QnA)</strong></td>
     <td></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="400"/></td>
+    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="400" style="display: block; margin: auto;"/></td>
     <td></td>
   </tr>
 </table>
