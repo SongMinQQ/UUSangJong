@@ -66,6 +66,7 @@
 <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
 <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 <img src="https://img.shields.io/badge/radixui-161618?style=for-the-badge&logo=radixui&logoColor=white">
+<img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
 <br/><h3>[ Backend ]</h3>
 <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springSecurity&logoColor=white">
@@ -86,28 +87,28 @@
     <td><img src="https://github.com/user-attachments/assets/cc1cbe70-f7d2-48ed-b9df-c2386046533c" width="400" style="display: block; margin: auto;"/></td>
   </tr>
   <tr>
+    <td align="center"><strong>Write</strong></td>
     <td align="center"><strong>Board</strong></td>
-    <td align="center"><strong>Ranking</strong></td>
   </tr>
   <tr>
+    <td><img src="https://github.com/user-attachments/assets/35ff428c-24d6-4f93-950a-365b3c9390c9" width="400" style="display: block; margin: auto;"/></td>
     <td><img src="https://github.com/user-attachments/assets/f118d1d8-0e11-42c8-855e-b373bcf4000a" width="400" style="display: block; margin: auto;"/></td>
-    <td><img src="https://github.com/user-attachments/assets/fbe597f5-e563-4d80-a815-96b78eb387bd" width="400" style="display: block; margin: auto;"/></td>
   </tr>
   <tr>
     <td align="center"><strong>Bid</strong></td>
-    <td align="center"><strong>Detail (Explain)</strong></td>
+    <td align="center"><strong>Ranking</strong></td>
   </tr>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/cf6d2385-79d8-41a0-a12a-fb880b512dda" width="400" style="display: block; margin: auto;"/></td>
-    <td><img src="https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e" width="400" style="display: block; margin: auto;"/></td>
+    <td><img src="https://github.com/user-attachments/assets/fbe597f5-e563-4d80-a815-96b78eb387bd" width="400" style="display: block; margin: auto;"/></td>
   </tr>
   <tr>
     <td align="center"><strong>Detail (QnA)</strong></td>
-    <td></td>
+    <td align="center"><strong>Detail (Explain)</strong></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="300" style="display: block; margin: auto;"/></td>
-    <td></td>
+    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="400" style="display: block; margin: auto;"/></td>
+    <td><img src="https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e" width="400" style="display: block; margin: auto;"/></td>
   </tr>
 </table>
 
