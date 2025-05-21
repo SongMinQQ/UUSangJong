@@ -35,10 +35,10 @@
       <th align="center">팀원</th>
     </tr>
     <tr>
-      <td>송민규</td>
-      <td>최윤혁</td>
-      <td>이혜은</td>
-      <td>김민선</td>
+      <td align="center">송민규</td>
+      <td align="center">최윤혁</td>
+      <td align="center">이혜은</td>
+      <td align="center">김민선</td>
     </tr>
     <tr>
       <td><img src="https://avatars.githubusercontent.com/u/107177636?v=4" width="150"/></td>
@@ -107,7 +107,7 @@
     <td align="center"><strong>Detail (Explain)</strong></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="250" style="display: block; margin: auto;"/></td>
+    <td style="text-align: center;"><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="250" style="display: block; margin: auto;"/></td>
     <td><img src="https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e" width="400" style="display: block; margin: auto;"/></td>
   </tr>
 </table>
