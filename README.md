@@ -106,7 +106,7 @@
     <td></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="400" style="display: block; margin: auto;"/></td>
+    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="300" style="display: block; margin: auto;"/></td>
     <td></td>
   </tr>
 </table>
