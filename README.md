@@ -107,7 +107,7 @@
     <td align="center"><strong>Detail (Explain)</strong></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="400" style="display: block; margin: auto;"/></td>
+    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="250" style="display: block; margin: auto;"/></td>
     <td><img src="https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e" width="400" style="display: block; margin: auto;"/></td>
   </tr>
 </table>
