@@ -13,7 +13,7 @@
 ## 🧑‍🏫 프로젝트 소개
 
 <div align="center">
-<h3>LG유플러스 유레카2기 미니프로젝트 익명 경매 서비스</h3>
+<h3>LG유플러스 유레카2기 미니프로젝트 익명 경매 서비스 유유상종</h3>
 - <b>불필요한 물건을 경매로 판매</b> (예: SQLD 자격증 서적) <br/>
 - <b>입찰 경쟁으로 자연스러운 가격 조정</b> (수요 많으면 가격 상승, 없으면 유찰) <br/>
 - <b>익명 닉네임 사용으로 경매 흥미 UP</b> (예: "응 내가 살 거야~") <br/>
@@ -74,16 +74,41 @@
 
 ## 🖥 SCREENS
 
-![compressed_main](https://github.com/user-attachments/assets/3ed87175-5f6e-444d-9e26-0d51a989d865)
+<div align="center">
 
-![compressed_loginlogout](https://github.com/user-attachments/assets/cc1cbe70-f7d2-48ed-b9df-c2386046533c)
+<table>
+  <tr>
+    <td align="center"><strong>Main Page</strong></td>
+    <td align="center"><strong>Login & Logout</strong></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/3ed87175-5f6e-444d-9e26-0d51a989d865" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/cc1cbe70-f7d2-48ed-b9df-c2386046533c" width="300"/></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Board</strong></td>
+    <td align="center"><strong>Ranking</strong></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/f118d1d8-0e11-42c8-855e-b373bcf4000a" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/fbe597f5-e563-4d80-a815-96b78eb387bd" width="300"/></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Bid</strong></td>
+    <td align="center"><strong>Detail (Explain)</strong></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/cf6d2385-79d8-41a0-a12a-fb880b512dda" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e" width="300"/></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Detail (QnA)</strong></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93" width="300"/></td>
+    <td></td>
+  </tr>
+</table>
 
-![board](https://github.com/user-attachments/assets/f118d1d8-0e11-42c8-855e-b373bcf4000a)
-
-![ranking](https://github.com/user-attachments/assets/fbe597f5-e563-4d80-a815-96b78eb387bd)
-
-![bidLive](https://github.com/user-attachments/assets/cf6d2385-79d8-41a0-a12a-fb880b512dda)
-
-![explain](https://github.com/user-attachments/assets/941aef41-b1b6-4d69-b855-a3aca449886e)
-
-![qna](https://github.com/user-attachments/assets/1de817ab-efbe-4d88-a83c-afa57e754c93)
+</div>
