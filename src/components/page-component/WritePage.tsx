@@ -132,18 +132,34 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
 
   const onClickButton = async () => {
     const totalImages = images.length + imageFiles.length;
+    const priceToNum = parseInt(form.price);
+    const stPriceToNum = parseInt(form.startPrice);
+    const INF = 199999999;
+    if (priceToNum < 0 || stPriceToNum <= 0) {
+      toast.error("올바른 가격을 입력해 주세요.");
+      return;
+    }
+    else if (priceToNum < stPriceToNum) {
+      toast.error("시작 가격은 즉시 구매 가격보다 높을 수 없습니다.");
+      return;
+    }
+    else if (priceToNum > INF || stPriceToNum > INF) {
+      toast.error("가격이 너무 높습니다.");
+      return;
+    }
     const errors = {
       title: form.title ? "" : "제목을 입력해주세요.",
       startPrice: form.startPrice ? "" : "시작가를 입력해주세요.",
       price: form.price ? "" : "즉시구매 가격을 입력해주세요.",
       contents: form.contents ? "" : "내용을 입력해주세요.",
       images: totalImages > 0 ? "" : "이미지는 1개 이상 등록해주세요.",
+
     };
 
     const hasError = Object.values(errors).some((msg) => msg !== "");
     if (hasError) {
       setFormError(errors);
-      toast.error("필드를 확인해 주세요.");
+      toast.error("모든 내용을 입력해 주세요.");
       return;
     }
 
@@ -253,18 +269,18 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const serverLocalImages: PostImageType[] = [
     ...images.map(
       (image) =>
-        ({
-          url: image.url,
-          type: "server",
-          image_id: image.image_id,
-        } as PostImageType)
+      ({
+        url: image.url,
+        type: "server",
+        image_id: image.image_id,
+      } as PostImageType)
     ),
     ...imageFiles.map(
       (file) =>
-        ({
-          url: URL.createObjectURL(file),
-          type: "local",
-        } as PostImageType)
+      ({
+        url: URL.createObjectURL(file),
+        type: "local",
+      } as PostImageType)
     ),
   ];
 
