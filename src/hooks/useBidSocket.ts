@@ -13,15 +13,15 @@ export function useBidSocket(postId: number, onNewBid: (bid: BidMessage) => void
     const client = new Client({
       webSocketFactory: () => socket as WebSocket,
       reconnectDelay: 5000,
-      debug: (str) => console.log("[STOMP]", str),
+      debug: (str) => console.debug("[STOMP]", str),
       onConnect: () => {
-        console.log("✅ STOMP connected");
+        console.debug("✅ STOMP connected");
 
         client.subscribe(`/topic/bids/${postId}`, (message: IMessage) => {
-          console.log("Received message: ", message);
+          console.debug("Received message: ", message);
           if (message.body) {
             try {
-              console.log("BODY: ", message);
+              console.debug("BODY: ", message);
               const bid: BidMessage = JSON.parse(message.body);
               onNewBid(bid);
             } catch (err) {

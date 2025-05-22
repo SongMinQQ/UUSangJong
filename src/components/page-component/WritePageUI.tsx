@@ -49,9 +49,9 @@ interface WritePageUIProps {
 export default function WritePageUI(props: WritePageUIProps) {
   const [dueDate, setDueDate] = useState(1);
 
-  console.log("isEdit", props.isEdit);
-  console.log("isCancle", props.isCancle);
-  console.log("gdgd:", props.form.endDate);
+  console.debug("isEdit", props.isEdit);
+  console.debug("isCancle", props.isCancle);
+  console.debug("gdgd:", props.form.endDate);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">

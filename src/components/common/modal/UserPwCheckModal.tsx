@@ -23,7 +23,7 @@ export default function ModalUserPwCheck({
 
   const handleSubmit = async () => {
     const { data } = await handleApi(() => checkPassword(password));
-    console.log("비밀번호 체크 요청 결과 : ", data);
+    console.debug("비밀번호 체크 요청 결과 : ", data);
     if (data) {
       onSuccess();
       onClose();

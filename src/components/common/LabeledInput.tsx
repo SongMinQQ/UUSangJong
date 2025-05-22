@@ -38,7 +38,7 @@ export default function LabeledInput({
   onChange,
   toggleSwitch,
 }: Partial<LabeledInputProps>) {
-  console.log("inputlael", title, isView);
+  console.debug("inputlael", title, isView);
   return (
     <div className={boxStyle}>
       <Label className={`text-white font-bold ${title ? "mb-2" : ""} ${titleSize}`}>

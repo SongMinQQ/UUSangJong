@@ -51,7 +51,7 @@ function AppHeader({ isSticky }: { isSticky?: boolean }) {
 
   const checkLogin = useCallback(async () => {
     const { data } = await handleApi(() => fetchCurrentUser());
-    console.log(data);
+    console.debug(data);
     if (data) setUserInfo(data);
   }, [isLogin]);
 

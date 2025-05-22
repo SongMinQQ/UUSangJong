@@ -108,7 +108,7 @@ export const cancelPost = async (postId: number): Promise<string> => {
     updated_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
   };
 
-  console.log("cancleParams:", cancelParams);
+  console.debug("cancleParams:", cancelParams);
   return await updatePost(cancelParams);
 };
 

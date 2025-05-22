@@ -44,7 +44,7 @@ export const uploadPostImage = async (
 
   const formData = new FormData();
   formData.append("file", image); // 'image'라는 키로 파일 추가
-  console.log("formData", image.size);
+  console.debug("formData", image.size);
 
   const response = await axios.post<UploadPostImageResponse>(
     `/post/${postId}`, // URL: /post/{postId}/image
