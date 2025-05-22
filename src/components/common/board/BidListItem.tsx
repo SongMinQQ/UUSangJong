@@ -11,7 +11,7 @@ interface BidListProps {
 }
 const BidListItem = ({ bid, postId }: BidListProps) => {
   const { bid_price, content, created_at, user_id } = bid;
-  console.log("userid", user_id);
+  console.debug("userid", user_id);
   return (
     <Card className="border-none bg-[#faf8ef] rounded-lg m-3 px-1 py-3">
       <CardHeader className="flex flex-col gap-1">

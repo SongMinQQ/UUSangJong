@@ -8,7 +8,7 @@ function DialogWrapper() {
   const [isFirst, setIsFirst] = useState<boolean>(false);
   const handleChangeModal = useCallback((e?: MouseEvent<HTMLButtonElement>) => {
     setIsFirst((prev) => !prev);
-    console.log(e);
+    console.debug(e);
   }, []);
   const modalContent = useMemo(() => {
     return isFirst ? (

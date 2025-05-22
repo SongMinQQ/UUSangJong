@@ -30,7 +30,7 @@ interface PostImageType {
   image_id?: number;
 }
 
-// console.log("edit content:", content);
+// console.debug("edit content:", content);
 export default function WritePage({ isEdit }: { isEdit: boolean }) {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -92,14 +92,14 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
 
   //로컬 이미지 삭제
   const onClickDeleteImage = (index: number, type: "server" | "local", image_id?: number) => {
-    console.log("sdaff", index, type, image_id, previewUrls, imageFiles);
+    console.debug("sdaff", index, type, image_id, previewUrls, imageFiles);
     if (type === "server" && image_id && typeof image_id === "number") {
-      console.log("aaa:", image_id);
+      console.debug("aaa:", image_id);
       setImages((prev) => prev.filter((img) => img.image_id !== image_id && image_id > 0));
       setDeletedImage((prev) => [...prev, image_id]);
     }
     if (type === "local") {
-      console.log("qq", index);
+      console.debug("qq", index);
       const localIndex = index - images.length;
       if (localIndex >= 0) {
         setImageFiles((prev) => prev.filter((_, i) => i !== localIndex));
@@ -114,7 +114,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     const selectedFiles = Array.from(files).slice(0, 5 - imageFiles.length);
     const { validFiles, errors } = validateImageFile(selectedFiles, imageFiles);
 
-    console.log("ERR", errors, validFiles);
+    console.debug("ERR", errors, validFiles);
     if (errors.length > 0) {
       toast.error(errors.join(", "));
       return;
@@ -134,7 +134,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
     const totalImages = images.length + imageFiles.length;
     const priceToNum = Number(form.price);
     const stPriceToNum = Number(form.startPrice);
-    console.log(priceToNum, ' ', stPriceToNum);
+    console.debug(priceToNum, ' ', stPriceToNum);
     const INF = 199999999;
     if (isNaN(priceToNum) || isNaN(stPriceToNum)) {
       toast.error("가격을 숫자로 입력해 주세요.");
@@ -174,10 +174,10 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       if (isEdit) {
         //삭제 먼저..
         if (isEdit && deletedImage.length > 0) {
-          console.log("삭제목록:", deletedImage);
+          console.debug("삭제목록:", deletedImage);
           Promise.all(
             deletedImage.map((imageId) => {
-              console.log("qqq:", imageId);
+              console.debug("qqq:", imageId);
               return deletePostImage(imageId);
             })
           );
@@ -243,7 +243,7 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
       toast.success("경매가 취소되었습니다.");
       setIsCancle(true);
       router.push(`/board/${postId}`);
-      console.log("pi", postId);
+      console.debug("pi", postId);
     } catch (error) {
       console.error("경매 취소 실패:", error);
       toast.error("경매 취소 실패했습니다.");

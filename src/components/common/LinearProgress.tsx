@@ -10,7 +10,7 @@ interface LinearProgressProps {
 
 function LinearProgress({ className, colorClassName = "bg-primary" }: LinearProgressProps) {
   const { isLoading } = useProgressing();
-  if (isLoading) console.log("Progressed", isLoading);
+  if (isLoading) console.debug("Progressed", isLoading);
   return isLoading ? (
     <div className={cn("relative w-full h-1 overflow-hidden bg-muted rounded", className)}>
       <motion.div

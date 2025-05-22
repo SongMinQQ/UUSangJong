@@ -15,7 +15,7 @@ interface ItemInfoTabsProps {
 }
 
 const ItemInfoTabs = ({ data, bids, postId, userId }: ItemInfoTabsProps): JSX.Element => {
-  console.log("lololololo", data.content, bids);
+  console.debug("lololololo", data.content, bids);
   return (
     <div className="mt-[3vh] xl:mt-[15vh] w-[90vw] max-w-[600px] mx-auto xl:mx-0">
       <Tabs defaultValue="bidHistory" className="mb-4">

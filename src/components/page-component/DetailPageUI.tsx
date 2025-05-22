@@ -62,11 +62,11 @@ export default function DetailPageUI() {
   }, [postId, refetchBidData, refetchPostData]);
 
   useEffect(() => {
-    console.log(bids);
+    console.debug(bids);
   }, [bids]);
 
   useBidSocket(postId, (newBid) => {
-    console.log(newBid);
+    console.debug(newBid);
     if (newBid.message) {
       if (postData) {
         postData.is_sold = "sold_out";
@@ -87,7 +87,7 @@ export default function DetailPageUI() {
   if (!postId) return <div>postId가 없습니다. URL을 확인하세요.</div>;
   if (!postData) return <div>로딩 중...</div>;
 
-  // console.log("writerEmail", postData.email);
+  // console.debug("writerEmail", postData.email);
 
   return (
     <div className="w-full px-4 bg-[#fefdf6] flex flew-col md:block">

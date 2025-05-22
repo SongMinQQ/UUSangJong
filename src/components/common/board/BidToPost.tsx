@@ -30,7 +30,7 @@ const BidToPost = ({ postId, isDisabled, instantPrice }: BidToPostProps) => {
       content: commentRef.current!.value,
     };
     const { data, error } = await handleApi(() => registerBid(sendBid));
-    console.log(data);
+    console.debug(data);
     if (data) {
       toast.info("입찰이 등록되었습니다.");
       priceRef.current!.value = "";
