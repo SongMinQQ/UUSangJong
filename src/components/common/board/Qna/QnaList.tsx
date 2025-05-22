@@ -18,7 +18,7 @@ export default function QnaList({ postId, postOwnerId }: QnaListProps) {
 
   return (
     <div className="space-y-4 p-4">
-      <QnaForm postId={postId} onSuccess={refetch} />
+      <QnaForm postId={postId} onSuccess={refetch} isOwner={isOwner} />
       <Separator className="bg-gray-400 my-6" />
       {/* QnA가 없을 때 메시지 출력 */}
       {qnas.length === 0 ? (
