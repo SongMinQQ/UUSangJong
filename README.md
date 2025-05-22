@@ -154,3 +154,9 @@
 </table>
 
 </div>
+
+## 🛠System architecture
+
+<div align = "center">
+<img src="https://github.com/user-attachments/assets/c834872b-b5b9-4229-9758-36784faf0adb">
+</div>
