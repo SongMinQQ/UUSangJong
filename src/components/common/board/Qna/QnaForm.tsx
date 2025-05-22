@@ -7,7 +7,15 @@ import AlertDialogComponent from "@/components/common/AlertDialog";
 import { AlertTriangle } from "lucide-react";
 import { CheckCircle } from "lucide-react"; // 아이콘은 자유롭게
 
-export default function QnaForm({ postId, onSuccess }: { postId: number; onSuccess: () => void }) {
+export default function QnaForm({
+  postId,
+  onSuccess,
+  isOwner,
+}: {
+  postId: number;
+  onSuccess: () => void;
+  isOwner: boolean;
+}) {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [warnDialogOpen, setWarnDialogOpen] = useState<boolean>(false); // 제목/내용 누락 경고 다이얼로그
@@ -34,28 +42,32 @@ export default function QnaForm({ postId, onSuccess }: { postId: number; onSucce
   return (
     <div className="space-y-2 rounded-md shadow p-4 bg-[#faf8ef]">
       <h3 className="text-md font-bold text-center">💬 판매자에게 질문을 남겨보세요</h3>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="궁금한 점의 제목을 입력해주세요"
-        className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm focus:outline-none focus:ring-0 focus:border-[#353333]"
-      />
-      <Textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="판매자에게 남기고 싶은 질문 내용을 자세히 입력해주세요"
-        className="min-h-[100px]"
-      />
+      {!isOwner && (
+        <div className="flex flex-col gap-2">
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="궁금한 점의 제목을 입력해주세요"
+            className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm focus:outline-none focus:ring-0 focus:border-[#353333]"
+          />
+          <Textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="판매자에게 남기고 싶은 질문 내용을 자세히 입력해주세요"
+            className="min-h-[100px]"
+          />
 
-      <div className="flex justify-end">
-        <Button
-          onClick={handleClick}
-          className="cursor-pointer bg-[#353333] hover:bg-[#252323] text-white"
-        >
-          QnA 등록
-        </Button>
-      </div>
+          <div className="flex justify-end">
+            <Button
+              onClick={handleClick}
+              className="cursor-pointer bg-[#353333] hover:bg-[#252323] text-white"
+            >
+              QnA 등록
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* ❌ 누락 시 경고 다이얼로그 */}
       <AlertDialogComponent
