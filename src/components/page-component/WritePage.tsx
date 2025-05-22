@@ -132,10 +132,15 @@ export default function WritePage({ isEdit }: { isEdit: boolean }) {
 
   const onClickButton = async () => {
     const totalImages = images.length + imageFiles.length;
-    const priceToNum = parseInt(form.price);
-    const stPriceToNum = parseInt(form.startPrice);
+    const priceToNum = Number(form.price);
+    const stPriceToNum = Number(form.startPrice);
+    console.log(priceToNum, ' ', stPriceToNum);
     const INF = 199999999;
-    if (priceToNum < 0 || stPriceToNum <= 0) {
+    if (isNaN(priceToNum) || isNaN(stPriceToNum)) {
+      toast.error("가격을 숫자로 입력해 주세요.");
+      return;
+    }
+    else if (priceToNum <= 0 || stPriceToNum <= 0) {
       toast.error("올바른 가격을 입력해 주세요.");
       return;
     }
