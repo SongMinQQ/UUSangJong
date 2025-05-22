@@ -112,7 +112,7 @@
 <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springSecurity&logoColor=white">
 <img src="https://img.shields.io/badge/mariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white">
-<div align="center">
+</div>
 
 ## 🖥 SCREENS
 
@@ -153,4 +153,10 @@
   </tr>
 </table>
 
+</div>
+
+## 🛠System architecture
+
+<div align = "center">
+<img src="https://github.com/user-attachments/assets/c834872b-b5b9-4229-9758-36784faf0adb">
 </div>

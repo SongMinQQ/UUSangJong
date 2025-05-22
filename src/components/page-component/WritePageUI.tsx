@@ -49,9 +49,9 @@ interface WritePageUIProps {
 export default function WritePageUI(props: WritePageUIProps) {
   const [dueDate, setDueDate] = useState(1);
 
-  console.log("isEdit", props.isEdit);
-  console.log("isCancle", props.isCancle);
-  console.log("gdgd:", props.form.endDate);
+  console.debug("isEdit", props.isEdit);
+  console.debug("isCancle", props.isCancle);
+  console.debug("gdgd:", props.form.endDate);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-[#fefdf6]">
@@ -94,10 +94,11 @@ export default function WritePageUI(props: WritePageUIProps) {
             <label className="text-sm text-gray-700 block mb-1">Title</label>
             <input
               name="title"
-              placeholder="Value"
+              placeholder="제목을 입력하세요(최대 15자)"
               className="border-b p-2 w-full text-sm mb-1"
               value={props.form.title}
               onChange={props.onChangeForm}
+              maxLength={15}
             />
             {props.formError.title && (
               <p className="text-red-500 text-sm text-left">{props.formError.title}</p>
@@ -110,7 +111,7 @@ export default function WritePageUI(props: WritePageUIProps) {
             <input
               name="startPrice"
               value={props.form.startPrice}
-              placeholder="Value"
+              placeholder="경매 시작 가격을 입력하세요"
               min={0}
               step={100}
               className="border-b p-2 text-sm w-full mb-1"
@@ -129,7 +130,7 @@ export default function WritePageUI(props: WritePageUIProps) {
               name="price"
               type="number"
               value={props.form.price}
-              placeholder="Value"
+              placeholder="즉시 구매 가격을 입력하세요"
               min={Number(props.form.startPrice)}
               step={100}
               className="border-b p-2 text-sm w-full mb-1"

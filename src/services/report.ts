@@ -10,7 +10,7 @@ interface ReportRequest {
 }
 
 export const createReport = async (reportData: ReportRequest): Promise<string> => {
-  console.log("보내는 신고 데이터", reportData);
+  console.debug("보내는 신고 데이터", reportData);
   const { data } = await axios.post("/reports", reportData);
   return data;
 };

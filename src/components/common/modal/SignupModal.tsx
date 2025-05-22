@@ -39,7 +39,7 @@ function SignupModal({ handleChangeModal }: ModalProps) {
   };
   const emailDuplicateCheck = async () => {
     const data = await handleApi(() => checkEmail(emailRef.current?.value));
-    console.log(data);
+    console.debug(data);
     if (typeof data.data === "string") {
       toast.error("error");
       checkRef.current = false;

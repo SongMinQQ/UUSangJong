@@ -24,7 +24,7 @@ export function DialogReport({ postId, reportedUserId }: Partial<DialogRepoerPro
     setOpen(false);
   };
 
-  console.log("postId:", postId);
+  console.debug("postId:", postId);
 
   const { userInfo } = useUser();
 

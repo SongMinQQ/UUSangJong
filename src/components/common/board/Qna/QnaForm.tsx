@@ -48,13 +48,15 @@ export default function QnaForm({
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="궁금한 점의 제목을 입력해주세요"
+            placeholder="궁금한 점의 제목을 입력해주세요(최대 30자)"
+            maxLength={30}
             className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm focus:outline-none focus:ring-0 focus:border-[#353333]"
           />
           <Textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="판매자에게 남기고 싶은 질문 내용을 자세히 입력해주세요"
+            placeholder="판매자에게 남기고 싶은 질문 내용을 자세히 입력해주세요(최대 1000자)"
+            maxLength={1000}
             className="min-h-[100px]"
           />
 
