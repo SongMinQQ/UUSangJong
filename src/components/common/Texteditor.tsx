@@ -24,6 +24,13 @@ export default function TextEditor({
     content: value || "<p></p>", //null 보호를 위해
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
+      const text = editor.getText();
+      if (text.length > 1000) {
+        // 500자 초과 시 편집 중단 (이전 상태로 롤백)
+        const truncated = text.slice(0, 1000);
+        editor.commands.setContent(truncated); // plain text 기준
+        return;
+      }
       onChange(html);
     },
     editorProps: {
@@ -39,8 +46,6 @@ export default function TextEditor({
       editor.commands.setContent(value || "<p></p>", false);
     }
   }, [editor, value]);
-
-  console.log("에디터:", editor);
 
   if (!editor) return null;
 
