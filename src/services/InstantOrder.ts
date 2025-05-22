@@ -13,10 +13,10 @@ export async function requestInstantOrder(data: InstantPurchaseParams) {
       },
     });
 
-    console.log("즉시 구매 성공:", response.data);
+    console.debug("즉시 구매 성공:", response.data);
     return response.data;
   } catch (error) {
-    console.log("즉시 구매 실패:", error);
+    console.debug("즉시 구매 실패:", error);
     throw error;
   }
 }

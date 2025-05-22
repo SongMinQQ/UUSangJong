@@ -18,7 +18,7 @@ export default function TextEditor({
   value: string;
   onChange: (html: string) => void;
 }) {
-  console.log(value);
+  console.debug(value);
   const editor = useEditor({
     extensions: [StarterKit, Bold, Italic, TextStyle, Color],
     content: value || "<p></p>", //null 보호를 위해
